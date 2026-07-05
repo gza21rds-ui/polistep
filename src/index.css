@@ -2,17 +2,19 @@
 @import 'leaflet/dist/leaflet.css';
 
 :root {
-  --primary: #2563EB;
-  --primary-light: #DBEAFE;
-  --primary-hover: #1D4ED8;
-  --accent: #F59E0B; /* 温かみのあるオレンジ */
-  --bg-main: #FFFFFF;
-  --bg-section: #F8FAFC;
-  --bg-dark: #1E293B; /* 真っ黒ではなくネイビーグレー */
-  --text-main: #334155; /* 柔らかめのグレーテキスト */
-  --text-muted: #64748B;
-  --text-light: #94A3B8;
-  --border-light: #E2E8F0;
+  /* PoliSide ブランドカラーへの統一 */
+  --primary: #10b981; /* Emerald */
+  --primary-light: #d1fae5;
+  --primary-hover: #059669;
+  --accent: #0ea5e9; /* Sky Blue */
+  --bg-main: #f8fafc; /* 白に近いグレーでクリーンに */
+  --bg-section: #ffffff;
+  --bg-dark: #0f172a; /* ネイビースレート */
+  --text-main: #0f172a; /* より濃く */
+  --text-muted: #475569;
+  --text-light: #94a3b8;
+  --border-light: #e2e8f0;
+  --grad-text: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -75,7 +77,7 @@ body, html {
   animation: fadeInUp 0.5s ease-out 0.1s both;
 }
 .text-gradient { 
-  background: linear-gradient(135deg, var(--primary), #0EA5E9); 
+  background: var(--grad-text); 
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
 }
 .hero-subtitle {
@@ -113,10 +115,10 @@ body, html {
 .section { padding: 5rem 2rem; }
 .section-inner { max-width: 1000px; margin: 0 auto; }
 .section-label {
-  display: inline-block; padding: 0.4rem 1.25rem; background: #FEF3C7; color: #D97706;
+  display: inline-block; padding: 0.4rem 1.25rem; background: var(--primary-light); color: var(--primary-hover);
   border-radius: var(--radius-full); font-weight: 800; font-size: 0.875rem; margin-bottom: 1rem; letter-spacing: 1px;
 }
-.section-title { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 900; letter-spacing: -0.5px; margin-bottom: 1rem; }
+.section-title { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 900; letter-spacing: -0.5px; margin-bottom: 1rem; color: var(--text-main); }
 .section-desc { font-size: 1.125rem; color: var(--text-muted); max-width: 640px; line-height: 1.8; font-weight: 500; }
 
 .manga-stream {

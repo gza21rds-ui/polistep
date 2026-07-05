@@ -34,7 +34,7 @@ export default function LandingPage() {
         </div>
         <div className="hero-visual-container">
           {/* ヒーロー画像として、ストーリーのクライマックス（全員で歩くシーン）を配置 */}
-          <img src="/story8.png" alt="チームで歩く候補者" className="hero-main-img" />
+          <img src="/hero_main_v2.png" alt="チームで歩く候補者" className="hero-main-img" />
         </div>
       </section>
 
@@ -52,7 +52,7 @@ export default function LandingPage() {
           {/* 過去編（モノクロ） */}
           <div className="manga-panel-wrapper manga-past">
             <div className="manga-image-container">
-              <img src="/story1.png" alt="夕暮れの住宅街で紙の地図を見る候補者" />
+              <img src="/story1_v2.png" alt="夕暮れの住宅街で紙の地図を見る候補者" />
             </div>
             <div className="manga-text-box">
               <div className="manga-dialogue">「今日もどれだけ回れたんだろう…」</div>
@@ -62,7 +62,7 @@ export default function LandingPage() {
 
           <div className="manga-panel-wrapper reverse manga-past">
             <div className="manga-image-container">
-              <img src="/story2.png" alt="ボロボロの紙の地図のアップ" />
+              <img src="/story2_v2.png" alt="ボロボロの紙の地図のアップ" />
             </div>
             <div className="manga-text-box">
               <div className="manga-narration">書き込みだらけでボロボロの紙の地図。どこを回ったのか、もう分からない。これが今の「管理」の限界だった。</div>
@@ -71,7 +71,7 @@ export default function LandingPage() {
 
           <div className="manga-panel-wrapper manga-past">
             <div className="manga-image-container">
-              <img src="/story3.png" alt="事務所でスマホを見せるがそっぽを向かれる" />
+              <img src="/story3_v2.png" alt="事務所でスマホを見せるがそっぽを向かれる" />
             </div>
             <div className="manga-text-box">
               <div className="manga-dialogue">「こういうアプリで活動を管理できるんです！」</div>
@@ -82,7 +82,7 @@ export default function LandingPage() {
 
           <div className="manga-panel-wrapper reverse manga-past">
             <div className="manga-image-container">
-              <img src="/story4.png" alt="夜の街を一人で歩きスマホを操作する候補者" />
+              <img src="/story4_v2.png" alt="夜の街を一人で歩きスマホを操作する候補者" />
             </div>
             <div className="manga-text-box">
               <div className="manga-narration">それでも諦めない。誰にも認めてもらえなくても、夜の街を一人で歩き、PoliStepで一軒一軒の訪問を記録し続けた。</div>
@@ -94,7 +94,7 @@ export default function LandingPage() {
           {/* 現代編（カラー） */}
           <div className="manga-panel-wrapper manga-present">
             <div className="manga-image-container">
-              <img src="/story5.png" alt="ピンで埋め尽くされたスマホ画面" />
+              <img src="/story5_v2.png" alt="ピンで埋め尽くされたスマホ画面" />
             </div>
             <div className="manga-text-box color-accent">
               <div className="manga-narration">数日間の活動で、マップはカラフルなピンで埋め尽くされた。一人の孤独な努力が、明確なデータとして「可視化」された瞬間。</div>
@@ -103,7 +103,7 @@ export default function LandingPage() {
 
           <div className="manga-panel-wrapper reverse manga-present">
             <div className="manga-image-container">
-              <img src="/story6.png" alt="スマホを見せられて驚愕する支援者" />
+              <img src="/story6_v2.png" alt="スマホを見せられて驚愕する支援者" />
             </div>
             <div className="manga-text-box">
               <div className="manga-dialogue">「見てください、この数日間の結果です」</div>
@@ -114,7 +114,7 @@ export default function LandingPage() {
 
           <div className="manga-panel-wrapper manga-present">
             <div className="manga-image-container">
-              <img src="/story7.png" alt="笑顔で肩を叩く支援者とスマホを出す" />
+              <img src="/story7_v2.png" alt="笑顔で肩を叩く支援者とスマホを出す" />
             </div>
             <div className="manga-text-box">
               <div className="manga-dialogue">「お前の本気、伝わったわ。俺のスマホにも入れてくれ。一緒にやろう」</div>
@@ -124,7 +124,7 @@ export default function LandingPage() {
 
           <div className="manga-panel-wrapper reverse manga-present">
             <div className="manga-image-container">
-              <img src="/story8.png" alt="チームで街を歩く" />
+              <img src="/story8_v2.png" alt="チームで街を歩く" />
             </div>
             <div className="manga-text-box color-accent">
               <div className="manga-dialogue" style={{ fontSize: '1.25rem' }}>これが、PoliStepの力。</div>
