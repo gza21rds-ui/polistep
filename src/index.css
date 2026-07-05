@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap');
+@import 'leaflet/dist/leaflet.css';
+
+:root {
+  --primary: #2563EB;
+  --primary-light: #DBEAFE;
+  --primary-hover: #1D4ED8;
+  --accent: #F59E0B; /* 温かみのあるオレンジ */
+  --bg-main: #FFFFFF;
+  --bg-section: #F8FAFC;
+  --bg-dark: #1E293B; /* 真っ黒ではなくネイビーグレー */
+  --text-main: #334155; /* 柔らかめのグレーテキスト */
+  --text-muted: #64748B;
+  --text-light: #94A3B8;
+  --border-light: #E2E8F0;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+  
+  --font-sans: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body, html {
+  width: 100vw; height: 100vh; overflow-x: hidden;
+  font-family: var(--font-sans);
+  background: var(--bg-main); color: var(--text-main);
+  scroll-behavior: smooth; line-height: 1.7;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Animations --- */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.page-container { min-height: 100vh; width: 100vw; display: flex; flex-direction: column; }
+
+/* ==================== HEADER ==================== */
+.glass-header {
+  position: sticky; top: 0; z-index: 100; padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-light);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo-text { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+.btn-outline {
+  padding: 0.6rem 1.25rem; background: transparent; color: var(--text-main);
+  font-size: 0.9rem; font-weight: 600; border: 2px solid var(--border-light); border-radius: var(--radius-full);
+  cursor: pointer; transition: all 0.2s ease; text-decoration: none;
+}
+.btn-outline:hover { background: var(--bg-section); border-color: var(--text-muted); }
+
+/* ==================== HERO ==================== */
+.hero-section {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  max-width: 1000px; margin: 0 auto; padding: 6rem 2rem 4rem; text-align: center;
+}
+.hero-badge {
+  display: inline-block; padding: 0.4rem 1rem; background: var(--primary-light); color: var(--primary);
+  border-radius: var(--radius-full); font-weight: 700; font-size: 0.85rem; margin-bottom: 2rem;
+  animation: fadeInUp 0.5s ease-out;
+}
+.hero-title {
+  font-size: clamp(2.25rem, 5vw, 4rem); font-weight: 900; line-height: 1.2; letter-spacing: -1px;
+  margin-bottom: 1.5rem; color: var(--text-main);
+  animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+.text-gradient { 
+  background: linear-gradient(135deg, var(--primary), #0EA5E9); 
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+}
+.hero-subtitle {
+  font-size: 1.125rem; color: var(--text-muted); margin-bottom: 2.5rem; max-width: 600px; line-height: 1.8; font-weight: 500;
+  animation: fadeInUp 0.5s ease-out 0.2s both;
+}
+.hero-cta-group {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  animation: fadeInUp 0.5s ease-out 0.3s both;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 1rem 2.5rem; background: var(--primary); color: white;
+  font-size: 1.0625rem; font-weight: 700; border: none; border-radius: var(--radius-full);
+  cursor: pointer; transition: all 0.2s ease; text-decoration: none; box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); background: var(--primary-hover); }
+.btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 1rem 2.5rem; background: white; color: var(--text-main);
+  font-size: 1.0625rem; font-weight: 700; border: 2px solid var(--border-light); border-radius: var(--radius-full);
+  cursor: pointer; transition: all 0.2s ease; text-decoration: none;
+}
+.btn-secondary:hover { background: var(--bg-section); border-color: var(--text-muted); }
+
+.hero-visual-container {
+  margin-top: 4rem; width: 100%; max-width: 900px; position: relative;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+.hero-main-img {
+  width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 1px solid var(--border-light);
+}
+
+/* ==================== MANGA STORY ==================== */
+.section { padding: 5rem 2rem; }
+.section-inner { max-width: 1000px; margin: 0 auto; }
+.section-label {
+  display: inline-block; padding: 0.4rem 1.25rem; background: #FEF3C7; color: #D97706;
+  border-radius: var(--radius-full); font-weight: 800; font-size: 0.875rem; margin-bottom: 1rem; letter-spacing: 1px;
+}
+.section-title { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 900; letter-spacing: -0.5px; margin-bottom: 1rem; }
+.section-desc { font-size: 1.125rem; color: var(--text-muted); max-width: 640px; line-height: 1.8; font-weight: 500; }
+
+.manga-stream {
+  display: flex; flex-direction: column; gap: 3rem; max-width: 800px; margin: 3rem auto 0;
+}
+.manga-panel-wrapper {
+  display: flex; flex-direction: column; gap: 1rem; position: relative;
+}
+.manga-panel-wrapper.reverse { align-items: flex-end; }
+
+.manga-image-container {
+  position: relative; width: 100%; max-width: 640px; border-radius: var(--radius-md); overflow: hidden;
+  box-shadow: var(--shadow-md); border: 2px solid var(--border-light);
+}
+.manga-image-container img { width: 100%; display: block; }
+
+/* 過去編（白黒） */
+.manga-past .manga-image-container img {
+  filter: grayscale(100%) contrast(1.1) brightness(0.9);
+}
+
+/* 現代編（カラー） */
+.manga-present .manga-image-container img {
+  filter: saturate(1.1) contrast(1.05);
+}
+.manga-present .manga-image-container { 
+  border-color: var(--primary-light);
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+}
+
+.manga-text-box {
+  background: white; padding: 1.25rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-md);
+  max-width: 420px; border: 2px solid var(--border-light); z-index: 10;
+}
+.manga-panel-wrapper:not(.reverse) .manga-text-box { margin-left: 2rem; margin-top: -2rem; }
+.manga-panel-wrapper.reverse .manga-text-box { margin-right: 2rem; margin-top: -2rem; }
+
+.manga-text-box.color-accent {
+  background: var(--bg-dark); color: white; border-color: var(--bg-dark);
+}
+.manga-text-box.color-accent .manga-dialogue { color: white; }
+.manga-text-box.color-accent .manga-narration { color: #CBD5E1; }
+
+.manga-dialogue { font-size: 1.125rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.5; color: var(--text-main); }
+.manga-narration { font-size: 0.9375rem; color: var(--text-muted); line-height: 1.7; font-weight: 500; }
+
+.manga-divider {
+  display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 3rem 0; color: var(--text-light); font-weight: 700;
+}
+.manga-divider::before, .manga-divider::after { content: ''; height: 2px; background: var(--border-light); flex: 1; max-width: 150px; }
+
+/* ==================== FEATURE ROWS ==================== */
+.feature-row {
+  display: flex; align-items: center; gap: 4rem; max-width: 1000px; margin: 0 auto 6rem; flex-wrap: wrap;
+}
+.feature-row.reverse { flex-direction: row-reverse; }
+.feature-row-text { flex: 1 1 360px; }
+.feature-row-visual { flex: 1 1 400px; display: flex; justify-content: center; position: relative; }
+.feature-row-visual img { 
+  width: 100%; max-width: 420px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid var(--border-light); 
+}
+.feature-num {
+  font-size: 4rem; font-weight: 900; color: var(--primary-light); line-height: 1; margin-bottom: 0.5rem;
+}
+.feature-row-title { font-size: 1.75rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.5px; }
+
+/* ==================== PREMIUM ==================== */
+.premium-section {
+  background: var(--bg-dark); color: white; text-align: center; padding: 5rem 2rem; margin: 3rem 2rem; border-radius: var(--radius-xl); position: relative; overflow: hidden;
+}
+.premium-badge {
+  display: inline-block; padding: 0.375rem 1rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-full);
+  font-size: 0.8125rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 1.5rem; color: #E2E8F0;
+}
+.premium-title { font-size: 2.25rem; font-weight: 900; margin-bottom: 1.25rem; letter-spacing: -0.5px; }
+.premium-desc { font-size: 1.0625rem; color: #CBD5E1; max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.8; font-weight: 500; }
+
+/* ==================== FOOTER ==================== */
+.footer {
+  border-top: 1px solid var(--border-light); padding: 4rem 2rem 2rem; text-align: center; background: var(--bg-main);
+}
+.footer-links {
+  display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap;
+}
+.footer-link {
+  color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: color 0.2s;
+}
+.footer-link:hover { color: var(--primary); }
+.footer-copy { color: var(--text-light); font-size: 0.8125rem; font-weight: 500; }
+
+/* アプリUIモック用CSS */
+.app-container { display: flex; flex-direction: column; height: 100vh; width: 100vw; position: relative; overflow: hidden; user-select: none; background: white; }
+.candidate-name { font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; }
+.progress-container { width: 100%; background: #E2E8F0; border-radius: var(--radius-full); height: 1rem; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--primary); width: 0; transition: width 1.5s; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem; color: white; font-weight: bold; font-size: 0.75rem; }
+.ranking-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 0.5rem; border: 1px solid var(--border-light); }
+.ranking-medal { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 0.875rem; }
+.bottom-sheet { flex: 2; height: 20%; width: 100%; background: white; border-top-left-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl); box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 10; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+.action-btn { border: none; border-radius: var(--radius-md); color: white; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); cursor: pointer; }
+.btn-absent { background-color: #3B82F6; }
+.btn-flyer { background-color: #F59E0B; color: white; }
+.btn-talked { background-color: #10B981; }
+.btn-poster { background-color: #EF4444; }
