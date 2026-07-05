@@ -22,6 +22,8 @@ function MapApp() {
   const navigate = useNavigate();
   const [pins, setPins] = useState([]);
   const [actionCount, setActionCount] = useState(0);
+  const [teamId, setTeamId] = useState(null);
+  const [userId, setUserId] = useState(null);
   
   // UI State
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -31,49 +33,98 @@ function MapApp() {
   const [lastAction, setLastAction] = useState(null);
 
   useEffect(() => {
-    const mockPins = [
-      { id: '1', lat: 35.6895, lng: 139.6917, latest_action_type: 'absent' },
-      { id: '2', lat: 35.6905, lng: 139.6927, latest_action_type: 'flyer' },
-      { id: '3', lat: 35.6885, lng: 139.6907, latest_action_type: 'talked' },
-    ];
-    setPins(mockPins);
-  }, []);
+    import('./lib/supabase').then(({ supabase }) => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!session) {
+          navigate('/auth');
+          return;
+        }
+        setUserId(session.user.id);
+
+        // team_idを取得
+        supabase.from('users').select('team_id').eq('id', session.user.id).single()
+          .then(({ data, error }) => {
+            if (error) {
+              console.error(error);
+              return;
+            }
+            setTeamId(data.team_id);
+            // チームのピンを取得
+            fetchPins(supabase, data.team_id);
+            
+            // リアルタイム購読
+            supabase.channel('custom-all-channel')
+              .on('postgres_changes', { event: '*', schema: 'public', table: 'pins', filter: `team_id=eq.${data.team_id}` }, payload => {
+                fetchPins(supabase, data.team_id);
+              })
+              .subscribe();
+          });
+      });
+    });
+  }, [navigate]);
+
+  const fetchPins = async (supabase, tid) => {
+    const { data, error } = await supabase.from('pins').select('*').eq('team_id', tid);
+    if (!error && data) {
+      // フロントエンドのフォーマットに合わせる
+      const formatted = data.map(p => ({
+        id: p.id,
+        lat: p.lat,
+        lng: p.lng,
+        latest_action_type: p.type
+      }));
+      setPins(formatted);
+      setActionCount(formatted.length);
+    }
+  };
 
   const handleMapClick = (latlng) => {
     setSelectedLocation(latlng);
   };
 
-  const handleAction = (actionType) => {
+  const handleAction = async (actionType) => {
     if (!selectedLocation) {
       alert('先に地図上の記録したい地点をタップして選択してください。');
       return;
     }
 
+    const { supabase } = await import('./lib/supabase');
+
     const newPin = {
-      id: Date.now().toString(),
+      team_id: teamId,
       lat: selectedLocation.lat,
       lng: selectedLocation.lng,
-      latest_action_type: actionType
+      type: actionType,
+      created_by: userId
     };
 
-    setPins((prev) => [...prev, newPin]);
-    setLastAction(newPin);
-    setUndoVisible(true);
-    setSelectedLocation(null);
+    // DBに保存
+    const { data, error } = await supabase.from('pins').insert(newPin).select().single();
 
-    const newCount = actionCount + 1;
-    setActionCount(newCount);
+    if (!error && data) {
+      setPins((prev) => [...prev, { id: data.id, lat: data.lat, lng: data.lng, latest_action_type: data.type }]);
+      setLastAction({ id: data.id, lat: data.lat, lng: data.lng });
+      setUndoVisible(true);
+      setSelectedLocation(null);
 
-    if (newCount === 10) {
-      setUpsellVisible(true);
-    }
-    if (actionType === 'poster') {
-      setCrossSellVisible(true);
+      const newCount = actionCount + 1;
+      setActionCount(newCount);
+
+      if (newCount === 10) {
+        setUpsellVisible(true);
+      }
+      if (actionType === 'poster') {
+        setCrossSellVisible(true);
+      }
     }
   };
 
-  const handleUndo = () => {
+  const handleUndo = async () => {
     if (lastAction) {
+      const { supabase } = await import('./lib/supabase');
+      // DBから削除
+      await supabase.from('pins').delete().eq('id', lastAction.id);
+      
       setPins((prev) => prev.filter(p => p.id !== lastAction.id));
       setActionCount((prev) => Math.max(0, prev - 1));
       setSelectedLocation({ lat: lastAction.lat, lng: lastAction.lng });
