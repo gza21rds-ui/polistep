@@ -220,3 +220,54 @@ body, html {
 .btn-flyer { background-color: #F59E0B; color: white; }
 .btn-talked { background-color: #10B981; }
 .btn-poster { background-color: #EF4444; }
+
+/* ==================== MOBILE / RESPONSIVE (MAX 768px) ==================== */
+@media (max-width: 768px) {
+  /* 全体の余白・フォントサイズ調整 */
+  .section { padding: 3rem 1rem; }
+  .glass-header { padding: 0.75rem 1rem; }
+  .logo-text { font-size: 1.25rem; }
+  .btn-outline { padding: 0.5rem 1rem; font-size: 0.85rem; }
+  
+  /* Hero セクション */
+  .hero-section { padding: 4rem 1rem 2rem; }
+  .hero-title { font-size: 2rem; }
+  .hero-subtitle { font-size: 1rem; margin-bottom: 2rem; }
+  .hero-cta-group { flex-direction: column; width: 100%; gap: 0.75rem; }
+  .btn-primary, .btn-secondary { width: 100%; padding: 0.875rem 1.5rem; }
+
+  /* 漫画セクション */
+  .manga-stream { gap: 2rem; margin-top: 2rem; }
+  .manga-panel-wrapper { gap: 0; align-items: center !important; }
+  .manga-text-box { 
+    margin: -1rem 1rem 0 !important; /* 左右の余白を統一し、少し画像に被せる */
+    padding: 1rem;
+    max-width: 90%;
+  }
+  .manga-dialogue { font-size: 1rem; }
+  .manga-narration { font-size: 0.85rem; }
+  .section-title { font-size: 1.5rem; }
+  .section-desc { font-size: 1rem; }
+
+  /* Feature (特徴) セクション */
+  .feature-row { flex-direction: column !important; gap: 2rem; margin-bottom: 4rem; text-align: center; }
+  .feature-row-text { padding: 0 1rem; }
+  .feature-num { font-size: 3rem; }
+  .feature-row-title { font-size: 1.5rem; }
+
+  /* プレミアムセクション */
+  .premium-section { margin: 1rem; padding: 3rem 1rem; }
+  .premium-title { font-size: 1.5rem; }
+  .premium-desc { font-size: 0.95rem; }
+
+  /* ダッシュボード系 (AdminDashboard, StaffDashboard 等) */
+  main { padding: 2rem 1rem !important; }
+  .glass-card { padding: 1.5rem !important; }
+  .candidate-name { font-size: 1.5rem !important; }
+  
+  /* グリッドレイアウトの強制1カラム化 */
+  .feature-row-visual img { max-width: 100%; }
+  
+  /* フォーム要素 (iOSズーム防止等) */
+  input, select, textarea { font-size: 16px !important; }
+}

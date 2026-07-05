@@ -85,15 +85,15 @@ export default function AuthScreen() {
   };
 
   return (
-    <div className="page-container" style={{ alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ position: 'absolute', top: '2rem', left: '2rem' }}>
+    <div className="page-container" style={{ alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+      <div style={{ position: 'absolute', top: '1rem', left: '1rem' }}>
         <Link to="/" className="btn-outline" style={{ padding: '0.5rem 1rem', fontSize: '1rem', border: 'none', background: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(8px)' }}>
           <ArrowLeft size={20} /> 戻る
         </Link>
       </div>
 
-      <div className="glass-card" style={{ width: '100%', maxWidth: '440px' }}>
-        <h2 className="logo-text" style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '2rem' }}>
+      <div className="glass-card" style={{ width: '100%', maxWidth: '440px', marginTop: '3rem' }}>
+        <h2 className="logo-text" style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '1.75rem' }}>
           Welcome to PoliStep
         </h2>
 
@@ -121,23 +121,23 @@ export default function AuthScreen() {
               className={`btn-premium`}
               style={{ 
                 flex: 1, 
-                padding: '0.75rem', 
-                fontSize: '1rem', 
+                padding: '0.6rem', 
+                fontSize: '0.9rem', 
                 background: role === 'admin' ? 'var(--grad-text)' : 'transparent',
                 color: role === 'admin' ? 'white' : '#64748B',
                 boxShadow: role === 'admin' ? 'var(--shadow-btn)' : 'none',
               }}
               onClick={() => setRole('admin')}
             >
-              管理者（候補者）
+              管理者
             </button>
             <button 
               type="button"
               className={`btn-premium`}
               style={{ 
                 flex: 1, 
-                padding: '0.75rem', 
-                fontSize: '1rem', 
+                padding: '0.6rem', 
+                fontSize: '0.9rem', 
                 background: role === 'staff' ? 'var(--grad-text)' : 'transparent',
                 color: role === 'staff' ? 'white' : '#64748B',
                 boxShadow: role === 'staff' ? 'var(--shadow-btn)' : 'none',
@@ -180,7 +180,7 @@ export default function AuthScreen() {
               <>
                 <input 
                   type="text" 
-                  placeholder="あなたの表示名（例: 田中）" 
+                  placeholder="表示名（例: 田中）" 
                   className="input-premium" 
                   style={{ marginBottom: '1.25rem' }} 
                   value={displayName}
