@@ -128,37 +128,50 @@ body, html {
   display: inline-block;
 }
 
-/* 漫画コマ割りレイアウト (PC/スマホ両対応) */
+/* 漫画コマ割りレイアウト (縦スクロールWebtoon風) */
 .comic-grid {
-  display: grid;
-  grid-template-columns: 1fr; /* スマホデフォルトは1列 */
-  gap: 1.5rem; max-width: 900px; margin: 0 auto; padding: 1rem;
-  background: white; border: 4px solid #334155; border-radius: 12px;
-  box-shadow: 8px 8px 0 rgba(0,0,0,0.1);
-}
-
-@media (min-width: 768px) {
-  .comic-grid {
-    grid-template-columns: repeat(2, 1fr); /* PC・タブレットは2列（2x4のきれいなコマ割り） */
-    gap: 2rem; padding: 2rem;
-  }
+  display: flex;
+  flex-direction: column;
+  max-width: 600px; /* 縦長で読みやすい幅 */
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-light);
 }
 
 .comic-panel {
-  position: relative; border: 2px solid #334155; border-radius: 4px;
-  background: #f8fafc; display: flex; flex-direction: column; overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: white;
 }
+
 .comic-panel-img {
-  width: 100%; height: auto; max-height: 250px; object-fit: cover; border-bottom: 2px solid #334155;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  /* コマとコマの間をシームレスにするためボーダー削除 */
 }
+
 .comic-text-box {
-  padding: 1rem; background: white; flex: 1; display: flex; flex-direction: column; justify-content: center;
+  padding: 1.5rem 2rem;
+  background: white;
+  text-align: center;
 }
+
 .comic-dialogue {
-  font-weight: 800; font-size: 0.95rem; color: #0f172a; margin-bottom: 0.5rem;
-  background: #f1f5f9; padding: 0.75rem; border-radius: 8px; border: 1px solid #e2e8f0;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--primary-hover);
+  margin-bottom: 0.75rem;
 }
-.comic-narration { font-size: 0.9rem; color: #475569; line-height: 1.6; }
+
+.comic-narration {
+  font-size: 1rem;
+  color: var(--text-main);
+  line-height: 1.8;
+}
 
 /* ==================== FEATURE ROWS ==================== */
 .feature-row {

@@ -18,8 +18,9 @@ export default function Terms() {
       <h2 style={{ fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1rem', borderLeft: '4px solid #3b82f6', paddingLeft: '0.5rem' }}>第1条（適用）</h2>
       <p style={{ marginBottom: '1rem' }}>本規約は、ユーザーと当事務局との間の本サービスの利用に関わる一切の関係に適用されるものとします。</p>
 
-      <h2 style={{ fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1rem', borderLeft: '4px solid #3b82f6', paddingLeft: '0.5rem' }}>第2条（利用登録）</h2>
-      <p style={{ marginBottom: '1rem' }}>登録希望者が当事務局の定める方法によって利用登録を申請し、当事務局がこれを承認することによって、利用登録が完了するものとします。</p>
+      <h2 style={{ fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1rem', borderLeft: '4px solid #3b82f6', paddingLeft: '0.5rem' }}>第2条（利用登録・利用料金）</h2>
+      <p style={{ marginBottom: '1rem' }}>1. 登録希望者が当事務局の定める方法によって利用登録を申請し、当事務局がこれを承認することによって、利用登録が完了するものとします。</p>
+      <p style={{ marginBottom: '1rem' }}>2. 本サービスは原則として有料サービスですが、<strong style={{ color: '#ef4444' }}>現在「2027年統一地方選挙 応援キャンペーン」により、特例として全機能を完全無料で提供</strong>しております。キャンペーン終了後の有料化等については、事前にユーザーに通知するものとします。</p>
 
       <h2 style={{ fontSize: '1.5rem', marginTop: '2rem', marginBottom: '1rem', borderLeft: '4px solid #3b82f6', paddingLeft: '0.5rem' }}>第3条（禁止事項）</h2>
       <p style={{ marginBottom: '1rem' }}>ユーザーは、本サービスの利用にあたり、以下の行為をしてはなりません。</p>

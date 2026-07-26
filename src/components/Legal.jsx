@@ -38,7 +38,10 @@ export default function Legal() {
           </tr>
           <tr>
             <th style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0', backgroundColor: '#f8fafc', textAlign: 'left', fontWeight: 'bold' }}>販売価格</th>
-            <td style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0' }}>各サービスの購入ページにて表示する価格</td>
+            <td style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0' }}>
+              各サービスの購入ページにて表示する価格<br />
+              <strong style={{ color: '#ef4444' }}>※【2027年統一地方選挙 応援キャンペーン】現在、通常有料の全機能を「完全無料」で提供しております。</strong>
+            </td>
           </tr>
           <tr>
             <th style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0', backgroundColor: '#f8fafc', textAlign: 'left', fontWeight: 'bold' }}>商品代金以外の必要料金</th>

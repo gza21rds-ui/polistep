@@ -13,10 +13,10 @@ export default function LandingPage() {
         <Link to="/auth" className="btn-outline">ログイン</Link>
       </header>
 
-      {/* ===== Hero (Claude Style) ===== */}
+      {/* ===== Hero (Japanese Volunteer Style) ===== */}
       <section className="hero-section">
         <div className="campaign-banner">
-          🎉 2027年統一地方選挙 応援キャンペーン！全機能・実質無料解放中
+          【2027年統一地方選挙 限定】通常有料の全機能を今だけ「完全無料」で解放中！
         </div>
         <h1 className="hero-title">
           孤独なドブ板は、<br/><span className="text-gradient">可視化</span>で終わる。
@@ -35,7 +35,7 @@ export default function LandingPage() {
           </a>
         </div>
         <div className="hero-visual-container">
-          <img src="/hero_main_v2.png" alt="チームで歩く候補者" className="hero-main-img" />
+          <img src="/hero-yorisoi.jpg" alt="チームで歩くボランティアと候補者" className="hero-main-img" />
         </div>
       </section>
 
@@ -104,11 +104,11 @@ export default function LandingPage() {
             </div>
           </div>
           {/* コマ8 */}
-          <div className="comic-panel" style={{ gridColumn: '1 / -1' }}>
+          <div className="comic-panel">
             <img src="/story8_v2.png" alt="チームで街を歩く" className="comic-panel-img" style={{ height: '300px' }} />
             <div className="comic-text-box">
               <div className="comic-dialogue" style={{ fontSize: '1.25rem', textAlign: 'center', background: 'transparent', border: 'none' }}>これが、PoliStepの力。</div>
-              <div className="comic-narration" style={{ textAlign: 'center' }}>一人だった活動が、チームの力に変わる。全員がスマホを手に、同じ地図を共有しながら街を歩く。</div>
+              <div className="comic-narration" style={{ textAlign: 'center' }}>一人だった活動が、チームの力に変わる。<br/>全員がスマホを手に、同じ地図を共有しながら街を歩く。</div>
             </div>
           </div>
         </div>
@@ -159,7 +159,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="feature-row-visual">
-            <img src="/hero_mockup.png" alt="PoliStepの共有イメージ" />
+            <img src="/step1-yorisoi.jpg" alt="PoliStepの共有イメージ" />
           </div>
         </div>
       </section>
