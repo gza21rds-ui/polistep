@@ -119,20 +119,7 @@ body, html {
   border-radius: var(--radius-full); font-weight: 800; font-size: 0.875rem; margin-bottom: 1rem; letter-spacing: 1px;
 }
 .section-title { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 900; letter-spacing: -0.5px; margin-bottom: 1rem; color: var(--text-main); }
-.section-desc { font-size: 1.125rem; color: var(--text-muted); max-width: 640px; line-height: 1.8; font-weight: 500; }
-
-.manga-stream {
-  display: flex; flex-direction: column; gap: 3rem; max-width: 800px; margin: 3rem auto 0;
-}
-.manga-panel-wrapper {
-  display: flex; flex-direction: column; gap: 1rem; position: relative;
-}
-.manga-panel-wrapper.reverse { align-items: flex-end; }
-
-.manga-image-container {
-  position: relative; width: 100%; max-width: 640px; border-radius: var(--radius-md); overflow: hidden;
-  box-shadow: var(--shadow-md); border: 2px solid var(--border-light);
-}
+.manga-stream { display: none; }
 .manga-image-container img { width: 100%; display: block; }
 
 /* 過去編（白黒） */

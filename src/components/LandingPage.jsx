@@ -15,7 +15,9 @@ export default function LandingPage() {
 
       {/* ===== Hero (Claude Style) ===== */}
       <section className="hero-section">
-        <div className="hero-badge">選挙活動トラッキングアプリ</div>
+        <div className="campaign-banner">
+          🎉 2027年統一地方選挙 応援キャンペーン！全機能・実質無料解放中
+        </div>
         <h1 className="hero-title">
           孤独なドブ板は、<br/><span className="text-gradient">可視化</span>で終わる。
         </h1>
@@ -25,20 +27,19 @@ export default function LandingPage() {
           支援者の心を動かす「努力の証明」を生み出します。
         </p>
         <div className="hero-cta-group">
-          <Link to="/auth" className="btn-primary">
-            無料で活動記録を始める <ArrowRight size={18} />
+          <Link to="/auth" className="btn-primary" style={{ fontSize: '1.1rem', padding: '1rem 2rem' }}>
+            【完全無料】活動記録を始める <ArrowRight size={18} />
           </Link>
           <a href="#poliside" className="btn-secondary">
             戦略立案のプロに相談する
           </a>
         </div>
         <div className="hero-visual-container">
-          {/* ヒーロー画像として、ストーリーのクライマックス（全員で歩くシーン）を配置 */}
           <img src="/hero_main_v2.png" alt="チームで歩く候補者" className="hero-main-img" />
         </div>
       </section>
 
-      {/* ===== Manga Story (Webtoon Style) ===== */}
+      {/* ===== Comic Story (Grid Style) ===== */}
       <section className="section" style={{ background: 'var(--bg-main)' }}>
         <div className="section-inner" style={{ textAlign: 'center' }}>
           <div className="section-label">Story</div>
@@ -48,87 +49,66 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="manga-stream">
-          {/* 過去編（モノクロ） */}
-          <div className="manga-panel-wrapper manga-past">
-            <div className="manga-image-container">
-              <img src="/story1_v2.png" alt="夕暮れの住宅街で紙の地図を見る候補者" />
-            </div>
-            <div className="manga-text-box">
-              <div className="manga-dialogue">「今日もどれだけ回れたんだろう…」</div>
-              <div className="manga-narration">夕暮れの住宅街。紙の地図を片手に、一人で歩き続ける候補者。どれだけ進んだのか、自分でも把握できない。</div>
+        <div className="comic-grid">
+          {/* コマ1 */}
+          <div className="comic-panel">
+            <img src="/story1_v2.png" alt="夕暮れの住宅街で紙の地図を見る候補者" className="comic-panel-img" />
+            <div className="comic-text-box">
+              <div className="comic-dialogue">「今日もどれだけ回れたんだろう…」</div>
+              <div className="comic-narration">夕暮れの住宅街。紙の地図を片手に歩き続けるが、進捗が把握できない。</div>
             </div>
           </div>
-
-          <div className="manga-panel-wrapper reverse manga-past">
-            <div className="manga-image-container">
-              <img src="/story2_v2.png" alt="ボロボロの紙の地図のアップ" />
-            </div>
-            <div className="manga-text-box">
-              <div className="manga-narration">書き込みだらけでボロボロの紙の地図。どこを回ったのか、もう分からない。これが今の「管理」の限界だった。</div>
+          {/* コマ2 */}
+          <div className="comic-panel">
+            <img src="/story2_v2.png" alt="ボロボロの紙の地図のアップ" className="comic-panel-img" />
+            <div className="comic-text-box">
+              <div className="comic-narration">書き込みだらけでボロボロの紙の地図。これが今の「管理」の限界だった。</div>
             </div>
           </div>
-
-          <div className="manga-panel-wrapper manga-past">
-            <div className="manga-image-container">
-              <img src="/story3_v2.png" alt="事務所でスマホを見せるがそっぽを向かれる" />
-            </div>
-            <div className="manga-text-box">
-              <div className="manga-dialogue">「こういうアプリで活動を管理できるんです！」</div>
-              <div className="manga-dialogue" style={{ color: 'var(--text-muted)' }}>「そんなITで票が増えるか。選挙は足で稼ぐもんだ」</div>
-              <div className="manga-narration">事務所でアプリの導入を提案するも、古参の支援者は取り合ってくれない。</div>
+          {/* コマ3 */}
+          <div className="comic-panel">
+            <img src="/story3_v2.png" alt="事務所でスマホを見せるがそっぽを向かれる" className="comic-panel-img" />
+            <div className="comic-text-box">
+              <div className="comic-dialogue">「こういうアプリで活動を管理できるんです！」</div>
+              <div className="comic-narration">事務所でアプリ導入を提案するも、古参の支援者は「選挙は足だ」と取り合ってくれない。</div>
             </div>
           </div>
-
-          <div className="manga-panel-wrapper reverse manga-past">
-            <div className="manga-image-container">
-              <img src="/story4_v2.png" alt="夜の街を一人で歩きスマホを操作する候補者" />
-            </div>
-            <div className="manga-text-box">
-              <div className="manga-narration">それでも諦めない。誰にも認めてもらえなくても、夜の街を一人で歩き、PoliStepで一軒一軒の訪問を記録し続けた。</div>
+          {/* コマ4 */}
+          <div className="comic-panel">
+            <img src="/story4_v2.png" alt="夜の街を一人で歩きスマホを操作する候補者" className="comic-panel-img" />
+            <div className="comic-text-box">
+              <div className="comic-narration">それでも諦めず、夜の街を一人で歩き、PoliStepで訪問記録をつけ続けた。</div>
             </div>
           </div>
-
-          <div className="manga-divider">数日後</div>
-
-          {/* 現代編（カラー） */}
-          <div className="manga-panel-wrapper manga-present">
-            <div className="manga-image-container">
-              <img src="/story5_v2.png" alt="ピンで埋め尽くされたスマホ画面" />
-            </div>
-            <div className="manga-text-box color-accent">
-              <div className="manga-narration">数日間の活動で、マップはカラフルなピンで埋め尽くされた。一人の孤独な努力が、明確なデータとして「可視化」された瞬間。</div>
+          {/* コマ5 */}
+          <div className="comic-panel">
+            <img src="/story5_v2.png" alt="ピンで埋め尽くされたスマホ画面" className="comic-panel-img" />
+            <div className="comic-text-box">
+              <div className="comic-narration">数日後、マップはピンで埋め尽くされた。孤独な努力がデータとして可視化された瞬間。</div>
             </div>
           </div>
-
-          <div className="manga-panel-wrapper reverse manga-present">
-            <div className="manga-image-container">
-              <img src="/story6_v2.png" alt="スマホを見せられて驚愕する支援者" />
-            </div>
-            <div className="manga-text-box">
-              <div className="manga-dialogue">「見てください、この数日間の結果です」</div>
-              <div className="manga-dialogue" style={{ color: 'var(--text-muted)' }}>「なっ…！一人でこのエリアを全部回ったのか…！？」</div>
-              <div className="manga-narration">真っ赤に染まったマップを見せた瞬間、あの批判的だった支援者の目の色が変わった。</div>
+          {/* コマ6 */}
+          <div className="comic-panel">
+            <img src="/story6_v2.png" alt="スマホを見せられて驚愕する支援者" className="comic-panel-img" />
+            <div className="comic-text-box">
+              <div className="comic-dialogue">「なっ…！一人でこのエリアを全部回ったのか！？」</div>
+              <div className="comic-narration">真っ赤に染まったマップを見た瞬間、批判的だった支援者の目の色が変わった。</div>
             </div>
           </div>
-
-          <div className="manga-panel-wrapper manga-present">
-            <div className="manga-image-container">
-              <img src="/story7_v2.png" alt="笑顔で肩を叩く支援者とスマホを出す" />
-            </div>
-            <div className="manga-text-box">
-              <div className="manga-dialogue">「お前の本気、伝わったわ。俺のスマホにも入れてくれ。一緒にやろう」</div>
-              <div className="manga-narration">可視化された「本気の努力」が、言葉を超えて人の心を動かした。最大の批判者が、最高の仲間に変わった瞬間。</div>
+          {/* コマ7 */}
+          <div className="comic-panel">
+            <img src="/story7_v2.png" alt="笑顔で肩を叩く支援者とスマホを出す" className="comic-panel-img" />
+            <div className="comic-text-box">
+              <div className="comic-dialogue">「お前の本気、伝わったわ。一緒にやろう」</div>
+              <div className="comic-narration">可視化された「本気の努力」が人の心を動かした。最大の批判者が仲間に変わった。</div>
             </div>
           </div>
-
-          <div className="manga-panel-wrapper reverse manga-present">
-            <div className="manga-image-container">
-              <img src="/story8_v2.png" alt="チームで街を歩く" />
-            </div>
-            <div className="manga-text-box color-accent">
-              <div className="manga-dialogue" style={{ fontSize: '1.25rem' }}>これが、PoliStepの力。</div>
-              <div className="manga-narration">一人だった活動が、チームの力に変わる。全員がスマホを手に、同じ地図を共有しながら街を歩く。</div>
+          {/* コマ8 */}
+          <div className="comic-panel" style={{ gridColumn: '1 / -1' }}>
+            <img src="/story8_v2.png" alt="チームで街を歩く" className="comic-panel-img" style={{ height: '300px' }} />
+            <div className="comic-text-box">
+              <div className="comic-dialogue" style={{ fontSize: '1.25rem', textAlign: 'center', background: 'transparent', border: 'none' }}>これが、PoliStepの力。</div>
+              <div className="comic-narration" style={{ textAlign: 'center' }}>一人だった活動が、チームの力に変わる。全員がスマホを手に、同じ地図を共有しながら街を歩く。</div>
             </div>
           </div>
         </div>
