@@ -68,6 +68,21 @@ export default function AuthScreen() {
 
           if (insertError) throw insertError;
 
+          // Slack通知APIの呼び出し（失敗しても登録処理は続行させるためエラーは握り潰す）
+          try {
+            await fetch('/api/notify-slack', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: email,
+                displayName: displayName || (role === 'admin' ? '管理者' : 'スタッフ'),
+                role: role
+              })
+            });
+          } catch (notifyErr) {
+            console.error('Slack通知の送信に失敗しました:', notifyErr);
+          }
+
           // 登録後、自動的にリダイレクト
           if (role === 'admin') {
             navigate('/admin');
