@@ -9,7 +9,10 @@ export default function LandingPage() {
     <div className="page-container">
       {/* ===== Header ===== */}
       <header className="glass-header">
-        <div className="logo-text">PoliStep</div>
+        <div className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <img src="/polistep_logo.jpg" alt="PoliStep Logo" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+          PoliStep
+        </div>
         <Link to="/auth" className="btn-outline">ログイン</Link>
       </header>
 
@@ -37,7 +40,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="hero-visual-container">
-          <img src="/hero-yorisoi.jpg" alt="チームで歩くボランティアと候補者" className="hero-main-img" />
+          <img src="/story4_team_smile.jpg" alt="チームで歩くボランティアと候補者" className="hero-main-img" />
         </div>
       </section>
 
@@ -54,28 +57,28 @@ export default function LandingPage() {
         <div className="comic-grid">
           {/* Scene 1 */}
           <div className="comic-panel">
-            <img src="/reason1-yorisoi.jpg" alt="夕暮れの住宅街で一人歩く候補者" className="comic-panel-img" />
+            <img src="/story1_paper_map.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-narration">「今日もどれだけ回れたんだろう…」<br/>紙の地図を片手に歩き続けるが、進捗が把握できない。これが従来の限界でした。</div>
             </div>
           </div>
           {/* Scene 2 */}
           <div className="comic-panel">
-            <img src="/reason2-yorisoi.jpg" alt="スマホでPoliStepを使う様子" className="comic-panel-img" />
+            <img src="/story2_night_app.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-narration">「選挙は足だ」と取り合ってくれない支援者。<br/>それでも諦めず、夜の街を歩き記録をつけ続けました。</div>
             </div>
           </div>
           {/* Scene 3 */}
           <div className="comic-panel">
-            <img src="/reason3-yorisoi.jpg" alt="支援者と地図を見せ合う様子" className="comic-panel-img" />
+            <img src="/story3_show_pins.jpg" alt="スマホの画面を支援者に見せる" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-narration">数日後、マップはピンで埋め尽くされました。<br/>真っ赤なマップを見た瞬間、批判的だった支援者の目が変わりました。</div>
             </div>
           </div>
           {/* Scene 4 */}
           <div className="comic-panel">
-            <img src="/step2-yorisoi.jpg" alt="チームで街を歩く" className="comic-panel-img" />
+            <img src="/story4_team_smile.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-dialogue" style={{ fontSize: '1.25rem', textAlign: 'center', background: 'transparent', border: 'none' }}>これが、PoliStepの力。</div>
               <div className="comic-narration" style={{ textAlign: 'center' }}>可視化された「努力」が人の心を動かします。<br/>一人の活動が、チームの力に変わる瞬間です。</div>
@@ -101,7 +104,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="feature-row-visual">
-            <img src="/app_map.png" alt="PoliStepのマップ画面" />
+            <img src="/feature_map_ui.jpg" alt="PoliStepのマップ画面" />
           </div>
         </div>
 
@@ -115,7 +118,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="feature-row-visual">
-            <img src="/app_dashboard.png" alt="PoliStepのダッシュボード画面" />
+            <img src="/feature_dashboard_ui.jpg" alt="PoliStepのダッシュボード画面" />
           </div>
         </div>
 
@@ -129,7 +132,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="feature-row-visual">
-            <img src="/step1-yorisoi.jpg" alt="PoliStepの共有イメージ" />
+            <img src="/story3_show_pins.jpg" alt="PoliStepの共有イメージ" />
           </div>
         </div>
       </section>

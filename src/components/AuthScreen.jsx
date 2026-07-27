@@ -103,8 +103,11 @@ export default function AuthScreen() {
     <div className="auth-page-container">
       {/* ===== 左側: ビジュアルエリア (PCのみ) ===== */}
       <div className="auth-visual-side">
-        <img src="/hero-yorisoi.jpg" alt="PoliStep ボランティア" className="auth-visual-img" />
-        <div className="auth-logo">PoliStep</div>
+        <img src="/story4_team_smile.jpg" alt="PoliStep ボランティア" className="auth-visual-img" />
+        <div className="auth-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <img src="/polistep_logo.jpg" alt="Logo" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+          PoliStep
+        </div>
         <div className="auth-quote-box">
           <div className="auth-quote">チームの力が、<br/>地域を変える。</div>
           <div className="auth-quote-author">ドブ板選挙の完全可視化ツール</div>
