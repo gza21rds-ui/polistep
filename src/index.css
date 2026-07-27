@@ -43,6 +43,7 @@ body, html {
 
 /* --- Animations --- */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes popIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
 
 .page-container { min-height: 100vh; width: 100vw; display: flex; flex-direction: column; }
 
@@ -63,8 +64,11 @@ body, html {
 
 /* ==================== HERO ==================== */
 .hero-section {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  max-width: 1000px; margin: 0 auto; padding: 6rem 2rem 4rem; text-align: center;
+  display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 4rem;
+  max-width: 1200px; margin: 0 auto; padding: 6rem 2rem 4rem; text-align: left;
+}
+.hero-content {
+  flex: 1; min-width: 300px;
 }
 .hero-badge {
   display: inline-block; padding: 0.4rem 1rem; background: var(--primary-light); color: var(--primary);
@@ -72,7 +76,7 @@ body, html {
   animation: fadeInUp 0.5s ease-out;
 }
 .hero-title {
-  font-size: clamp(2.25rem, 5vw, 4rem); font-weight: 900; line-height: 1.2; letter-spacing: -1px;
+  font-size: clamp(2.25rem, 4.5vw, 3.5rem); font-weight: 900; line-height: 1.2; letter-spacing: -1px;
   margin-bottom: 1.5rem; color: var(--text-main);
   animation: fadeInUp 0.5s ease-out 0.1s both;
 }
@@ -85,16 +89,16 @@ body, html {
   animation: fadeInUp 0.5s ease-out 0.2s both;
 }
 .hero-cta-group {
-  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  display: flex; gap: 1rem; justify-content: flex-start; flex-wrap: wrap;
   animation: fadeInUp 0.5s ease-out 0.3s both;
 }
 .btn-primary {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   padding: 1rem 2.5rem; background: var(--primary); color: white;
   font-size: 1.0625rem; font-weight: 700; border: none; border-radius: var(--radius-full);
-  cursor: pointer; transition: all 0.2s ease; text-decoration: none; box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+  cursor: pointer; transition: all 0.2s ease; text-decoration: none; box-shadow: 0 4px 14px rgba(16,185,129,0.3);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); background: var(--primary-hover); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.4); background: var(--primary-hover); }
 .btn-secondary {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   padding: 1rem 2.5rem; background: white; color: var(--text-main);
@@ -104,14 +108,15 @@ body, html {
 .btn-secondary:hover { background: var(--bg-section); border-color: var(--text-muted); }
 
 .hero-visual-container {
-  margin-top: 4rem; width: 100%; max-width: 900px; position: relative;
+  flex: 1; width: 100%; max-width: 500px; position: relative;
   animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 .hero-main-img {
   width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 1px solid var(--border-light);
+  object-fit: cover;
 }
 
-/* ==================== MANGA STORY ==================== */
+/* ==================== PHOTO STORY ==================== */
 .section { padding: 5rem 2rem; }
 .section-inner { max-width: 1000px; margin: 0 auto; }
 .section-label {
@@ -128,11 +133,11 @@ body, html {
   display: inline-block;
 }
 
-/* 漫画コマ割りレイアウト (縦スクロールWebtoon風) */
+/* ストーリーパネル (縦スクロールWebtoon風) */
 .comic-grid {
   display: flex;
   flex-direction: column;
-  max-width: 600px; /* 縦長で読みやすい幅 */
+  max-width: 600px;
   margin: 0 auto;
   background: white;
   border-radius: 16px;
@@ -140,33 +145,31 @@ body, html {
   box-shadow: var(--shadow-xl);
   border: 1px solid var(--border-light);
 }
-
 .comic-panel {
   display: flex;
   flex-direction: column;
   background: white;
+  border-bottom: 1px solid var(--border-light);
 }
-
+.comic-panel:last-child {
+  border-bottom: none;
+}
 .comic-panel-img {
   width: 100%;
-  height: auto;
+  height: 300px;
   object-fit: cover;
-  /* コマとコマの間をシームレスにするためボーダー削除 */
 }
-
 .comic-text-box {
   padding: 1.5rem 2rem;
   background: white;
   text-align: center;
 }
-
 .comic-dialogue {
   font-weight: 800;
   font-size: 1.1rem;
   color: var(--primary-hover);
   margin-bottom: 0.75rem;
 }
-
 .comic-narration {
   font-size: 1rem;
   color: var(--text-main);
@@ -212,19 +215,82 @@ body, html {
 .footer-link:hover { color: var(--primary); }
 .footer-copy { color: var(--text-light); font-size: 0.8125rem; font-weight: 500; }
 
-/* アプリUIモック用CSS */
-.app-container { display: flex; flex-direction: column; height: 100vh; width: 100vw; position: relative; overflow: hidden; user-select: none; background: white; }
-.candidate-name { font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; }
-.progress-container { width: 100%; background: #E2E8F0; border-radius: var(--radius-full); height: 1rem; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--primary); width: 0; transition: width 1.5s; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem; color: white; font-weight: bold; font-size: 0.75rem; }
-.ranking-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 0.5rem; border: 1px solid var(--border-light); }
-.ranking-medal { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 0.875rem; }
-.bottom-sheet { flex: 2; height: 20%; width: 100%; background: white; border-top-left-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl); box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 10; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
-.action-btn { border: none; border-radius: var(--radius-md); color: white; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); cursor: pointer; }
-.btn-absent { background-color: #3B82F6; }
-.btn-flyer { background-color: #F59E0B; color: white; }
-.btn-talked { background-color: #10B981; }
-.btn-poster { background-color: #EF4444; }
+
+/* ==================== AUTH PAGE (NEW SPLIT LAYOUT) ==================== */
+.auth-page-container {
+  display: flex; min-height: 100vh; width: 100vw; overflow: hidden; background: var(--bg-main);
+}
+.auth-visual-side {
+  flex: 1; display: none; position: relative; background: var(--bg-dark);
+}
+@media (min-width: 769px) {
+  .auth-visual-side { display: flex; flex-direction: column; justify-content: space-between; padding: 3rem; }
+}
+.auth-visual-img {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.4; mix-blend-mode: overlay;
+}
+.auth-logo {
+  position: relative; z-index: 10; font-size: 2rem; font-weight: 900; color: white; letter-spacing: -0.5px;
+}
+.auth-quote-box {
+  position: relative; z-index: 10; color: white; max-width: 400px;
+}
+.auth-quote {
+  font-size: 2.5rem; font-weight: 900; line-height: 1.3; margin-bottom: 1rem; letter-spacing: -1px;
+}
+.auth-quote-author {
+  font-size: 1.1rem; opacity: 0.8; font-weight: 500;
+}
+.auth-form-side {
+  flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;
+  position: relative;
+}
+.auth-form-wrapper {
+  width: 100%; max-width: 400px; background: white; padding: 3rem 2.5rem; border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl); border: 1px solid var(--border-light);
+  animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.auth-back-btn {
+  position: absolute; top: 2rem; right: 2rem; display: flex; align-items: center; gap: 0.5rem;
+  color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem;
+  transition: color 0.2s;
+}
+.auth-back-btn:hover { color: var(--text-main); }
+.auth-title { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main); letter-spacing: -0.5px; }
+.auth-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; }
+
+.input-premium {
+  width: 100%; padding: 0.875rem 1rem; border: 1.5px solid var(--border-light); border-radius: var(--radius-md);
+  font-size: 1rem; transition: all 0.2s ease; background: var(--bg-main); outline: none;
+  color: var(--text-main);
+}
+.input-premium::placeholder { color: var(--text-light); }
+.input-premium:focus {
+  border-color: var(--primary); background: white; box-shadow: 0 0 0 4px var(--primary-light);
+}
+.btn-premium {
+  display: inline-flex; align-items: center; justify-content: center; width: 100%;
+  padding: 1rem 1.5rem; border: none; border-radius: var(--radius-md);
+  font-weight: 700; font-size: 1.05rem; cursor: pointer; transition: all 0.2s;
+  background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.25);
+}
+.btn-premium:hover:not(:disabled) {
+  background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,0.35);
+}
+.btn-premium:disabled {
+  opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none;
+}
+.auth-toggle-group {
+  display: flex; gap: 0.5rem; background: var(--bg-main); padding: 0.375rem; border-radius: var(--radius-lg); margin-bottom: 2rem;
+}
+.auth-toggle-btn {
+  flex: 1; padding: 0.625rem; font-size: 0.9rem; font-weight: 600; border: none; border-radius: var(--radius-md);
+  cursor: pointer; transition: all 0.2s; background: transparent; color: var(--text-muted);
+}
+.auth-toggle-btn.active {
+  background: white; color: var(--text-main); box-shadow: var(--shadow-sm);
+}
+
 
 /* ==================== MOBILE / RESPONSIVE (MAX 768px) ==================== */
 @media (max-width: 768px) {
@@ -235,24 +301,12 @@ body, html {
   .btn-outline { padding: 0.5rem 1rem; font-size: 0.85rem; }
   
   /* Hero セクション */
-  .hero-section { padding: 4rem 1rem 2rem; }
+  .hero-section { padding: 4rem 1rem 2rem; flex-direction: column; text-align: center; gap: 2rem; }
   .hero-title { font-size: 2rem; }
   .hero-subtitle { font-size: 1rem; margin-bottom: 2rem; }
-  .hero-cta-group { flex-direction: column; width: 100%; gap: 0.75rem; }
+  .hero-cta-group { justify-content: center; width: 100%; flex-direction: column; }
   .btn-primary, .btn-secondary { width: 100%; padding: 0.875rem 1.5rem; }
-
-  /* 漫画セクション */
-  .manga-stream { gap: 2rem; margin-top: 2rem; }
-  .manga-panel-wrapper { gap: 0; align-items: center !important; }
-  .manga-text-box { 
-    margin: -1rem 1rem 0 !important; /* 左右の余白を統一し、少し画像に被せる */
-    padding: 1rem;
-    max-width: 90%;
-  }
-  .manga-dialogue { font-size: 1rem; }
-  .manga-narration { font-size: 0.85rem; }
-  .section-title { font-size: 1.5rem; }
-  .section-desc { font-size: 1rem; }
+  .hero-visual-container { max-width: 100%; }
 
   /* Feature (特徴) セクション */
   .feature-row { flex-direction: column !important; gap: 2rem; margin-bottom: 4rem; text-align: center; }
@@ -265,13 +319,15 @@ body, html {
   .premium-title { font-size: 1.5rem; }
   .premium-desc { font-size: 0.95rem; }
 
-  /* ダッシュボード系 (AdminDashboard, StaffDashboard 等) */
+  /* Auth 画面 */
+  .auth-form-wrapper { padding: 2rem 1.5rem; box-shadow: none; border: none; border-radius: 0; background: transparent; }
+  .auth-form-side { padding: 0; align-items: flex-start; padding-top: 4rem; }
+  .auth-back-btn { top: 1rem; right: 1rem; }
+
+  /* ダッシュボード系 */
   main { padding: 2rem 1rem !important; }
   .glass-card { padding: 1.5rem !important; }
   .candidate-name { font-size: 1.5rem !important; }
-  
-  /* グリッドレイアウトの強制1カラム化 */
-  .feature-row-visual img { max-width: 100%; }
   
   /* フォーム要素 (iOSズーム防止等) */
   input, select, textarea { font-size: 16px !important; }
