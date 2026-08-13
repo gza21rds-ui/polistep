@@ -133,7 +133,7 @@ export default function Onboarding() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '0 0.5rem' }}>
               <div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E293B' }}>
-                  <UserPlus size={18} color="#10B981" /> 個別訪問・ご挨拶の目標件数
+                  <UserPlus size={18} color="#2563EB" /> 個別訪問・ご挨拶の目標件数
                 </label>
                 <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標得票数の <strong>3〜5倍</strong></p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

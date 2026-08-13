@@ -116,18 +116,18 @@ export default function AdminDashboard() {
 
         {/* 必勝プログレスバー：個別訪問（対話） */}
         <section className="glass-card" style={{ padding: '2.5rem', background: 'linear-gradient(135deg, #1E293B, #0F172A)', color: 'white', border: 'none', position: 'relative', overflow: 'hidden', marginBottom: '0' }}>
-          <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(16,185,129,0) 70%)', borderRadius: '50%' }}></div>
+          <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(37,99,235,0.2) 0%, rgba(37,99,235,0) 70%)', borderRadius: '50%' }}></div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '0.5rem' }}>
             <h3 style={{ fontSize: '1.5rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Target size={28} color="#10B981" /> 訪問・ご挨拶の進捗
+              <Target size={28} color="#2563EB" /> 訪問・ご挨拶の進捗
             </h3>
             <Link to="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: '#CBD5E1', textDecoration: 'none', background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.2)' }}>
               目標・期日を再設定する
             </Link>
           </div>
-          <p style={{ color: '#94A3B8', marginBottom: '0.5rem', fontSize: '1.1rem' }}>目標 {user.target_visits?.toLocaleString() || '---'} 件中、現在 <span style={{ color: '#10B981', fontSize: '1.5rem', fontWeight: 900 }}>{stats.talked.toLocaleString()}</span> 件達成！</p>
+          <p style={{ color: '#94A3B8', marginBottom: '0.5rem', fontSize: '1.1rem' }}>目標 {user.target_visits?.toLocaleString() || '---'} 件中、現在 <span style={{ color: '#2563EB', fontSize: '1.5rem', fontWeight: 900 }}>{stats.talked.toLocaleString()}</span> 件達成！</p>
           <div className="progress-container" style={{ height: '2rem', background: '#334155' }}>
-            <div className="progress-fill" style={{ width: `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '1rem', background: '#10B981' }}>
+            <div className="progress-fill" style={{ width: `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '1rem', background: '#2563EB' }}>
               {((stats.talked / (user.target_visits || 1)) * 100).toFixed(1)}%
             </div>
           </div>

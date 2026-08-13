@@ -41,7 +41,7 @@ export default function SnsShareGenerator({ visible, onClose, stats }) {
     ctx.textAlign = 'center';
     
     // Header
-    ctx.fillStyle = '#10B981';
+    ctx.fillStyle = '#2563EB';
     ctx.font = 'bold 50px sans-serif';
     ctx.fillText('TODAY\'S REPORT', canvas.width / 2, 250);
     
@@ -142,7 +142,7 @@ export default function SnsShareGenerator({ visible, onClose, stats }) {
       <div className="modal-content" style={{ maxWidth: '600px', width: '95%', padding: '2rem', textAlign: 'left', maxHeight: '95vh', overflowY: 'auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1E293B', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Share2 size={24} color="#10B981" /> SNS用活動報告を作成
+            <Share2 size={24} color="#2563EB" /> SNS用活動報告を作成
           </h3>
           <button onClick={onClose} style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}><X size={24} color="#64748B" /></button>
         </div>
@@ -190,7 +190,7 @@ export default function SnsShareGenerator({ visible, onClose, stats }) {
               />
               <button 
                 onClick={handleCopy}
-                style={{ position: 'absolute', bottom: '10px', right: '10px', background: copied ? '#10B981' : '#1E293B', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 'bold', transition: 'all 0.2s' }}
+                style={{ position: 'absolute', bottom: '10px', right: '10px', background: copied ? '#2563EB' : '#1E293B', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 'bold', transition: 'all 0.2s' }}
               >
                 {copied ? <CheckCircle size={16} /> : <Copy size={16} />}
                 {copied ? 'コピーしました！' : 'コピー'}

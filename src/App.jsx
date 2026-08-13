@@ -240,7 +240,7 @@ function PublicMapApp() {
             <button onClick={handleSkipMemo} style={{ flex: 1, padding: '1rem', background: '#F1F5F9', color: '#475569', borderRadius: '9999px', border: 'none', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer' }}>
               スキップ
             </button>
-            <button onClick={handleSaveMemo} style={{ flex: 1, padding: '1rem', background: '#10B981', color: 'white', borderRadius: '9999px', border: 'none', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer' }}>
+            <button onClick={handleSaveMemo} style={{ flex: 1, padding: '1rem', background: '#2563EB', color: 'white', borderRadius: '9999px', border: 'none', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer' }}>
               保存する
             </button>
           </div>

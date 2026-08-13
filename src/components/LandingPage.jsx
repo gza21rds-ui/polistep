@@ -34,8 +34,8 @@ export default function LandingPage() {
             <Link to="/auth" className="btn-primary" style={{ fontSize: '1.1rem', padding: '1rem 2rem' }}>
               【完全無料】活動記録を始める <ArrowRight size={18} />
             </Link>
-            <a href="#poliside" className="btn-secondary">
-              戦略立案のプロに相談する
+            <a href="https://poliside.net" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ textDecoration: 'none' }}>
+              PoliSideに相談する
             </a>
           </div>
         </div>
@@ -163,9 +163,24 @@ export default function LandingPage() {
           PoliSideの専門コンサルタントが、地域ごとの反応率を分析し「必勝の戦略」をご提案。<br/>
           アプリの提供だけではない、真の勝利への道のりを共に歩みます。
         </p>
-        <button className="btn-secondary" style={{ background: 'transparent', color: 'white', borderColor: 'rgba(255,255,255,0.3)' }} onClick={() => alert('PoliSideの相談フォームへ遷移します')}>
+        <a href="https://poliside.net" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ background: 'transparent', color: 'white', borderColor: 'rgba(255,255,255,0.3)', textDecoration: 'none', display: 'inline-block' }}>
           専門家に相談する
-        </button>
+        </a>
+      </section>
+
+      {/* ===== PoliDash (Sister Service) ===== */}
+      <section className="section" style={{ background: '#F0F9FF', textAlign: 'center', padding: '5rem 2rem' }}>
+        <div className="section-inner">
+          <div className="section-label" style={{ margin: '0 auto 1rem', background: '#DBEAFE', color: '#1D4ED8' }}>Sister Service</div>
+          <h2 className="section-title">ポスター貼りの効率化なら「PoliDash」</h2>
+          <p className="section-desc" style={{ margin: '0 auto 2rem', maxWidth: '600px', color: '#1E293B' }}>
+            選挙本番時、最も人手と時間を要する「ポスター貼り」。<br/>
+            PoliDashを使えば、ポスター掲示場の地図作成や経路最適化を瞬時に行い、圧倒的な効率化を実現します。
+          </p>
+          <a href="https://polidash.jp" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textDecoration: 'none' }}>
+            PoliDash を確認する
+          </a>
+        </div>
       </section>
 
       {/* ===== Footer with Legal Links ===== */}
