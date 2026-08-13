@@ -32,19 +32,9 @@ CREATE TABLE IF NOT EXISTS public.pins (
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.pins ENABLE ROW LEVEL SECURITY;
 
--- usersテーブルの無限ループを防ぐための関数
-CREATE OR REPLACE FUNCTION get_auth_user_team_id()
-RETURNS UUID
-LANGUAGE sql
-SECURITY DEFINER
-SET search_path = public
-AS $$
-  SELECT team_id FROM users WHERE id = auth.uid();
-$$;
-
 -- usersテーブルのアクセス権限
 CREATE POLICY "Users can read own team users" ON public.users
-  FOR SELECT USING (auth.uid() = id OR team_id = get_auth_user_team_id());
+  FOR SELECT USING (auth.uid() = id);
 
 CREATE POLICY "Users can insert their own profile" ON public.users
   FOR INSERT WITH CHECK (auth.uid() = id);
@@ -61,13 +51,13 @@ CREATE POLICY "Anyone can read pins by team_id" ON public.pins
 CREATE POLICY "Anyone can insert pins" ON public.pins
   FOR INSERT WITH CHECK (true);
 
--- ピンの削除は認証ユーザー（管理者）のみ、または直近の取り消し操作用
+-- ピンの削除は誰でも可能（直近の取り消し操作用）
 CREATE POLICY "Anyone can delete pins" ON public.pins
   FOR DELETE USING (true);
 
--- ピンの更新は認証ユーザーのみ
-CREATE POLICY "Authenticated users can update pins" ON public.pins
-  FOR UPDATE USING (auth.uid() IS NOT NULL);
+-- ピンの更新は誰でも可能（メモ機能用）
+CREATE POLICY "Anyone can update pins" ON public.pins
+  FOR UPDATE USING (true);
 
 -- Realtimeの有効化 (地図での即時反映のため)
 BEGIN;
