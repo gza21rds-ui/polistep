@@ -2,12 +2,14 @@
 -- このSQLをSupabaseダッシュボードの「SQL Editor」で実行してください。
 
 -- 1. users テーブル
--- ユーザー（候補者およびスタッフ）の権限や情報を管理するテーブル
+-- ユーザー（候補者）の権限や情報を管理するテーブル
 CREATE TABLE IF NOT EXISTS public.users (
   id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
-  role TEXT NOT NULL CHECK (role IN ('admin', 'staff')),
+  role TEXT NOT NULL CHECK (role IN ('admin')),
   display_name TEXT,
   team_id UUID, -- 管理者(admin)のidと同じUUIDを入れてチームを識別する
+  election_date DATE,
+  target_actions INTEGER,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
@@ -20,7 +22,7 @@ CREATE TABLE IF NOT EXISTS public.pins (
   lng DOUBLE PRECISION NOT NULL,
   type TEXT NOT NULL, -- 例: 'visited', 'absent', 'support'
   memo TEXT,
-  created_by UUID REFERENCES public.users(id),
+  created_by UUID REFERENCES public.users(id), -- NULLの場合は匿名スタッフ
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
@@ -30,9 +32,19 @@ CREATE TABLE IF NOT EXISTS public.pins (
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.pins ENABLE ROW LEVEL SECURITY;
 
+-- usersテーブルの無限ループを防ぐための関数
+CREATE OR REPLACE FUNCTION get_auth_user_team_id()
+RETURNS UUID
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT team_id FROM users WHERE id = auth.uid();
+$$;
+
 -- usersテーブルのアクセス権限
 CREATE POLICY "Users can read own team users" ON public.users
-  FOR SELECT USING (auth.uid() = id OR team_id = (SELECT team_id FROM public.users WHERE id = auth.uid()));
+  FOR SELECT USING (auth.uid() = id OR team_id = get_auth_user_team_id());
 
 CREATE POLICY "Users can insert their own profile" ON public.users
   FOR INSERT WITH CHECK (auth.uid() = id);
@@ -40,18 +52,22 @@ CREATE POLICY "Users can insert their own profile" ON public.users
 CREATE POLICY "Users can update their own profile" ON public.users
   FOR UPDATE USING (auth.uid() = id);
 
--- pinsテーブルのアクセス権限
-CREATE POLICY "Users can read pins of their team" ON public.pins
-  FOR SELECT USING (team_id = (SELECT team_id FROM public.users WHERE id = auth.uid()));
+-- pinsテーブルのアクセス権限（匿名アクセスを許可）
+-- team_idを知っていれば誰でもピンを読み取れる（公開マップ）
+CREATE POLICY "Anyone can read pins by team_id" ON public.pins
+  FOR SELECT USING (true);
 
-CREATE POLICY "Users can insert pins to their team" ON public.pins
-  FOR INSERT WITH CHECK (team_id = (SELECT team_id FROM public.users WHERE id = auth.uid()));
+-- team_idを知っていれば誰でもピンを追加できる（スタッフ登録不要）
+CREATE POLICY "Anyone can insert pins" ON public.pins
+  FOR INSERT WITH CHECK (true);
 
-CREATE POLICY "Users can update pins of their team" ON public.pins
-  FOR UPDATE USING (team_id = (SELECT team_id FROM public.users WHERE id = auth.uid()));
+-- ピンの削除は認証ユーザー（管理者）のみ、または直近の取り消し操作用
+CREATE POLICY "Anyone can delete pins" ON public.pins
+  FOR DELETE USING (true);
 
-CREATE POLICY "Users can delete pins of their team" ON public.pins
-  FOR DELETE USING (team_id = (SELECT team_id FROM public.users WHERE id = auth.uid()));
+-- ピンの更新は認証ユーザーのみ
+CREATE POLICY "Authenticated users can update pins" ON public.pins
+  FOR UPDATE USING (auth.uid() IS NOT NULL);
 
 -- Realtimeの有効化 (地図での即時反映のため)
 BEGIN;

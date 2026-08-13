@@ -14,7 +14,13 @@ export default function ActionBottomSheet({ onAction }) {
           対話できた
         </button>
         <button className="action-btn btn-poster" onClick={() => onAction('poster')}>
-          有力・ポスター
+          ポスター貼付
+        </button>
+        <button className="action-btn btn-speech" onClick={() => onAction('speech')}>
+          街頭演説
+        </button>
+        <button className="action-btn btn-station-flyer" onClick={() => onAction('station_flyer')}>
+          駅頭ビラ配り
         </button>
       </div>
     </div>

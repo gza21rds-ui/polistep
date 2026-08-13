@@ -332,3 +332,144 @@ body, html {
   /* フォーム要素 (iOSズーム防止等) */
   input, select, textarea { font-size: 16px !important; }
 }
+
+/* ==================== MAP & APP UI ==================== */
+.app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-main);
+}
+.map-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* UI BUTTONS */
+.btn-fire {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+.btn-fire:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+}
+
+/* ACTION BOTTOM SHEET */
+.bottom-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.action-btn {
+  padding: 1.25rem;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.action-btn:active {
+  transform: scale(0.95);
+}
+.btn-absent { background: #1D4ED8; }
+.btn-flyer { background: #F59E0B; }
+.btn-talked { background: #EA580C; }
+.btn-poster { background: #DC2626; }
+.btn-speech { background: #6D28D9; } /* Purple for speech */
+.btn-station-flyer { background: #0369A1; } /* Sky/Teal for station flyer */
+
+/* SNACKBAR */
+.snackbar {
+  position: fixed;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #334155;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1010;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: fadeInUp 0.3s ease-out;
+}
+.snackbar button {
+  background: transparent;
+  color: #60A5FA;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* MODALS */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.modal-content {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+  animation: popIn 0.3s ease-out;
+}
+.modal-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem; color: #1E293B; }
+.modal-desc { font-size: 1rem; color: #475569; margin-bottom: 2rem; line-height: 1.6; }
+.primary-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #10B981;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+.close-btn {
+  width: 100%;
+  padding: 1rem;
+  background: transparent;
+  color: #64748B;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}

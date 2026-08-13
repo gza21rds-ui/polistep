@@ -42,11 +42,11 @@ export default function Privacy() {
       <p style={{ marginBottom: '1rem' }}>本ポリシーに関するお問い合わせは、下記の窓口までお願いいたします。</p>
       <p style={{ marginBottom: '1rem', padding: '1rem', background: '#f8fafc', borderRadius: '4px' }}>
         運営：PoliStep運営事務局<br />
-        Eメールアドレス：support@polistep.example.com
+        Eメールアドレス：poliside.info@gmail.com
       </p>
 
       <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: '1px solid #e2e8f0', fontSize: '0.9rem', color: '#64748b' }}>
-        <p>制定日：2024年1月1日</p>
+        <p>制定日：2026年8月1日</p>
         <p>PoliStep運営事務局</p>
       </div>
     </div>

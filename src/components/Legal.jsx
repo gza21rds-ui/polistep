@@ -19,20 +19,9 @@ export default function Legal() {
             <td style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0' }}>PoliStep運営事務局</td>
           </tr>
           <tr>
-            <th style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0', backgroundColor: '#f8fafc', textAlign: 'left', fontWeight: 'bold' }}>運営責任者</th>
-            <td style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0' }}>（実際の責任者名に書き換えてください）</td>
-          </tr>
-          <tr>
-            <th style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0', backgroundColor: '#f8fafc', textAlign: 'left', fontWeight: 'bold' }}>所在地</th>
-            <td style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0' }}>
-              〒000-0000<br />
-              （実際の住所に書き換えてください）
-            </td>
-          </tr>
-          <tr>
             <th style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0', backgroundColor: '#f8fafc', textAlign: 'left', fontWeight: 'bold' }}>お問い合わせ窓口</th>
             <td style={{ padding: '1rem', borderBottom: '1px solid #e2e8f0' }}>
-              Eメール：support@polistep.example.com<br />
+              Eメール：poliside.info@gmail.com<br />
               （※電話でのお問い合わせは受け付けておりません。メールにてお問い合わせください。）
             </td>
           </tr>
@@ -75,7 +64,7 @@ export default function Legal() {
       </table>
       
       <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: '1px solid #e2e8f0', fontSize: '0.9rem', color: '#64748b' }}>
-        <p>制定日：2024年1月1日</p>
+        <p>制定日：2026年8月1日</p>
         <p>PoliStep運営事務局</p>
       </div>
     </div>

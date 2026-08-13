@@ -10,7 +10,7 @@ export default function LandingPage() {
       {/* ===== Header ===== */}
       <header className="glass-header">
         <div className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <img src="/polistep_logo.jpg" alt="PoliStep Logo" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+          <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
           PoliStep
         </div>
         <Link to="/auth" className="btn-outline">ログイン</Link>
@@ -40,7 +40,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="hero-visual-container">
-          <img src="/story4_team_smile.jpg" alt="チームで歩くボランティアと候補者" className="hero-main-img" />
+          <img src="/hero_map_visual.jpg" alt="ピンがプロットされたマップ画面" className="hero-main-img" />
         </div>
       </section>
 
