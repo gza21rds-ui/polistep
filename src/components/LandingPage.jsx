@@ -40,7 +40,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="hero-visual-container">
-          <img src="/hero_map_visual.jpg" alt="ピンがプロットされたマップ画面" className="hero-main-img" />
+          <img src="/hero_visual_blue.jpg" alt="スマホを見て安心する候補者" className="hero-main-img" />
         </div>
       </section>
 
@@ -48,9 +48,9 @@ export default function LandingPage() {
       <section className="section" style={{ background: 'var(--bg-main)' }}>
         <div className="section-inner" style={{ textAlign: 'center' }}>
           <div className="section-label">Story</div>
-          <h2 className="section-title">なぜ、活動を可視化するのか</h2>
+          <h2 className="section-title">選挙戦の「見えない不安」を打ち破る</h2>
           <p className="section-desc" style={{ margin: '0 auto' }}>
-            IT化に批判的な現場で、PoliStepがどう壁を打ち破るのか。
+            果てしないドブ板活動。いつまでに、何をすべきか。PoliStepがあなたの羅針盤になります。
           </p>
         </div>
 
@@ -59,29 +59,29 @@ export default function LandingPage() {
           <div className="comic-panel">
             <img src="/story1_paper_map.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="comic-panel-img" />
             <div className="comic-text-box">
-              <div className="comic-narration">「今日もどれだけ回れたんだろう…」<br/>紙の地図を片手に歩き続けるが、進捗が把握できない。これが従来の限界でした。</div>
+              <div className="comic-narration">「このペースで、本当に間に合うのか…？」<br/>紙の地図と勘だけが頼りの活動では、ゴールが見えず、常に漠然とした不安がつきまといます。</div>
             </div>
           </div>
           {/* Scene 2 */}
           <div className="comic-panel">
             <img src="/story2_night_app.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="comic-panel-img" />
             <div className="comic-text-box">
-              <div className="comic-narration">「選挙は足だ」と取り合ってくれない支援者。<br/>それでも諦めず、夜の街を歩き記録をつけ続けました。</div>
+              <div className="comic-narration">PoliStepに目標を入力すると、1日に必要な「活動件数」が自動計算。今日やるべき行動計画が明確になり、迷いが消え去ります。</div>
             </div>
           </div>
           {/* Scene 3 */}
           <div className="comic-panel">
             <img src="/story3_show_pins.jpg" alt="スマホの画面を支援者に見せる" className="comic-panel-img" />
             <div className="comic-text-box">
-              <div className="comic-narration">数日後、マップはピンで埋め尽くされました。<br/>真っ赤なマップを見た瞬間、批判的だった支援者の目が変わりました。</div>
+              <div className="comic-narration">毎日歩いた軌跡が、色鮮やかなピンと進捗率（％）に変わる。「今日はあと30件だ」。可視化された数字が、疲れた足を前へと進ませます。</div>
             </div>
           </div>
           {/* Scene 4 */}
           <div className="comic-panel">
             <img src="/story4_team_smile.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="comic-panel-img" />
             <div className="comic-text-box">
-              <div className="comic-dialogue" style={{ fontSize: '1.25rem', textAlign: 'center', background: 'transparent', border: 'none' }}>これが、PoliStepの力。</div>
-              <div className="comic-narration" style={{ textAlign: 'center' }}>可視化された「努力」が人の心を動かします。<br/>一人の活動が、チームの力に変わる瞬間です。</div>
+              <div className="comic-dialogue" style={{ fontSize: '1.25rem', textAlign: 'center', background: 'transparent', border: 'none' }}>迷いなく、やり切った。</div>
+              <div className="comic-narration" style={{ textAlign: 'center' }}>明確な計画のもと蓄積された膨大な記録。<br/>その「努力の証明」を発信した時、自然と支援の輪が広がっていきます。</div>
             </div>
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="feature-row-visual">
-            <img src="/feature_map_ui.jpg" alt="PoliStepのマップ画面" />
+            <img src="/feature_map_blue.jpg" alt="PoliStepのマップ画面" />
           </div>
         </div>
 
