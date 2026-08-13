@@ -98,6 +98,7 @@ function PublicMapApp() {
       lat: selectedLocation.lat,
       lng: selectedLocation.lng,
       type: actionType,
+      action_count: 1
       // created_by は NULL（匿名スタッフ）
     };
 
@@ -118,7 +119,7 @@ function PublicMapApp() {
       const newCount = actionCount + 1;
       setActionCount(newCount);
 
-      if (['talked', 'flyer', 'station_flyer', 'speech'].includes(actionType)) {
+      if (['talked', 'station_flyer', 'speech'].includes(actionType)) {
         setActivePinIdForMemo(data.id);
         setActiveActionTypeForMemo(actionType);
         setMemoText('');
@@ -151,10 +152,13 @@ function PublicMapApp() {
   const handleSaveMemo = async () => {
     if (activePinIdForMemo && memoText.trim()) {
       let finalMemo = memoText.trim();
-      if ((activeActionTypeForMemo === 'flyer' || activeActionTypeForMemo === 'station_flyer') && !isNaN(finalMemo)) {
+      let updatePayload = { memo: finalMemo };
+      
+      if (activeActionTypeForMemo === 'station_flyer' && !isNaN(finalMemo)) {
         finalMemo = `${finalMemo}枚配布`;
+        updatePayload = { memo: finalMemo, action_count: parseInt(memoText.trim(), 10) };
       }
-      await supabase.from('pins').update({ memo: finalMemo }).eq('id', activePinIdForMemo);
+      await supabase.from('pins').update(updatePayload).eq('id', activePinIdForMemo);
     }
     setMemoVisible(false);
     setActivePinIdForMemo(null);
@@ -187,9 +191,9 @@ function PublicMapApp() {
   let memoIsNumber = false;
 
   if (activeActionTypeForMemo === 'talked') {
-    memoTitle = '💬 対話メモを追加（任意）';
+    memoTitle = '💬 ご挨拶メモを追加（任意）';
     memoPlaceholder = '有権者の要望などを入力してください...';
-  } else if (activeActionTypeForMemo === 'flyer' || activeActionTypeForMemo === 'station_flyer') {
+  } else if (activeActionTypeForMemo === 'station_flyer') {
     memoTitle = '📄 配布枚数を記録（任意）';
     memoPlaceholder = '例: 300';
     memoIsNumber = true;

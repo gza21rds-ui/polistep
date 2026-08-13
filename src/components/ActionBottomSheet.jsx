@@ -5,13 +5,10 @@ export default function ActionBottomSheet({ onAction }) {
     <div className="bottom-sheet">
       <div className="action-grid">
         <button className="action-btn btn-absent" onClick={() => onAction('absent')}>
-          留守
-        </button>
-        <button className="action-btn btn-flyer" onClick={() => onAction('flyer')}>
-          チラシ投函
+          留守（チラシ投函）
         </button>
         <button className="action-btn btn-talked" onClick={() => onAction('talked')}>
-          対話できた
+          ご挨拶できた
         </button>
         <button className="action-btn btn-poster" onClick={() => onAction('poster')}>
           ポスター貼付

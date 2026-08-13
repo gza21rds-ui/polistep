@@ -77,7 +77,7 @@ export default function SnsShareGenerator({ visible, onClose, stats }) {
     ctx.fillStyle = '#E2E8F0';
     ctx.font = 'bold 55px sans-serif';
     
-    ctx.fillText('🤝 対話できた数', 220, boxY + 120);
+    ctx.fillText('🤝 ご挨拶できた数', 220, boxY + 120);
     ctx.fillText('📄 ビラ・チラシ配布', 220, boxY + 270);
     ctx.fillText('🎤 街頭演説', 220, boxY + 420);
     ctx.fillText('🏃‍♂️ 総アクション数', 220, boxY + 570);
@@ -129,7 +129,7 @@ export default function SnsShareGenerator({ visible, onClose, stats }) {
     }
   };
 
-  const shareText = `本日も${regionName || '地域'}を回らせていただきました！🏃‍♂️\n\n🎯 本日の活動実績\n🤝 対話できた数: ${talked}件\n📄 ビラ配布: ${flyers}枚\n🎤 街頭演説: ${speech}回\n\n貴重なご意見をいただき、ありがとうございます。引き続き地域のために走り抜きます！\n#ドブ板活動 #PoliStep`;
+  const shareText = `本日も${regionName || '地域'}を回らせていただきました！🏃‍♂️\n\n🎯 本日の活動実績\n🤝 ご挨拶できた数: ${talked}件\n📄 ビラ配布: ${flyers}枚\n🎤 街頭演説: ${speech}回\n\n貴重なご意見をいただき、ありがとうございます。引き続き地域のために走り抜きます！\n#ドブ板活動 #PoliStep`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shareText);
