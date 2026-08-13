@@ -77,7 +77,18 @@ export default function AuthScreen() {
       }
     } catch (err) {
       console.error(err);
-      setError(err.message);
+      // エラーメッセージの日本語化
+      let errorMsg = err.message || 'エラーが発生しました。';
+      if (errorMsg.includes('Failed to fetch')) {
+        errorMsg = 'サーバーとの通信に失敗しました。環境変数（VITE_SUPABASE_URL等）が正しく設定されていないか、ネットワークエラーです。';
+      } else if (errorMsg.includes('Invalid login credentials')) {
+        errorMsg = 'メールアドレスまたはパスワードが間違っています。';
+      } else if (errorMsg.includes('User already registered')) {
+        errorMsg = 'このメールアドレスは既に登録されています。';
+      } else if (errorMsg.includes('Password should be at least 6 characters')) {
+        errorMsg = 'パスワードは6文字以上で入力してください。';
+      }
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
