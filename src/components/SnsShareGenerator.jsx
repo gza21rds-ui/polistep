@@ -6,13 +6,7 @@ export default function SnsShareGenerator({ visible, onClose, stats }) {
   const [photo, setPhoto] = useState(null);
   const canvasRef = useRef(null);
 
-  useEffect(() => {
-    if (visible && photo && regionName) {
-      drawCanvas();
-    }
-  }, [visible, photo, regionName, stats]);
 
-  if (!visible) return null;
 
   const totalGreetings = (stats.talked || 0) + (stats.absent || 0) + (stats.flyer || 0) + (stats.speech || 0) + (stats.station_flyer || 0);
 
@@ -90,6 +84,14 @@ export default function SnsShareGenerator({ visible, onClose, stats }) {
     };
     bgImg.src = photo;
   };
+
+  useEffect(() => {
+    if (visible && photo && regionName) {
+      drawCanvas();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, photo, regionName, stats]);
+  if (!visible) return null;
 
   const handleDownload = () => {
     const canvas = canvasRef.current;

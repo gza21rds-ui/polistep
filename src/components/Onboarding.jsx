@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Target, Calendar, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';

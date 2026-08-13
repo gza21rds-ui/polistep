@@ -39,8 +39,23 @@ function PublicMapApp() {
   const [memoText, setMemoText] = useState('');
   const [activePinIdForMemo, setActivePinIdForMemo] = useState(null);
 
+  const fetchPins = async (tid) => {
+    const { data, error } = await supabase.from('pins').select('*').eq('team_id', tid);
+    if (!error && data) {
+      const formatted = data.map(p => ({
+        id: p.id,
+        lat: p.lat,
+        lng: p.lng,
+        latest_action_type: p.type
+      }));
+      setPins(formatted);
+      setActionCount(formatted.length);
+    }
+  };
+
   useEffect(() => {
     if (!teamId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setError('チームIDが指定されていません。');
       return;
     }
@@ -61,19 +76,6 @@ function PublicMapApp() {
     };
   }, [teamId]);
 
-  const fetchPins = async (tid) => {
-    const { data, error } = await supabase.from('pins').select('*').eq('team_id', tid);
-    if (!error && data) {
-      const formatted = data.map(p => ({
-        id: p.id,
-        lat: p.lat,
-        lng: p.lng,
-        latest_action_type: p.type
-      }));
-      setPins(formatted);
-      setActionCount(formatted.length);
-    }
-  };
 
   const handleMapClick = (latlng) => {
     setSelectedLocation(latlng);

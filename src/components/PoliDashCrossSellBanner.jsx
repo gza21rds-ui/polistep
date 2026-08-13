@@ -5,6 +5,7 @@ export default function PoliDashCrossSellBanner({ visible, onClose }) {
 
   useEffect(() => {
     if (visible) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
       setShow(true);
       const timer = setTimeout(() => {
         setShow(false);

@@ -7,6 +7,7 @@ import SnsShareGenerator from './SnsShareGenerator';
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [pins, setPins] = useState([]);
   const [stats, setStats] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0 });
   const [copied, setCopied] = useState(false);
@@ -57,7 +58,7 @@ export default function AdminDashboard() {
       await navigator.clipboard.writeText(getShareUrl());
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
+    } catch {
       // fallback
       const textArea = document.createElement('textarea');
       textArea.value = getShareUrl();
@@ -77,7 +78,7 @@ export default function AdminDashboard() {
   const targetActions = user.target_actions || 1000;
   
   let daysLeft = 30; // default
-  let dailyTarget = 0;
+  let dailyTarget;
   if (user.election_date) {
     const diffTime = new Date(user.election_date) - new Date();
     daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
