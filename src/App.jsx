@@ -77,6 +77,10 @@ function PublicMapApp() {
 
   const handleMapClick = (latlng) => {
     setSelectedLocation(latlng);
+    // マップをタップしたときにメモが入力されていなければ閉じる
+    if (memoVisible && !memoText.trim()) {
+      handleSkipMemo();
+    }
   };
 
   const handleAction = async (actionType) => {

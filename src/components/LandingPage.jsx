@@ -87,7 +87,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ===== 3つの特徴 ===== */}
+      {/* ===== 4つの特徴 ===== */}
       <section className="section" style={{ background: 'white' }}>
         <div className="section-inner" style={{ textAlign: 'center', marginBottom: '6rem' }}>
           <div className="section-label">Features</div>
@@ -98,9 +98,9 @@ export default function LandingPage() {
         <div className="feature-row">
           <div className="feature-row-text">
             <div className="feature-num">01</div>
-            <h3 className="feature-row-title">直感的なタップ記録</h3>
+            <h3 className="feature-row-title">直感的なタップ記録と対話メモ</h3>
             <p className="section-desc">
-              歩きながらでも片手で記録可能。「留守」「対話」「ポスター」などの大きなボタンをタップするだけで、あなたの足跡が瞬時に地図上へ記録されます。紙の地図はもう必要ありません。
+              歩きながらでも片手で記録可能。「留守」「対話」「ポスター」に加え、「街頭演説」「駅頭ビラ配り」もタップ一つで記録。さらに対話時には簡単なメモを残せるため、有権者の生の声を取りこぼしません。
             </p>
           </div>
           <div className="feature-row-visual">
@@ -112,9 +112,9 @@ export default function LandingPage() {
         <div className="feature-row reverse">
           <div className="feature-row-text">
             <div className="feature-num">02</div>
-            <h3 className="feature-row-title">活動のダッシュボード</h3>
+            <h3 className="feature-row-title">目標からの逆算とダッシュボード</h3>
             <p className="section-desc">
-              どれだけ頑張ったかを数字とグラフで明確に表示。日々の活動がパーセンテージで可視化されるため、一人で回っていても確かな達成感とモチベーションを得られます。
+              選挙日と目標件数から「1日に必要な活動数」を自動算出。どれだけ頑張ったかがパーセンテージで可視化されるため、一人で回っていても確かな達成感とモチベーションを得られます。
             </p>
           </div>
           <div className="feature-row-visual">
@@ -126,6 +126,23 @@ export default function LandingPage() {
         <div className="feature-row">
           <div className="feature-row-text">
             <div className="feature-num">03</div>
+            <h3 className="feature-row-title">活動のSNS用画像ジェネレーター</h3>
+            <p className="section-desc">
+              1日の終わりに、今日の活動実績（回った地域や挨拶した件数）が自動合成された縦型の画像を作成。そのままSNSへ投稿して、支持者へ努力をスマートにアピールできます。
+            </p>
+          </div>
+          <div className="feature-row-visual" style={{ background: '#F8FAFC', padding: '2rem', borderRadius: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ textAlign: 'center', color: '#64748B' }}>
+              <Share2 size={64} style={{ marginBottom: '1rem', color: '#38BDF8' }} />
+              <p>SNS用画像をワンタップ生成</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Feature 4 */}
+        <div className="feature-row reverse">
+          <div className="feature-row-text">
+            <div className="feature-num">04</div>
             <h3 className="feature-row-title">リアルタイムな共有</h3>
             <p className="section-desc">
               支援者やスタッフと同じマップを共有。誰がどこを回ったのかがリアルタイムで反映されるため、重複訪問を防ぎ、チーム全体での戦略的なドブ板活動を実現します。
