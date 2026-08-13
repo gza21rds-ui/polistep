@@ -38,6 +38,7 @@ function PublicMapApp() {
   const [memoVisible, setMemoVisible] = useState(false);
   const [memoText, setMemoText] = useState('');
   const [activePinIdForMemo, setActivePinIdForMemo] = useState(null);
+  const [activeActionTypeForMemo, setActiveActionTypeForMemo] = useState(null);
 
   const fetchPins = async (tid) => {
     const { data, error } = await supabase.from('pins').select('*').eq('team_id', tid);
@@ -46,7 +47,8 @@ function PublicMapApp() {
         id: p.id,
         lat: p.lat,
         lng: p.lng,
-        latest_action_type: p.type
+        latest_action_type: p.type,
+        memo: p.memo
       }));
       setPins(formatted);
       setActionCount(formatted.length);
@@ -116,8 +118,9 @@ function PublicMapApp() {
       const newCount = actionCount + 1;
       setActionCount(newCount);
 
-      if (actionType === 'talked') {
+      if (['talked', 'flyer', 'station_flyer', 'speech'].includes(actionType)) {
         setActivePinIdForMemo(data.id);
+        setActiveActionTypeForMemo(actionType);
         setMemoText('');
         setMemoVisible(true);
       } else {
@@ -147,16 +150,22 @@ function PublicMapApp() {
 
   const handleSaveMemo = async () => {
     if (activePinIdForMemo && memoText.trim()) {
-      await supabase.from('pins').update({ memo: memoText.trim() }).eq('id', activePinIdForMemo);
+      let finalMemo = memoText.trim();
+      if ((activeActionTypeForMemo === 'flyer' || activeActionTypeForMemo === 'station_flyer') && !isNaN(finalMemo)) {
+        finalMemo = `${finalMemo}枚配布`;
+      }
+      await supabase.from('pins').update({ memo: finalMemo }).eq('id', activePinIdForMemo);
     }
     setMemoVisible(false);
     setActivePinIdForMemo(null);
+    setActiveActionTypeForMemo(null);
     setUndoVisible(true); // メモ保存後でもUndoできるように表示
   };
 
   const handleSkipMemo = () => {
     setMemoVisible(false);
     setActivePinIdForMemo(null);
+    setActiveActionTypeForMemo(null);
     setUndoVisible(true); // スキップ時でもUndo表示
   };
 
@@ -173,6 +182,22 @@ function PublicMapApp() {
 
   if (!ready) return <div style={{ padding: '2rem', textAlign: 'center' }}>読み込み中...</div>;
 
+  let memoTitle = '💬 メモを追加';
+  let memoPlaceholder = '入力してください...';
+  let memoIsNumber = false;
+
+  if (activeActionTypeForMemo === 'talked') {
+    memoTitle = '💬 対話メモを追加（任意）';
+    memoPlaceholder = '有権者の要望などを入力してください...';
+  } else if (activeActionTypeForMemo === 'flyer' || activeActionTypeForMemo === 'station_flyer') {
+    memoTitle = '📄 配布枚数を記録（任意）';
+    memoPlaceholder = '例: 300';
+    memoIsNumber = true;
+  } else if (activeActionTypeForMemo === 'speech') {
+    memoTitle = '🎤 演説の振り返りを記録（任意）';
+    memoPlaceholder = '聴衆の反応、良かった点、改善点などを入力...';
+  }
+
   return (
     <div className="app-container">
       {/* 戻るボタン */}
@@ -187,13 +212,26 @@ function PublicMapApp() {
       
       {memoVisible ? (
         <div className="bottom-sheet" style={{ zIndex: 2000, boxShadow: '0 -10px 30px rgba(0,0,0,0.2)' }}>
-          <h3 style={{ marginBottom: '1rem', fontSize: '1.25rem', color: '#1E293B', fontWeight: 800 }}>💬 対話メモを追加（任意）</h3>
-          <textarea
-            placeholder="有権者の要望などを入力してください..."
-            value={memoText}
-            onChange={(e) => setMemoText(e.target.value)}
-            style={{ width: '100%', height: '100px', padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', marginBottom: '1rem', fontSize: '1rem', resize: 'none' }}
-          />
+          <h3 style={{ marginBottom: '1rem', fontSize: '1.25rem', color: '#1E293B', fontWeight: 800 }}>{memoTitle}</h3>
+          {memoIsNumber ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+              <input
+                type="number"
+                placeholder={memoPlaceholder}
+                value={memoText}
+                onChange={(e) => setMemoText(e.target.value)}
+                style={{ flex: 1, padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1.2rem', textAlign: 'right' }}
+              />
+              <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#475569' }}>枚</span>
+            </div>
+          ) : (
+            <textarea
+              placeholder={memoPlaceholder}
+              value={memoText}
+              onChange={(e) => setMemoText(e.target.value)}
+              style={{ width: '100%', height: '100px', padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', marginBottom: '1rem', fontSize: '1rem', resize: 'none' }}
+            />
+          )}
           <div style={{ display: 'flex', gap: '1rem' }}>
             <button onClick={handleSkipMemo} style={{ flex: 1, padding: '1rem', background: '#F1F5F9', color: '#475569', borderRadius: '9999px', border: 'none', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer' }}>
               スキップ

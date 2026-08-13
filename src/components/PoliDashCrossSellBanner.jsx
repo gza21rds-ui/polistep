@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function PoliDashCrossSellBanner({ visible, onClose }) {
+export default function PoliDashCrossSellBanner({ onClose }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (visible) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+    // Show banner after 2 seconds to not overwhelm user immediately
+    const timer = setTimeout(() => {
       setShow(true);
-      const timer = setTimeout(() => {
-        setShow(false);
-        onClose();
-      }, 8000); // 8秒間表示
-      return () => clearTimeout(timer);
-    }
-  }, [visible, onClose]);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!show) return null;
 
   return (
     <div style={{
       position: 'fixed',
-      top: '1rem',
+      bottom: '100px', // above the bottom sheet or nav
       left: '50%',
       transform: 'translateX(-50%)',
-      backgroundColor: '#FEF2F2',
-      border: '2px solid #DC2626',
-      borderRadius: '1rem',
+      background: '#FEE2E2',
+      border: '2px solid #EF4444',
+      borderRadius: '12px',
       padding: '1rem',
       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
       zIndex: 100,
@@ -37,12 +33,14 @@ export default function PoliDashCrossSellBanner({ visible, onClose }) {
       animation: 'slideUp 0.3s ease-out'
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <h3 style={{ margin: 0, color: '#991B1B', fontSize: '1rem' }}>ポスター貼りの人手が足りないですか？</h3>
+        <div style={{ flex: 1 }}>
+          <h3 style={{ margin: 0, color: '#991B1B', fontSize: '1rem' }}>選挙本番時、効率的にポスター貼りしませんか？</h3>
+          <p style={{ margin: '4px 0 0', color: '#B91C1C', fontSize: '0.85rem' }}>
+            本番用ポスター地図作成・経路最適化アプリ「PoliDash」で、ポスター貼りを劇的に効率化。
+          </p>
+        </div>
         <button onClick={() => { setShow(false); onClose(); }} style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1 }}>&times;</button>
       </div>
-      <p style={{ margin: 0, color: '#7F1D1D', fontSize: '0.875rem' }}>
-        ポスター貼りは PoliDash にお任せください。最短で即日対応可能です。
-      </p>
       <button 
         style={{
           background: '#DC2626',
@@ -54,12 +52,12 @@ export default function PoliDashCrossSellBanner({ visible, onClose }) {
           cursor: 'pointer'
         }}
         onClick={() => {
-          window.open('https://polidash.com', '_blank');
+          window.open('https://polidash.jp', '_blank');
           setShow(false);
           onClose();
         }}
       >
-        詳しく見る
+        PoliDash を確認する
       </button>
     </div>
   );

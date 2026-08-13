@@ -69,12 +69,14 @@ export default function Onboarding() {
 
           <div style={{ background: '#F0F9FF', padding: '1.5rem', borderRadius: '1rem', marginBottom: '2rem', border: '1px solid #BAE6FD' }}>
             <h4 style={{ color: '#0369A1', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold' }}>
-              <Target size={18} /> 目標設定のヒント
+              <Target size={18} /> 目標設定の目安
             </h4>
             <p style={{ color: '#0C4A6E', fontSize: '0.9rem', lineHeight: 1.6 }}>
-              一般的にドブ板政治活動において、訪問した家のうち実際に投票等の成果に結びつくのはごく一部です。<br/>
-              そのため、<strong>目標票数の3〜5倍の接触（ご挨拶回り・ポスター等）が必要</strong>と言われています。<br/>
-              例: 2000票目標なら、6000〜10000件の活動を目標にするのがセオリーです。
+              政治活動において、訪問した家のうち実際に投票に結びつくのは一部です。<br/>
+              そのため、<strong>【当選に必要な目標票数】の「3〜5倍」の活動件数</strong>を目標にするのが標準的なセオリーです。<br/>
+              <span style={{ display: 'inline-block', marginTop: '0.5rem', padding: '0.5rem 1rem', background: '#E0F2FE', borderRadius: '8px', color: '#0369A1', fontWeight: 'bold' }}>
+                💡 例：2,000票目標なら、6,000〜10,000件の活動を目標に設定しましょう。
+              </span>
             </p>
           </div>
 
