@@ -8,6 +8,24 @@ export default function Onboarding() {
   const [electionDate, setElectionDate] = useState('');
   const [targetActions, setTargetActions] = useState('');
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        supabase.from('users').select('election_date, target_actions').eq('id', session.user.id).single()
+          .then(({ data }) => {
+            if (data) {
+              if (data.election_date) setElectionDate(data.election_date);
+              if (data.target_actions) setTargetActions(data.target_actions.toString());
+            }
+            setInitialLoading(false);
+          });
+      } else {
+        setInitialLoading(false);
+      }
+    });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +53,10 @@ export default function Onboarding() {
       setLoading(false);
     }
   };
+
+  if (initialLoading) {
+    return <div style={{ padding: '2rem', textAlign: 'center' }}>読み込み中...</div>;
+  }
 
   return (
     <div className="auth-page-container" style={{ justifyContent: 'center' }}>

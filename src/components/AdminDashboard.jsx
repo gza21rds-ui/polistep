@@ -113,9 +113,14 @@ export default function AdminDashboard() {
         {/* 必勝プログレスバー */}
         <section className="glass-card" style={{ padding: '2.5rem', background: 'linear-gradient(135deg, #1E293B, #0F172A)', color: 'white', border: 'none', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(220,38,38,0.2) 0%, rgba(220,38,38,0) 70%)', borderRadius: '50%' }}></div>
-          <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Target size={28} color="#F87171" /> 必勝目標：{targetActions.toLocaleString()}件の活動
-          </h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Target size={28} color="#F87171" /> 必勝目標：{targetActions.toLocaleString()}件の活動
+            </h3>
+            <Link to="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: '#CBD5E1', textDecoration: 'none', background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.2)' }}>
+              目標・期日を再設定する
+            </Link>
+          </div>
           <p style={{ color: '#94A3B8', marginBottom: '0.5rem', fontSize: '1.1rem' }}>現在 <span style={{ color: '#F87171', fontSize: '1.5rem', fontWeight: 900 }}>{totalActions.toLocaleString()}</span> 件達成！チームの力で塗りつぶせ！</p>
           <p style={{ color: '#E2E8F0', marginBottom: '1.5rem', fontSize: '0.95rem', fontWeight: 'bold' }}>
             投票日まで残り <span style={{ color: '#FCD34D' }}>{daysLeft}</span> 日 （1日の目標: 約{dailyTarget}件）
