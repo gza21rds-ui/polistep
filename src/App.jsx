@@ -48,7 +48,8 @@ function PublicMapApp() {
         lat: p.lat,
         lng: p.lng,
         latest_action_type: p.type,
-        memo: p.memo
+        memo: p.memo,
+        action_count: p.action_count
       }));
       setPins(formatted);
       setActionCount(formatted.length);
