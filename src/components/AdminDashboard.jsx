@@ -198,13 +198,13 @@ export default function AdminDashboard() {
                 <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#991B1B' }}>ポスター貼付</div>
                 <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#B91C1C' }}>{stats.poster}</div>
               </div>
-              <div style={{ background: '#F5F3FF', padding: '1.25rem', borderRadius: '1rem', gridColumn: '1 / -1' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#5B21B6' }}>街頭演説</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#6D28D9' }}>{stats.speech}</div>
+              <div style={{ background: '#F0FDF4', padding: '1.25rem', borderRadius: '1rem' }}>
+                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#166534' }}>ポスター許可</div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#15803D' }}>{stats.poster_ok}</div>
               </div>
-              <div style={{ background: '#E0F2FE', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#075985' }}>駅頭ビラ配り</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0369A1' }}>{stats.station_flyer}</div>
+              <div style={{ background: '#F5F3FF', padding: '1.25rem', borderRadius: '1rem' }}>
+                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#5B21B6' }}>街頭演説</div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#6D28D9' }}>{stats.speech} <span style={{fontSize: '1rem'}}>回</span></div>
               </div>
             </div>
             <button onClick={() => setSnsModalVisible(true)} className="btn-outline" style={{ width: '100%', borderRadius: '12px', display: 'flex', justifyContent: 'center', gap: '0.5rem', padding: '1rem', color: '#0F172A', borderColor: '#CBD5E1' }}>
