@@ -182,8 +182,8 @@ body, html {
 }
 .feature-row.reverse { flex-direction: row-reverse; }
 .feature-row-text { flex: 1 1 360px; }
-.feature-row-visual { flex: 1 1 400px; display: flex; justify-content: center; position: relative; }
-.feature-row-visual img { object-fit: contain; max-height: 400px; width: 100%; max-width: 420px; border-radius: var(--radius-lg); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); border: 1px solid var(--border-light); }
+.feature-row-visual { flex: 1 1 400px; display: flex; justify-content: center; align-items: center; position: relative; }
+.feature-row-visual img { width: 100%; height: auto; max-width: 420px; border-radius: var(--radius-lg); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); border: 1px solid var(--border-light); }
 .feature-num {
   font-size: 4rem; font-weight: 900; color: var(--primary-light); line-height: 1; margin-bottom: 0.5rem;
 }
@@ -299,7 +299,7 @@ body, html {
   .btn-outline { padding: 0.5rem 1rem; font-size: 0.85rem; }
   
   /* Hero セクション */
-  .hero-section { padding: 4rem 1rem 2rem; flex-direction: column; text-align: center; gap: 2rem; }
+  .hero-section { padding: 6rem 1rem 3rem; flex-direction: column; text-align: center; gap: 2rem; min-height: auto; }
   .hero-title { font-size: 2rem; }
   .hero-subtitle { font-size: 1rem; margin-bottom: 2rem; }
   .hero-cta-group { justify-content: center; width: 100%; flex-direction: column; }
