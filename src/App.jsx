@@ -140,7 +140,6 @@ function PublicMapApp() {
     if (error) { alert('記録に失敗しました。'); return; }
 
     setPins(prev => [...prev, { id: data.id, lat: data.lat, lng: data.lng, latest_action_type: data.type, action_count: 1 }]);
-    pinIdToUse = data.id;
     setActionCount(prev => prev + 1);
 
     setLastAction({ id: data.id, lat: selectedLocation.lat, lng: selectedLocation.lng, isUpdate: false });
