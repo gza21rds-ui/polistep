@@ -334,34 +334,37 @@ body, html {
   .admin-header-controls { 
     gap: 0.5rem; 
     flex-wrap: nowrap;
-    width: 100%;
-    justify-content: center;
+    width: auto;
   }
   .btn-header-action, .btn-header-outline {
-    padding: 0.6rem 0.75rem;
-    font-size: 0.85rem;
-    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    gap: 0.25rem;
     white-space: nowrap;
-    flex: 1;
+    border-radius: 8px;
+    flex: none;
   }
   .btn-header-action svg, .btn-header-outline svg {
-    width: 16px; height: 16px;
+    width: 14px; height: 14px;
   }
   .btn-huge-action {
-    padding: 1rem 1.5rem;
-    font-size: 1.1rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
     gap: 0.5rem;
+    border-radius: 12px;
   }
   
-  /* 管理画面用ヘッダー（モバイルで2段表示にしてはみ出し防止） */
+  /* 管理画面用ヘッダー（モバイルでスマートに1段表示） */
   .admin-glass-header {
-    flex-direction: column;
-    height: auto;
-    gap: 0.5rem;
-    padding-bottom: 0.75rem;
+    flex-direction: row;
+    height: 60px;
+    gap: 0;
+    padding: 0 1rem;
+    align-items: center;
+    justify-content: space-between;
   }
   .admin-main-content {
-    padding: 7.5rem 1rem 2rem !important;
+    padding: 5rem 1rem 2rem !important;
   }
 }
 
@@ -396,10 +399,10 @@ body, html {
   box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
 }
 .btn-huge-action {
-  padding: 1.5rem 3rem;
-  font-size: 1.25rem;
-  border-radius: 9999px;
-  font-weight: 900;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -407,16 +410,17 @@ body, html {
   width: 100%;
   max-width: 400px;
   white-space: nowrap;
+  box-shadow: 0 4px 15px -5px rgba(220, 38, 38, 0.4);
 }
 .admin-header-controls {
   display: flex;
   gap: 1rem;
 }
 .btn-header-action {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 9999px;
-  font-weight: bold;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -424,9 +428,9 @@ body, html {
   white-space: nowrap;
 }
 .btn-header-outline {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 9999px;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -436,9 +440,10 @@ body, html {
   color: var(--text-main);
   cursor: pointer;
   white-space: nowrap;
+  font-weight: 600;
 }
 .admin-main-content {
-  padding: 6rem 2rem 3rem;
+  padding: 5rem 2rem 3rem;
 }
 
 /* ACTION BOTTOM SHEET */
