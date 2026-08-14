@@ -94,7 +94,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="page-container" style={{ padding: 0 }}>
-      <header className="glass-header">
+      <header className="glass-header admin-glass-header">
         <h2 className="logo-text" style={{ fontSize: '1.5rem' }}>PoliStep Dashboard</h2>
         <div className="admin-header-controls">
           <Link to={`/m/${user.team_id}`} className="btn-fire btn-header-action" style={{ color: 'white', textDecoration: 'none' }}>
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      <main style={{ padding: '3rem 2rem', maxWidth: '1100px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <main className="admin-main-content" style={{ maxWidth: '1100px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         
         {/* Header Section (Candidate Name) */}
         <div style={{ textAlign: 'center', marginBottom: '1rem', animation: 'fadeInUp 0.6s ease-out' }}>

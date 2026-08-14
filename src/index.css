@@ -332,14 +332,17 @@ body, html {
   
   /* レスポンシブボタン */
   .admin-header-controls { 
-    gap: 0.4rem; 
+    gap: 0.5rem; 
     flex-wrap: nowrap;
+    width: 100%;
+    justify-content: center;
   }
   .btn-header-action, .btn-header-outline {
-    padding: 0.5rem 0.6rem;
-    font-size: 0.75rem;
-    gap: 0.25rem;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+    gap: 0.4rem;
     white-space: nowrap;
+    flex: 1;
   }
   .btn-header-action svg, .btn-header-outline svg {
     width: 16px; height: 16px;
@@ -348,6 +351,17 @@ body, html {
     padding: 1rem 1.5rem;
     font-size: 1.1rem;
     gap: 0.5rem;
+  }
+  
+  /* 管理画面用ヘッダー（モバイルで2段表示にしてはみ出し防止） */
+  .admin-glass-header {
+    flex-direction: column;
+    height: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.75rem;
+  }
+  .admin-main-content {
+    padding: 7.5rem 1rem 2rem !important;
   }
 }
 
@@ -422,6 +436,9 @@ body, html {
   color: var(--text-main);
   cursor: pointer;
   white-space: nowrap;
+}
+.admin-main-content {
+  padding: 6rem 2rem 3rem;
 }
 
 /* ACTION BOTTOM SHEET */
