@@ -125,7 +125,10 @@ export default function AdminDashboard() {
               目標・期日を再設定する
             </Link>
           </div>
-          <p style={{ color: '#94A3B8', marginBottom: '0.5rem', fontSize: '1.1rem' }}>目標 {user.target_visits?.toLocaleString() || '---'} 件中、現在 <span style={{ color: '#2563EB', fontSize: '1.5rem', fontWeight: 900 }}>{stats.talked.toLocaleString()}</span> 件達成！</p>
+          <p style={{ color: '#94A3B8', marginBottom: '0.2rem', fontSize: '1.1rem' }}>目標 {user.target_visits?.toLocaleString() || '---'} 件中、現在 <span style={{ color: '#2563EB', fontSize: '1.5rem', fontWeight: 900 }}>{stats.talked.toLocaleString()}</span> 件達成！</p>
+          <p style={{ color: '#CBD5E1', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+            （残り {daysLeft} 日 / 目標達成には1日あたり約 <strong style={{ color: 'white' }}>{Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft) > 0 ? Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft) : 0}</strong> 件必要）
+          </p>
           <div className="progress-container" style={{ height: '2rem', background: '#334155' }}>
             <div className="progress-fill" style={{ width: `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '1rem', background: '#2563EB' }}>
               {((stats.talked / (user.target_visits || 1)) * 100).toFixed(1)}%
@@ -141,7 +144,10 @@ export default function AdminDashboard() {
               <Target size={28} color="#F59E0B" /> ビラ・チラシ配布の進捗
             </h3>
           </div>
-          <p style={{ color: '#94A3B8', marginBottom: '0.5rem', fontSize: '1.1rem' }}>目標 {user.target_flyers?.toLocaleString() || '---'} 枚中、現在 <span style={{ color: '#F59E0B', fontSize: '1.5rem', fontWeight: 900 }}>{(stats.absent + stats.flyer + (stats.flyerCount || 0)).toLocaleString()}</span> 枚達成！</p>
+          <p style={{ color: '#94A3B8', marginBottom: '0.2rem', fontSize: '1.1rem' }}>目標 {user.target_flyers?.toLocaleString() || '---'} 枚中、現在 <span style={{ color: '#F59E0B', fontSize: '1.5rem', fontWeight: 900 }}>{(stats.absent + stats.flyer + (stats.flyerCount || 0)).toLocaleString()}</span> 枚達成！</p>
+          <p style={{ color: '#CBD5E1', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+            （残り {daysLeft} 日 / 目標達成には1日あたり約 <strong style={{ color: 'white' }}>{Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft) > 0 ? Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft) : 0}</strong> 枚必要）
+          </p>
           <div className="progress-container" style={{ height: '2rem', background: '#334155' }}>
             <div className="progress-fill" style={{ width: `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '1rem', background: '#F59E0B' }}>
               {(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100).toFixed(1)}%
@@ -198,9 +204,12 @@ export default function AdminDashboard() {
               <Share2 size={24} color="var(--color-primary)" />
               <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-secondary)' }}>スタッフ共有リンク</h3>
             </div>
-            <p style={{ color: '#475569', marginBottom: '1.5rem', fontSize: '1rem', lineHeight: 1.7 }}>
+            <p style={{ color: '#475569', marginBottom: '1rem', fontSize: '1rem', lineHeight: 1.7 }}>
               以下のURLをボランティアスタッフにLINEやメールで共有するだけ！<strong>登録不要</strong>ですぐにマップで活動を記録できます。
             </p>
+            <div style={{ background: '#FFFBEB', padding: '0.75rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', marginBottom: '1.5rem', fontSize: '0.85rem', color: '#92400E' }}>
+              <strong>※ご注意：</strong>スタッフ共有リンクからアクセスした画面では、この「管理者ダッシュボード（進捗グラフ等）」は閲覧できません。記録専用のマップ画面が開きます。
+            </div>
             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexDirection: 'column' }}>
               <div style={{ width: '100%', padding: '0.875rem 1rem', background: '#F1F5F9', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-light)', fontSize: '0.85rem', color: '#334155', wordBreak: 'break-all', fontFamily: 'monospace', lineHeight: 1.6 }}>
                 {getShareUrl()}

@@ -13,7 +13,7 @@ export default function LandingPage() {
           <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
           PoliStep
         </div>
-        <Link to="/auth" className="btn-outline">ログイン</Link>
+        <Link to="/auth?mode=login" className="btn-outline">ログイン</Link>
       </header>
 
       {/* ===== Hero (Japanese Volunteer Style) ===== */}
@@ -28,15 +28,12 @@ export default function LandingPage() {
           <p className="hero-subtitle">
             終わりの見えないポスター貼りや戸別訪問。<br/>
             タップ一つであなたの活動をマップとグラフに変換し、<br/>
-            支援者の心を動かす「努力の証明」を生み出します。
+            自身のモチベーション維持と、チームへの日報共有を圧倒的に簡単にします。
           </p>
           <div className="hero-cta-group">
-            <Link to="/auth" className="btn-primary" style={{ fontSize: '1.1rem', padding: '1rem 2rem' }}>
-              【完全無料】活動記録を始める <ArrowRight size={18} />
+            <Link to="/auth?mode=register" className="btn-primary" style={{ fontSize: '1.1rem', padding: '1rem 2rem' }}>
+              【完全無料】アカウント登録して始める <ArrowRight size={18} />
             </Link>
-            <a href="https://poliside.net" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ textDecoration: 'none' }}>
-              PoliSideに相談する
-            </a>
           </div>
         </div>
         <div className="hero-visual-container">
@@ -81,7 +78,7 @@ export default function LandingPage() {
             <img src="/story4_success.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-dialogue" style={{ fontSize: '1.25rem', textAlign: 'center', background: 'transparent', border: 'none' }}>迷いなく、やり切った。</div>
-              <div className="comic-narration" style={{ textAlign: 'center' }}>明確な計画のもと蓄積された膨大な記録。<br/>その「努力の証明」を発信した時、自然と支援の輪が広がっていきます。</div>
+              <div className="comic-narration" style={{ textAlign: 'center' }}>明確な計画のもと蓄積された膨大な記録。<br/>身内のLINEグループ等で「今日はこれだけ回った！」と日報共有し、モチベーションを高め合えます。</div>
             </div>
           </div>
         </div>
@@ -126,9 +123,9 @@ export default function LandingPage() {
         <div className="feature-row">
           <div className="feature-row-text">
             <div className="feature-num">03</div>
-            <h3 className="feature-row-title">活動のSNS用画像ジェネレーター</h3>
+            <h3 className="feature-row-title">チーム・身内向けの日報画像自動生成</h3>
             <p className="section-desc">
-              1日の終わりに、今日の活動実績（回った地域や挨拶した件数）が自動合成された縦型の画像を作成。そのままSNSへ投稿して、支持者へ努力をスマートにアピールできます。
+              1日の終わりに、今日の活動実績（回った地域や挨拶した件数）が自動合成された縦型の画像を作成。そのまま支援チームや身内のLINEグループに共有し、毎日の進捗報告とモチベーション維持に活用できます。
             </p>
           </div>
           <div className="feature-row-visual">
@@ -140,9 +137,9 @@ export default function LandingPage() {
         <div className="feature-row reverse">
           <div className="feature-row-text">
             <div className="feature-num">04</div>
-            <h3 className="feature-row-title">リアルタイムな共有</h3>
+            <h3 className="feature-row-title">チームメンバーとの分担・シェア</h3>
             <p className="section-desc">
-              支援者やスタッフと同じマップを共有。誰がどこを回ったのかがリアルタイムで反映されるため、重複訪問を防ぎ、チーム全体での戦略的なドブ板活動を実現します。
+              支援者やスタッフと同じマップを共有し、複数人で手分けして作業が可能。誰がどこを回ったのかがリアルタイムで反映されるため、重複訪問を防ぎ、チーム全体での効率的な活動管理を実現します。
             </p>
           </div>
           <div className="feature-row-visual">
@@ -188,6 +185,9 @@ export default function LandingPage() {
           <Link to="/privacy" className="footer-link">プライバシーポリシー</Link>
           <Link to="/legal" className="footer-link">特定商取引法に基づく表記</Link>
           <Link to="/auth" className="footer-link">ログイン / 新規登録</Link>
+        </div>
+        <div style={{ textAlign: 'center', color: '#64748B', fontSize: '0.85rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+          ※現在PoliStepは「完全無料のお試し期間（β版）」として提供しております。<br/>万が一の不具合によるデータ消失等について完全な保証はできかねる場合がございます。あらかじめご了承ください。
         </div>
         <div className="footer-copy">
           &copy; {new Date().getFullYear()} PoliStep. All rights reserved.

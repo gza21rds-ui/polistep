@@ -5,7 +5,10 @@ import { supabase } from '../lib/supabase';
 
 export default function AuthScreen() {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    return searchParams.get('mode') !== 'register';
+  });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
