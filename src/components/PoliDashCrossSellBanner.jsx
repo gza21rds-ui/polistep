@@ -16,21 +16,21 @@ export default function PoliDashCrossSellBanner({ onClose }) {
   return (
     <div style={{
       position: 'fixed',
-      bottom: '100px', // above the bottom sheet or nav
+      top: 'max(4.5rem, calc(env(safe-area-inset-top) + 3rem))',
       left: '50%',
       transform: 'translateX(-50%)',
       background: '#F0F9FF',
       border: '2px solid #BAE6FD',
       borderRadius: '12px',
       padding: '1rem',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-      zIndex: 100,
+      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+      zIndex: 9999,
       width: '90%',
       maxWidth: '400px',
       display: 'flex',
       flexDirection: 'column',
       gap: '0.5rem',
-      animation: 'slideUp 0.3s ease-out'
+      animation: 'slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ flex: 1 }}>

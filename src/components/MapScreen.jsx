@@ -76,18 +76,12 @@ export default function MapScreen({ pins, selectedLocation, onMapClick }) {
             key={pin.id} 
             position={[pin.lat, pin.lng]} 
             icon={getIcon(pin)}
-          >
-            <Popup>
-              {pin.latest_action_type === 'talked' ? 'ご挨拶できた' :
-               pin.latest_action_type === 'absent' ? '留守' :
-               pin.latest_action_type === 'flyer' ? 'チラシ' :
-               pin.latest_action_type === 'poster' ? 'ポスター貼付' :
-               pin.latest_action_type === 'poster_ok' ? 'ポスター許可' :
-               pin.latest_action_type === 'speech' ? '街頭演説' :
-               pin.latest_action_type === 'station_flyer' ? '駅頭ビラ配り' :
-               pin.latest_action_type}
-            </Popup>
-          </Marker>
+            eventHandlers={{
+              click: () => {
+                onMapClick({ lat: pin.lat, lng: pin.lng });
+              }
+            }}
+          />
         ))}
         {selectedLocation && (
           <Marker position={[selectedLocation.lat, selectedLocation.lng]} icon={getSelectedIcon()} />
