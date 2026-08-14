@@ -9,8 +9,8 @@ export default function AdminDashboard() {
   const [user, setUser] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [pins, setPins] = useState([]);
-  const [stats, setStats] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0 });
-  const [statsToday, setStatsToday] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0 });
+  const [stats, setStats] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 });
+  const [statsToday, setStatsToday] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 });
   const [copied, setCopied] = useState(false);
   const [snsModalVisible, setSnsModalVisible] = useState(false);
 
@@ -33,8 +33,8 @@ export default function AdminDashboard() {
             .then(({ data: pinsData }) => {
               if (pinsData) {
                 setPins(pinsData);
-                const newStats = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0 };
-                const newStatsToday = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0 };
+                const newStats = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 };
+                const newStatsToday = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 };
                 
                 // JSTの今日の日付文字列を取得 (YYYY-MM-DD)
                 const now = new Date();
@@ -221,6 +221,10 @@ export default function AdminDashboard() {
               <div style={{ background: '#F5F3FF', padding: '1.25rem', borderRadius: '1rem' }}>
                 <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#5B21B6' }}>街頭演説</div>
                 <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#6D28D9' }}>{stats.speech} <span style={{fontSize: '1rem'}}>回</span></div>
+              </div>
+              <div style={{ background: '#ECFDF5', padding: '1.25rem', borderRadius: '1rem' }}>
+                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#065F46' }}>辻立ち</div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#059669' }}>{stats.tsujidachi} <span style={{fontSize: '1rem'}}>時間</span></div>
               </div>
             </div>
             <button onClick={() => setSnsModalVisible(true)} className="btn-outline" style={{ width: '100%', borderRadius: '12px', display: 'flex', justifyContent: 'center', gap: '0.5rem', padding: '1rem', color: '#0F172A', borderColor: '#CBD5E1' }}>

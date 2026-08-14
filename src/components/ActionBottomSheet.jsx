@@ -27,6 +27,9 @@ export default function ActionBottomSheet({ onAction, onClose }) {
         <button className="action-btn btn-station-flyer" onClick={() => onAction('station_flyer')}>
           駅頭ビラ配り
         </button>
+        <button className="action-btn btn-tsujidachi" onClick={() => onAction('tsujidachi')}>
+          辻立ち（交差点等）
+        </button>
       </div>
     </div>
   );

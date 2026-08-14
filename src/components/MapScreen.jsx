@@ -12,7 +12,8 @@ const getIcon = (pin) => {
     poster: '#DC2626',     // ポスター貼付
     poster_ok: '#166534',  // ポスター許可
     speech: '#7C3AED',     // 街頭演説
-    station_flyer: '#0284C7' // 駅頭ビラ
+    station_flyer: '#0284C7', // 駅頭ビラ
+    tsujidachi: '#059669'  // 辻立ち
   };
   const color = colors[actionType] || '#888';
   
@@ -20,6 +21,10 @@ const getIcon = (pin) => {
   if (actionType === 'station_flyer') {
     const count = pin.action_count || (pin.memo ? pin.memo.replace(/[^0-9]/g, '') : '');
     if (count) label = `${count}枚`;
+  } else if (actionType === 'tsujidachi') {
+    const count = pin.action_count || (pin.memo ? pin.memo.replace(/[^0-9]/g, '') : '');
+    if (count) label = `🧍‍♂️ ${count}時間`;
+    else label = '🧍‍♂️ 辻立ち';
   } else if (actionType === 'speech') {
     label = '🎤 演説';
   }
