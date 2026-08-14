@@ -332,7 +332,7 @@ body, html {
   /* Auth 画面 */
   .auth-form-wrapper { padding: 2rem 1.5rem; box-shadow: none; border: none; border-radius: 0; background: transparent; }
   .auth-form-side { padding: 0; align-items: flex-start; padding-top: 4rem; }
-  .auth-back-btn { top: 1rem; right: 1rem; }
+  .auth-back-btn { top: max(1rem, env(safe-area-inset-top)); right: 1rem; z-index: 50; }
 
   /* ダッシュボード系 */
   main { padding: 2rem 1rem !important; }

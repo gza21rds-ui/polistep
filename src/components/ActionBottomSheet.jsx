@@ -1,8 +1,16 @@
 import React from 'react';
 
-export default function ActionBottomSheet({ onAction }) {
+export default function ActionBottomSheet({ onAction, onClose }) {
   return (
     <div className="bottom-sheet">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: '#1E293B' }}>活動を記録</h3>
+        {onClose && (
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5rem', lineHeight: 1, padding: '0.5rem', margin: '-0.5rem', cursor: 'pointer', color: '#64748B' }}>
+            &times;
+          </button>
+        )}
+      </div>
       <div className="action-grid">
         <button className="action-btn btn-absent" onClick={() => onAction('absent')}>
           留守（チラシ投函）

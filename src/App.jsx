@@ -205,7 +205,7 @@ function PublicMapApp() {
   return (
     <div className="app-container">
       {/* 戻るボタン */}
-      <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 1000 }}>
+      <div style={{ position: 'absolute', top: 'max(1rem, env(safe-area-inset-top))', left: '1rem', zIndex: 1000 }}>
         <button onClick={() => window.history.back()} style={{ padding: '0.75rem 1rem', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 'bold', color: '#1E293B' }}>
           ← 戻る
         </button>
@@ -246,7 +246,7 @@ function PublicMapApp() {
           </div>
         </div>
       ) : (
-        <ActionBottomSheet onAction={handleAction} />
+        <ActionBottomSheet onAction={handleAction} onClose={() => setSelectedLocation(null)} />
       )}
       
       <UndoSnackbar visible={undoVisible && !memoVisible} onUndo={handleUndo} onClose={() => setUndoVisible(false)} />
