@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Share2, Map, Activity, Target, LogOut, Copy, Check } from 'lucide-react';
+import { Share2, Map, Activity, Target, LogOut, Copy, Check, Search } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import SnsShareGenerator from './SnsShareGenerator';
 
@@ -13,6 +13,7 @@ export default function AdminDashboard() {
   const [statsToday, setStatsToday] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 });
   const [copied, setCopied] = useState(false);
   const [snsModalVisible, setSnsModalVisible] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -107,6 +108,30 @@ export default function AdminDashboard() {
   if (dailyTarget < 0) dailyTarget = 0;
   
   const progressPercent = Math.min(100, (totalActions / targetActions) * 100);
+
+  const talkedLogs = pins
+    .filter(pin => pin.type === 'talked' && pin.memo)
+    .map(pin => {
+      let name = '';
+      let content = pin.memo;
+      if (pin.memo.startsWith('{')) {
+        try {
+          const obj = JSON.parse(pin.memo);
+          if (obj.name !== undefined) {
+            name = obj.name;
+            content = obj.content;
+          }
+        } catch(e) {}
+      }
+      return { ...pin, parsedName: name, parsedContent: content };
+    })
+    .filter(pin => {
+      if (!searchText.trim()) return true;
+      const q = searchText.toLowerCase();
+      return (pin.parsedName && pin.parsedName.toLowerCase().includes(q)) || 
+             (pin.parsedContent && pin.parsedContent.toLowerCase().includes(q));
+    })
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   return (
     <div className="page-container" style={{ padding: 0 }}>
@@ -255,6 +280,51 @@ export default function AdminDashboard() {
               >
                 {copied ? <><Check size={20} /> コピーしました！</> : <><Copy size={20} /> リンクをコピー</>}
               </button>
+            </div>
+          </section>
+
+          {/* ご挨拶・対話ログ検索 */}
+          <section className="glass-card" style={{ padding: '2rem', gridColumn: '1 / -1' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+              <Search size={24} color="var(--color-primary)" />
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-secondary)' }}>ご挨拶・対話ログ検索</h3>
+            </div>
+            
+            <div style={{ marginBottom: '1.5rem' }}>
+              <input 
+                type="text" 
+                placeholder="お名前や会話内容で検索..." 
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1.1rem', outline: 'none' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '500px', overflowY: 'auto', paddingRight: '0.5rem' }}>
+              {talkedLogs.length === 0 ? (
+                <p style={{ color: '#64748B', textAlign: 'center', padding: '2rem 0' }}>該当する記録がありません。</p>
+              ) : (
+                talkedLogs.map(log => (
+                  <div key={log.id} style={{ background: '#F8FAFC', padding: '1.25rem', borderRadius: '12px', border: '1px solid #E2E8F0', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: 'bold', color: '#1E293B', fontSize: '1.15rem' }}>
+                        {log.parsedName ? log.parsedName : 'お名前なし'}
+                      </span>
+                      <span style={{ fontSize: '0.85rem', color: '#64748B' }}>
+                        {new Date(log.created_at).toLocaleString('ja-JP')}
+                      </span>
+                    </div>
+                    <p style={{ margin: 0, color: '#334155', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                      {log.parsedContent}
+                    </p>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
+                      <Link to={`/m/${user.team_id}?lat=${log.lat}&lng=${log.lng}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.9rem', color: '#2563EB', textDecoration: 'none', background: '#EFF6FF', padding: '0.5rem 1rem', borderRadius: '8px', fontWeight: 600 }}>
+                        <Map size={16} /> マップで見る
+                      </Link>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </section>
         </div>

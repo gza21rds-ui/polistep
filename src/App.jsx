@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import MapScreen from './components/MapScreen';
 import ActionBottomSheet from './components/ActionBottomSheet';
 import UndoSnackbar from './components/UndoSnackbar';
@@ -36,9 +36,15 @@ function PublicMapApp() {
   
   // Memo Feature State
   const [memoVisible, setMemoVisible] = useState(false);
+  const [memoName, setMemoName] = useState('');
   const [memoText, setMemoText] = useState('');
   const [activePinIdForMemo, setActivePinIdForMemo] = useState(null);
   const [activeActionTypeForMemo, setActiveActionTypeForMemo] = useState(null);
+
+  const [searchParams] = useSearchParams();
+  const queryLat = searchParams.get('lat');
+  const queryLng = searchParams.get('lng');
+  const initialCenter = queryLat && queryLng ? [parseFloat(queryLat), parseFloat(queryLng)] : null;
 
   const fetchPins = async (tid) => {
     const { data, error } = await supabase.from('pins').select('*').eq('team_id', tid);
@@ -108,7 +114,22 @@ function PublicMapApp() {
         if (actionType === 'talked') {
            setActivePinIdForMemo(existingPin.id);
            setActiveActionTypeForMemo(actionType);
-           setMemoText(newMemo || '');
+           
+           let parsedName = '';
+           let parsedContent = newMemo || '';
+           if (newMemo && newMemo.startsWith('{')) {
+             try {
+               const obj = JSON.parse(newMemo);
+               if (obj.name !== undefined) {
+                 parsedName = obj.name;
+                 parsedContent = obj.content;
+               }
+             } catch (e) {
+               // ignore
+             }
+           }
+           setMemoName(parsedName);
+           setMemoText(parsedContent);
            setMemoVisible(true);
         } else {
            setUndoVisible(true);
@@ -158,6 +179,7 @@ function PublicMapApp() {
     if (['talked', 'station_flyer', 'tsujidachi'].includes(actionType)) {
       setActivePinIdForMemo(data.id);
       setActiveActionTypeForMemo(actionType);
+      setMemoName('');
       setMemoText('');
       setMemoVisible(true);
     } else {
@@ -190,11 +212,18 @@ function PublicMapApp() {
   };
 
   const handleSaveMemo = async () => {
-    if (activePinIdForMemo && memoText.trim()) {
+    if (activePinIdForMemo && (memoText.trim() || memoName.trim())) {
       let finalMemo = memoText.trim();
       let updatePayload = { memo: finalMemo };
       
-      if (['station_flyer', 'tsujidachi'].includes(activeActionTypeForMemo) && !isNaN(finalMemo)) {
+      if (activeActionTypeForMemo === 'talked') {
+        const obj = {
+          name: memoName.trim(),
+          content: finalMemo
+        };
+        finalMemo = JSON.stringify(obj);
+        updatePayload = { memo: finalMemo };
+      } else if (['station_flyer', 'tsujidachi'].includes(activeActionTypeForMemo) && !isNaN(finalMemo)) {
         const addedVal = parseInt(finalMemo, 10);
         const prevTotal = (lastAction && lastAction.isUpdate) ? (lastAction.previousCount || 0) : 0;
         const newTotal = prevTotal + addedVal;
@@ -246,11 +275,13 @@ function PublicMapApp() {
   let memoTitle = '💬 メモを追加';
   let memoPlaceholder = '入力してください...';
   let memoIsNumber = false;
+  let memoIsTalked = false;
   let unitText = '';
 
   if (activeActionTypeForMemo === 'talked') {
     memoTitle = '💬 ご挨拶メモ（任意）';
     memoPlaceholder = '有権者の要望などを入力してください...';
+    memoIsTalked = true;
   } else if (activeActionTypeForMemo === 'station_flyer') {
     memoTitle = (lastAction && lastAction.isUpdate) ? '📄 配布枚数を追加記録' : '📄 配布枚数を記録';
     memoPlaceholder = '例: 300';
@@ -273,7 +304,12 @@ function PublicMapApp() {
       </div>
 
       <PoliDashCrossSellBanner visible={crossSellVisible} onClose={() => setCrossSellVisible(false)} />
-      <MapScreen pins={pins} selectedLocation={selectedLocation} onMapClick={handleMapClick} />
+        <MapScreen 
+          pins={pins} 
+          selectedLocation={selectedLocation} 
+          onMapClick={handleMapClick}
+          initialCenter={initialCenter}
+        />
       
       {memoVisible ? (
         <div className="bottom-sheet" style={{ zIndex: 2000, boxShadow: '0 -10px 30px rgba(0,0,0,0.2)' }}>
@@ -288,6 +324,22 @@ function PublicMapApp() {
                 style={{ flex: 1, padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1.2rem', textAlign: 'right' }}
               />
               <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#475569' }}>{unitText}</span>
+            </div>
+          ) : memoIsTalked ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <input
+                type="text"
+                placeholder="お名前（任意）"
+                value={memoName}
+                onChange={(e) => setMemoName(e.target.value)}
+                style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1.1rem' }}
+              />
+              <textarea
+                placeholder={memoPlaceholder}
+                value={memoText}
+                onChange={(e) => setMemoText(e.target.value)}
+                style={{ width: '100%', minHeight: '120px', padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1.1rem', resize: 'vertical' }}
+              />
             </div>
           ) : (
             <textarea

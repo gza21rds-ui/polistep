@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import L from 'leaflet';
 
 // Create custom icons based on action type
@@ -65,9 +65,18 @@ function MapEventHandler({ onMapClick }) {
   return null;
 }
 
-export default function MapScreen({ pins, selectedLocation, onMapClick }) {
-  // Default center (e.g., Tokyo)
-  const center = [35.6895, 139.6917];
+function MapPanHandler({ center }) {
+  const map = useMap();
+  React.useEffect(() => {
+    if (center) {
+      map.setView(center, 18);
+    }
+  }, [center, map]);
+  return null;
+}
+
+export default function MapScreen({ pins, selectedLocation, onMapClick, initialCenter }) {
+  const center = initialCenter || [35.6895, 139.6917];
 
   return (
     <div className="map-section">
@@ -76,6 +85,7 @@ export default function MapScreen({ pins, selectedLocation, onMapClick }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <MapPanHandler center={initialCenter} />
         <MapEventHandler onMapClick={onMapClick} />
         {pins.map((pin) => (
           <Marker 
