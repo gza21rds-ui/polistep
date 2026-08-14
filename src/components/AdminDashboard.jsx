@@ -96,11 +96,11 @@ export default function AdminDashboard() {
     <div className="page-container" style={{ padding: 0 }}>
       <header className="glass-header">
         <h2 className="logo-text" style={{ fontSize: '1.5rem' }}>PoliStep Dashboard</h2>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <Link to={`/m/${user.team_id}`} className="btn-fire" style={{ padding: '0.75rem 1.5rem', fontSize: '1rem', color: 'white', borderRadius: '9999px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold' }}>
+        <div className="admin-header-controls">
+          <Link to={`/m/${user.team_id}`} className="btn-fire btn-header-action" style={{ color: 'white', textDecoration: 'none' }}>
             <Map size={20} /> マップを開く
           </Link>
-          <button onClick={handleLogout} className="btn-outline" style={{ padding: '0.75rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <button onClick={handleLogout} className="btn-header-outline">
             <LogOut size={20} /> ログアウト
           </button>
         </div>
@@ -237,7 +237,7 @@ export default function AdminDashboard() {
 
         {/* 出撃ボタン */}
         <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center', animation: 'fadeInUp 0.8s 0.2s forwards' }}>
-          <Link to={`/m/${user.team_id}`} className="btn-fire" style={{ padding: '1.5rem 3rem', fontSize: '1.25rem', borderRadius: '9999px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 900, color: 'white', width: '100%', justifyContent: 'center', maxWidth: '400px', boxShadow: '0 10px 25px -5px rgba(220, 38, 38, 0.4)' }}>
+          <Link to={`/m/${user.team_id}`} className="btn-fire btn-huge-action" style={{ color: 'white', textDecoration: 'none', boxShadow: '0 10px 25px -5px rgba(220, 38, 38, 0.4)' }}>
             <Map size={24} /> マップを開いて自ら活動する
           </Link>
         </div>
