@@ -130,7 +130,7 @@ export default function AdminDashboard() {
               <span style={{ fontSize: '2.5rem', fontWeight: 900, color: '#1D4ED8', lineHeight: 1 }}>{stats.talked.toLocaleString()}</span>
               <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 600 }}>/ {user.target_visits?.toLocaleString() || '---'} 件</span>
             </div>
-            <p style={{ color: '#64748B', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: 500 }}>
+            <p style={{ color: '#64748B', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: 500, wordBreak: 'keep-all' }}>
               残り {daysLeft} 日（1日あたり目標：<strong style={{ color: '#DC2626' }}>{Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft) > 0 ? Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft) : 0}</strong> 件）
             </p>
             <div className="progress-container" style={{ height: '1.5rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
@@ -154,7 +154,7 @@ export default function AdminDashboard() {
               <span style={{ fontSize: '2.5rem', fontWeight: 900, color: '#D97706', lineHeight: 1 }}>{(stats.absent + stats.flyer + (stats.flyerCount || 0)).toLocaleString()}</span>
               <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 600 }}>/ {user.target_flyers?.toLocaleString() || '---'} 枚</span>
             </div>
-            <p style={{ color: '#64748B', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: 500 }}>
+            <p style={{ color: '#64748B', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: 500, wordBreak: 'keep-all' }}>
               残り {daysLeft} 日（1日あたり目標：<strong style={{ color: '#DC2626' }}>{Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft) > 0 ? Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft) : 0}</strong> 枚）
             </p>
             <div className="progress-container" style={{ height: '1.5rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
