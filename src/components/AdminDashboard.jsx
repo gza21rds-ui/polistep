@@ -136,7 +136,7 @@ export default function AdminDashboard() {
               残り {daysLeft} 日（1日あたり目標：<strong style={{ color: '#DC2626' }}>{Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft) > 0 ? Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft) : 0}</strong> 件）
             </p>
             <div className="progress-container" style={{ height: '1.75rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.06)' }}>
-              <div className="progress-fill" style={{ width: `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '0.85rem', background: 'linear-gradient(90deg, #60A5FA, #2563EB)', display: 'flex', alignItems: 'center', padding: '0 0.75rem', fontWeight: 'bold', color: 'white', textShadow: '0 1px 2px rgba(0,0,0,0.2)', boxShadow: '0 2px 10px rgba(37,99,235,0.4)' }}>
+              <div className="progress-fill" style={{ '--target-width': `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '0.85rem', background: 'linear-gradient(90deg, #60A5FA, #2563EB)', display: 'flex', alignItems: 'center', padding: '0 0.75rem', fontWeight: 'bold', color: 'white', textShadow: '0 1px 2px rgba(0,0,0,0.2)', boxShadow: '0 2px 10px rgba(37,99,235,0.4)', animationDelay: '0.1s' }}>
                 {((stats.talked / (user.target_visits || 1)) * 100).toFixed(1)}%
               </div>
             </div>
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
               残り {daysLeft} 日（1日あたり目標：<strong style={{ color: '#DC2626' }}>{Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft) > 0 ? Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft) : 0}</strong> 枚）
             </p>
             <div className="progress-container" style={{ height: '1.75rem', background: '#FDE68A', borderRadius: '9999px', overflow: 'hidden', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.06)' }}>
-              <div className="progress-fill" style={{ width: `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '0.85rem', background: 'linear-gradient(90deg, #FBBF24, #EA580C)', display: 'flex', alignItems: 'center', padding: '0 0.75rem', fontWeight: 'bold', color: 'white', textShadow: '0 1px 2px rgba(0,0,0,0.2)', boxShadow: '0 2px 10px rgba(245,158,11,0.4)' }}>
+              <div className="progress-fill" style={{ '--target-width': `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '0.85rem', background: 'linear-gradient(90deg, #FBBF24, #EA580C)', display: 'flex', alignItems: 'center', padding: '0 0.75rem', fontWeight: 'bold', color: 'white', textShadow: '0 1px 2px rgba(0,0,0,0.2)', boxShadow: '0 2px 10px rgba(245,158,11,0.4)', animationDelay: '0.3s' }}>
                 {(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100).toFixed(1)}%
               </div>
             </div>
