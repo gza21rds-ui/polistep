@@ -41,6 +41,9 @@ function PublicMapApp() {
   const [memoText, setMemoText] = useState('');
   const [activePinIdForMemo, setActivePinIdForMemo] = useState(null);
   const [activeActionTypeForMemo, setActiveActionTypeForMemo] = useState(null);
+  
+  const [mapCenter, setMapCenter] = useState(null);
+  const [isSheetExpanded, setIsSheetExpanded] = useState(true);
 
   const [searchParams] = useSearchParams();
   const queryLat = searchParams.get('lat');
@@ -98,12 +101,17 @@ function PublicMapApp() {
       if (['speech', 'station_flyer', 'tsujidachi'].includes(type)) {
         // 絵文字ピンの場合はメニューを挟まずに即座に実行
         handleAction(type, latlng, pin);
-        return; // ここで早期リターンすることでActionBottomSheetの表示を防ぐ
+        return; // ここで早期リターンすることでActionBottomSheetの展開を防ぐ
       }
     }
 
     setSelectedLocation(latlng);
     setSelectedPin(pin);
+    setIsSheetExpanded(true);
+  };
+
+  const handleMapMove = (center) => {
+    setMapCenter(center);
   };
 
   const handleDeletePin = async (pinId) => {
@@ -116,10 +124,14 @@ function PublicMapApp() {
   };
 
   const handleAction = async (actionType, specificLocation = null, specificPin = null) => {
-    const loc = specificLocation || selectedLocation;
+    // もし specificLocation や selectedLocation が無くても、mapCenter があればそれを使う
+    const loc = specificLocation || selectedLocation || mapCenter;
     const pin = specificPin !== null ? specificPin : selectedPin;
 
-    if (!loc) return;
+    if (!loc) {
+      alert('マップを移動して記録する場所を中央に合わせてください。');
+      return;
+    }
 
     const existingPin = pin;
     const isCumulativeAction = ['station_flyer', 'tsujidachi', 'speech'].includes(actionType);
@@ -349,7 +361,7 @@ function PublicMapApp() {
   }
 
   return (
-    <div className="app-container">
+    <div className="app-container" style={{ position: 'relative', overflow: 'hidden' }}>
       {/* 戻るボタン */}
       <div style={{ position: 'absolute', top: 'max(1rem, env(safe-area-inset-top))', left: '1rem', zIndex: 1000 }}>
         <button onClick={() => window.history.back()} style={{ padding: '0.75rem 1rem', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 'bold', color: '#1E293B' }}>
@@ -362,6 +374,7 @@ function PublicMapApp() {
           pins={pins} 
           selectedLocation={selectedLocation} 
           onMapClick={handleMapClick}
+          onMapMove={handleMapMove}
           initialCenter={initialCenter}
         />
       
@@ -429,8 +442,9 @@ function PublicMapApp() {
         </div>
       ) : (
         <ActionBottomSheet 
-          visible={!!selectedLocation && !memoVisible} 
-          onClose={() => { setSelectedLocation(null); setSelectedPin(null); }} 
+          isExpanded={isSheetExpanded}
+          onToggleExpand={() => setIsSheetExpanded(prev => !prev)}
+          onClose={() => { setSelectedLocation(null); setSelectedPin(null); setIsSheetExpanded(false); }} 
           onAction={handleAction} 
           selectedPin={selectedPin}
           onDeletePin={handleDeletePin}

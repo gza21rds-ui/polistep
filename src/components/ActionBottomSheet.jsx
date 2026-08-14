@@ -1,15 +1,27 @@
 import React from 'react';
 
-export default function ActionBottomSheet({ onAction, onClose, selectedPin, onDeletePin }) {
+export default function ActionBottomSheet({ onAction, onClose, selectedPin, onDeletePin, isExpanded, onToggleExpand }) {
+  if (!isExpanded) {
+    return (
+      <div 
+        className="bottom-sheet" 
+        style={{ padding: '0.75rem 1.25rem', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        onClick={onToggleExpand}
+      >
+        <div style={{ color: '#2563EB', fontWeight: 'bold', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{ fontSize: '1.25rem' }}>👆</span> ここをタップして記録を開く
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bottom-sheet">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
         <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: '#1E293B' }}>{selectedPin ? '記録を編集' : '活動を記録'}</h3>
-        {onClose && (
-          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5rem', lineHeight: 1, padding: '0.5rem', margin: '-0.5rem', cursor: 'pointer', color: '#64748B' }}>
-            &times;
-          </button>
-        )}
+        <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5rem', lineHeight: 1, padding: '0.5rem', margin: '-0.5rem', cursor: 'pointer', color: '#64748B' }}>
+          &times;
+        </button>
       </div>
       <div className="action-grid">
         <button className="action-btn btn-absent" onClick={() => onAction('absent')}>

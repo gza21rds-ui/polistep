@@ -57,10 +57,16 @@ const getSelectedIcon = () => {
   });
 };
 
-function MapEventHandler({ onMapClick }) {
+function MapEventHandler({ onMapClick, onMapMove }) {
+  const map = useMap();
   useMapEvents({
     click(e) {
       onMapClick(e.latlng);
+    },
+    move() {
+      if (onMapMove) {
+        onMapMove(map.getCenter());
+      }
     }
   });
   return null;
@@ -76,18 +82,36 @@ function MapPanHandler({ center }) {
   return null;
 }
 
-export default function MapScreen({ pins, selectedLocation, onMapClick, initialCenter }) {
+export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMove, initialCenter }) {
   const center = initialCenter || [35.6895, 139.6917];
 
   return (
-    <div className="map-section">
+    <div className="map-section" style={{ position: 'relative' }}>
+      {/* 画面中央のクロスヘア（照準） */}
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1000,
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{ position: 'relative', width: '20px', height: '20px' }}>
+          <div style={{ position: 'absolute', top: '9px', left: 0, width: '20px', height: '2px', backgroundColor: 'rgba(0,0,0,0.5)' }}></div>
+          <div style={{ position: 'absolute', top: 0, left: '9px', width: '2px', height: '20px', backgroundColor: 'rgba(0,0,0,0.5)' }}></div>
+        </div>
+      </div>
+
       <MapContainer center={center} zoom={15} zoomControl={false} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapPanHandler center={initialCenter} />
-        <MapEventHandler onMapClick={onMapClick} />
+        <MapEventHandler onMapClick={onMapClick} onMapMove={onMapMove} />
         {pins.map((pin) => (
           <Marker 
             key={pin.id} 
