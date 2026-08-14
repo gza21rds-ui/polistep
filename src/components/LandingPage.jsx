@@ -131,11 +131,8 @@ export default function LandingPage() {
               1日の終わりに、今日の活動実績（回った地域や挨拶した件数）が自動合成された縦型の画像を作成。そのままSNSへ投稿して、支持者へ努力をスマートにアピールできます。
             </p>
           </div>
-          <div className="feature-row-visual" style={{ background: '#F8FAFC', padding: '2rem', borderRadius: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ textAlign: 'center', color: '#64748B' }}>
-              <Share2 size={64} style={{ marginBottom: '1rem', color: '#38BDF8' }} />
-              <p>SNS用画像をワンタップ生成</p>
-            </div>
+          <div className="feature-row-visual">
+            <img src="/feature_sns_blue.jpg" alt="SNSシェアジェネレーター画面" />
           </div>
         </div>
 
@@ -149,7 +146,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="feature-row-visual">
-            <img src="/story3_show_pins.jpg" alt="PoliStepの共有イメージ" />
+            <img src="/feature_team_blue.jpg" alt="リアルタイムな共有イメージ" />
           </div>
         </div>
       </section>
