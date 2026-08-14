@@ -33,7 +33,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body, html {
-  width: 100vw; height: 100vh; overflow-x: hidden;
+  width: 100vw; min-height: 100vh; overflow-x: hidden;
   font-family: var(--font-sans);
   background: var(--bg-main); color: var(--text-main);
   scroll-behavior: smooth; line-height: 1.7;
@@ -299,7 +299,7 @@ body, html {
   .btn-outline { padding: 0.5rem 1rem; font-size: 0.85rem; }
   
   /* Hero セクション */
-  .hero-section { padding: 6rem 1rem 3rem; flex-direction: column; text-align: center; gap: 2rem; min-height: auto; }
+  .hero-section { padding: 1.5rem 1rem 3rem; flex-direction: column; text-align: center; gap: 2rem; min-height: auto; }
   .hero-title { font-size: 2rem; }
   .hero-subtitle { font-size: 1rem; margin-bottom: 2rem; }
   .hero-cta-group { justify-content: center; width: 100%; flex-direction: column; }
@@ -307,8 +307,9 @@ body, html {
   .hero-visual-container { max-width: 100%; }
 
   /* Feature (特徴) セクション */
-  .feature-row { flex-direction: column !important; gap: 2rem; margin-bottom: 4rem; text-align: center; }
-  .feature-row-text { padding: 0 1rem; }
+  .feature-row { flex-direction: column !important; gap: 1.5rem; margin-bottom: 3rem; text-align: center; }
+  .feature-row-visual { flex: 1 1 auto; width: 100%; }
+  .feature-row-text { padding: 0 0.5rem; flex: 1 1 auto; }
   .feature-num { font-size: 3rem; }
   .feature-row-title { font-size: 1.5rem; }
 
@@ -364,7 +365,7 @@ body, html {
     justify-content: space-between;
   }
   .admin-main-content {
-    padding: 5rem 1rem 2rem !important;
+    padding: 1.5rem 1rem 2rem !important;
   }
 }
 
@@ -443,7 +444,7 @@ body, html {
   font-weight: 600;
 }
 .admin-main-content {
-  padding: 5rem 2rem 3rem;
+  padding: 3rem 2rem 3rem;
 }
 
 /* ACTION BOTTOM SHEET */
