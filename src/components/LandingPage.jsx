@@ -6,7 +6,7 @@ export default function LandingPage() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="page-container">
+    <div className="page-container" style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}>
       {/* ===== Header ===== */}
       <header className="glass-header">
         <div className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

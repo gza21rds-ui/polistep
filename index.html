@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>PoliStep - 選挙活動トラッキングアプリ | 孤独なドブ板は、可視化で終わる。</title>
     <meta name="description" content="PoliStep(ポリステップ)は、選挙活動（ドブ板活動）をスマホの地図上でリアルタイムに可視化・共有できるトラッキングアプリです。ポスター貼りや戸別訪問の成果を数値とグラフで明確にし、チームの戦略立案とモチベーション向上をサポートします。" />
+    <meta name="keywords" content="選挙活動, トラッキング, ドブ板活動, ポスター貼り, 戸別訪問, 選挙アプリ, PoliStep, ポリステップ" />
+    <link rel="canonical" href="https://polistep.jp/" />
+    
+    <!-- Security (Content Security Policy) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.tile.openstreetmap.org; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' data: https://fonts.gstatic.com; frame-src 'self';" />
     
     <!-- OGP (Open Graph Protocol) -->
     <meta property="og:title" content="PoliStep - 選挙活動トラッキングアプリ" />
@@ -20,8 +25,37 @@
     <meta name="twitter:title" content="PoliStep - 選挙活動トラッキングアプリ" />
     <meta name="twitter:description" content="選挙のドブ板活動をスマホで可視化・共有。チームの成果をマップで確認しよう。" />
     <meta name="twitter:image" content="https://polistep.jp/polistep_logo_new.jpg" />
+
+    <!-- Structured Data (JSON-LD) for SEO & AIEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "PoliStep",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "PoliStep(ポリステップ)は、選挙のドブ板活動（ポスター貼り、戸別訪問、街頭演説など）をスマホの地図上でリアルタイムに可視化・記録・共有できるトラッキングアプリです。",
+      "url": "https://polistep.jp/",
+      "image": "https://polistep.jp/polistep_logo_new.jpg",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY"
+      }
+    }
+    </script>
   </head>
   <body>
+    <!-- 悪意あるユーザーによるショートカットキーや右クリックによるコピーを全体で抑制 -->
+    <script>
+      document.addEventListener('contextmenu', event => event.preventDefault());
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x' || e.key === 'p' || e.key === 'u' || e.key === 's')) {
+          e.preventDefault();
+        }
+      });
+      document.addEventListener('dragstart', event => event.preventDefault());
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /m/
+
+Sitemap: https://polistep.jp/sitemap.xml
