@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import useNoIndex from '../hooks/useNoIndex';
 
 export default function AuthScreen() {
+  useNoIndex();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(() => {
     const searchParams = new URLSearchParams(window.location.search);

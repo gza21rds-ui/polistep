@@ -18,9 +18,11 @@ import Privacy from './components/Privacy';
 import Legal from './components/Legal';
 
 import { supabase } from './lib/supabase';
+import useNoIndex from './hooks/useNoIndex';
 
 // 公開マップ画面（登録不要、URLのteamIdでアクセス）
 function PublicMapApp() {
+  useNoIndex();
   const { teamId } = useParams();
   const navigate = useNavigate();
   const [pins, setPins] = useState([]);
@@ -494,6 +496,7 @@ function AuthenticatedMapRedirect() {
   return <div style={{ padding: '2rem', textAlign: 'center' }}>読み込み中...</div>;
 }
 
+// App コンポーネントはルーティングを担当
 // App コンポーネントはルーティングを担当
 export default function App() {
   return (

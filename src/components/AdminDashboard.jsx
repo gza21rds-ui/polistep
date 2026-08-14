@@ -3,8 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Share2, Map, Activity, Target, LogOut, Copy, Check, Search } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import SnsShareGenerator from './SnsShareGenerator';
+import useNoIndex from '../hooks/useNoIndex';
 
 export default function AdminDashboard() {
+  useNoIndex();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   // eslint-disable-next-line no-unused-vars

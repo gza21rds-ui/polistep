@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Target, Calendar, ArrowRight, UserPlus, FileText } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import useNoIndex from '../hooks/useNoIndex';
 
 export default function Onboarding() {
+  useNoIndex();
   const navigate = useNavigate();
   const [electionDate, setElectionDate] = useState('');
   const [targetVotes, setTargetVotes] = useState('');
