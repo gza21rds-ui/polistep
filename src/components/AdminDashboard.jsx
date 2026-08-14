@@ -9,7 +9,8 @@ export default function AdminDashboard() {
   const [user, setUser] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [pins, setPins] = useState([]);
-  const [stats, setStats] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0 });
+  const [stats, setStats] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0 });
+  const [statsToday, setStatsToday] = useState({ absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0 });
   const [copied, setCopied] = useState(false);
   const [snsModalVisible, setSnsModalVisible] = useState(false);
 
@@ -32,14 +33,29 @@ export default function AdminDashboard() {
             .then(({ data: pinsData }) => {
               if (pinsData) {
                 setPins(pinsData);
-                const newStats = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0 };
+                const newStats = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0 };
+                const newStatsToday = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0 };
+                
+                // JSTの今日の日付文字列を取得 (YYYY-MM-DD)
+                const now = new Date();
+                const jstDate = new Date(now.getTime() + (9 * 60 * 60 * 1000));
+                const todayStr = jstDate.toISOString().split('T')[0];
+
                 pinsData.forEach(pin => {
                   if (newStats[pin.type] !== undefined) newStats[pin.type]++;
                   if (pin.type === 'station_flyer') {
                     newStats.flyerCount += (pin.action_count || 1);
                   }
+
+                  if (pin.created_at && pin.created_at.startsWith(todayStr)) {
+                    if (newStatsToday[pin.type] !== undefined) newStatsToday[pin.type]++;
+                    if (pin.type === 'station_flyer') {
+                      newStatsToday.flyerCount += (pin.action_count || 1);
+                    }
+                  }
                 });
                 setStats(newStats);
+                setStatsToday(newStatsToday);
               }
             });
         });
@@ -247,11 +263,8 @@ export default function AdminDashboard() {
         </div>
       </main>
 
-      <SnsShareGenerator 
-        visible={snsModalVisible} 
-        onClose={() => setSnsModalVisible(false)} 
-        stats={stats} 
-      />
+      {/* SNS共有モーダル */}
+      <SnsShareGenerator visible={snsModalVisible} onClose={() => setSnsModalVisible(false)} stats={stats} statsToday={statsToday} user={user} />
     </div>
   );
 }

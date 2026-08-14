@@ -1,103 +1,148 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Download, X, Share2, Copy, CheckCircle } from 'lucide-react';
 
-export default function SnsShareGenerator({ visible, onClose, stats }) {
+export default function SnsShareGenerator({ visible, onClose, stats, statsToday = {}, user = {} }) {
   const [regionName, setRegionName] = useState('');
   const [copied, setCopied] = useState(false);
   const canvasRef = useRef(null);
 
-  const talked = stats.talked || 0;
-  const flyers = (stats.flyer || 0) + (stats.station_flyer || 0);
-  const speech = stats.speech || 0;
-  const absent = stats.absent || 0;
-  const total = talked + flyers + speech + absent;
+  const talkedTotal = stats.talked || 0;
+  const talkedToday = statsToday.talked || 0;
+  const talkedTarget = user.target_visits || 0;
+
+  const flyersTotal = (stats.flyer || 0) + (stats.station_flyer || 0) + (stats.absent || 0) + (stats.flyerCount || 0);
+  const flyersToday = (statsToday.flyer || 0) + (statsToday.station_flyer || 0) + (statsToday.absent || 0) + (statsToday.flyerCount || 0);
+  const flyersTarget = user.target_flyers || 0;
 
   const drawCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
-    // Canvas size: 1080x1920 (9:16 vertical)
+    // Canvas size: 1080x1920 (9:16 vertical - standard for Stories/Reels)
     canvas.width = 1080;
     canvas.height = 1920;
     
-    // Background gradient (PoliStep Brand Colors)
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#0F172A'); // Slate-900
-    gradient.addColorStop(1, '#064E3B'); // Emerald-900
+    // Background gradient (Deep Premium Navy to Dark Slate)
+    const gradient = ctx.createLinearGradient(0, 0, 1080, 1920);
+    gradient.addColorStop(0, '#020617'); // Slate-950
+    gradient.addColorStop(0.5, '#0F172A'); // Slate-900
+    gradient.addColorStop(1, '#1E1B4B'); // Indigo-950
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Decorative circles
-    ctx.fillStyle = 'rgba(16, 185, 129, 0.1)'; // Emerald-500 with opacity
-    ctx.beginPath();
-    ctx.arc(900, 300, 400, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(100, 1600, 600, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Texts
-    ctx.textAlign = 'center';
+    // Decorative glowing orbs (Modern Glassmorphism Vibe)
+    ctx.globalCompositeOperation = 'screen';
     
-    // Header
-    ctx.fillStyle = '#2563EB';
-    ctx.font = 'bold 50px sans-serif';
-    ctx.fillText('TODAY\'S REPORT', canvas.width / 2, 250);
+    const orb1 = ctx.createRadialGradient(900, 200, 50, 900, 200, 600);
+    orb1.addColorStop(0, 'rgba(37, 99, 235, 0.4)'); // Blue-600
+    orb1.addColorStop(1, 'rgba(37, 99, 235, 0)');
+    ctx.fillStyle = orb1;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const orb2 = ctx.createRadialGradient(100, 1600, 50, 100, 1600, 700);
+    orb2.addColorStop(0, 'rgba(245, 158, 11, 0.25)'); // Amber-500
+    orb2.addColorStop(1, 'rgba(245, 158, 11, 0)');
+    ctx.fillStyle = orb2;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.globalCompositeOperation = 'source-over';
+
+    // Header Area
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#60A5FA'; // Blue-400
+    ctx.font = 'bold 45px sans-serif';
+    ctx.letterSpacing = '10px';
+    ctx.fillText('POLISTEP REPORT', canvas.width / 2, 200);
     
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 90px sans-serif';
-    ctx.fillText('本日のドブ板活動', canvas.width / 2, 380);
+    ctx.font = '900 95px sans-serif';
+    ctx.letterSpacing = '0px';
+    ctx.fillText('本日の活動レポート', canvas.width / 2, 330);
 
     if (regionName) {
       ctx.fillStyle = '#94A3B8';
       ctx.font = 'bold 50px sans-serif';
-      ctx.fillText(`📍 ${regionName}周辺`, canvas.width / 2, 500);
+      ctx.fillText(`📍 ${regionName}周辺`, canvas.width / 2, 450);
     }
 
-    // Stats Box
-    const boxY = 650;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-    ctx.roundRect = function (x, y, w, h, r) {
-      if (w < 2 * r) r = w / 2;
-      if (h < 2 * r) r = h / 2;
-      this.beginPath();
-      this.moveTo(x+r, y);
-      this.arcTo(x+w, y,   x+w, y+h, r);
-      this.arcTo(x+w, y+h, x,   y+h, r);
-      this.arcTo(x,   y+h, x,   y,   r);
-      this.arcTo(x,   y,   x+w, y,   r);
-      this.closePath();
-      return this;
-    }
-    ctx.roundRect(140, boxY, 800, 650, 40).fill();
+    // Helper function for rounded rects (Glassmorphism cards)
+    const drawGlassCard = (x, y, w, h) => {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, 40);
+      ctx.fill();
+      ctx.stroke();
+    };
 
-    // Stats Grid
+    // Card 1: 訪問・ご挨拶 (Primary KPI)
+    drawGlassCard(90, 550, 900, 480);
+    
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#E2E8F0';
-    ctx.font = 'bold 55px sans-serif';
-    
-    ctx.fillText('🤝 ご挨拶できた数', 220, boxY + 120);
-    ctx.fillText('📄 ビラ・チラシ配布', 220, boxY + 270);
-    ctx.fillText('🎤 街頭演説', 220, boxY + 420);
-    ctx.fillText('🏃‍♂️ 総アクション数', 220, boxY + 570);
-
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#FCD34D'; // Yellow-300 for numbers
-    ctx.font = 'bold 70px sans-serif';
-    ctx.fillText(`${talked} 件`, 860, boxY + 120);
-    ctx.fillText(`${flyers} 枚`, 860, boxY + 270);
-    ctx.fillText(`${speech} 回`, 860, boxY + 420);
-    ctx.fillText(`${total} 回`, 860, boxY + 570);
-
-    // Sub message
-    ctx.textAlign = 'center';
+    ctx.fillStyle = '#60A5FA';
     ctx.font = 'bold 50px sans-serif';
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillText('皆様の温かいお言葉、ありがとうございます。', canvas.width / 2, 1450);
-    ctx.fillText('引き続き地域のために活動してまいります！', canvas.width / 2, 1550);
+    ctx.fillText('🤝 訪問・ご挨拶', 150, 650);
+
+    // 3 Numbers Layout (Today, Total, Target)
+    const drawStatBox = (x, y, label, value, unit, isHighlight = false) => {
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#94A3B8';
+      ctx.font = 'bold 35px sans-serif';
+      ctx.fillText(label, x, y);
+      
+      ctx.fillStyle = isHighlight ? '#FCD34D' : '#FFFFFF';
+      ctx.font = '900 85px sans-serif';
+      ctx.fillText(value, x, y + 100);
+      
+      ctx.fillStyle = '#64748B';
+      ctx.font = 'bold 30px sans-serif';
+      ctx.fillText(unit, x + (ctx.measureText(value).width / 2) + 40, y + 95);
+    };
+
+    // Columns: X = 270 (Left), 540 (Center), 810 (Right)
+    drawStatBox(270, 780, '本日の実績', talkedToday.toLocaleString(), '件', true);
+    drawStatBox(540, 780, '累計実績', talkedTotal.toLocaleString(), '件', false);
+    drawStatBox(810, 780, '必勝目標', talkedTarget ? talkedTarget.toLocaleString() : '---', '件', false);
+
+    // Progress Bar
+    const progressW = 780;
+    const p1 = Math.min(1, talkedTotal / (talkedTarget || 1));
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.beginPath(); ctx.roundRect(150, 940, progressW, 30, 15); ctx.fill();
+    ctx.fillStyle = '#3B82F6';
+    ctx.beginPath(); ctx.roundRect(150, 940, progressW * p1, 30, 15); ctx.fill();
+
+
+    // Card 2: ビラ・チラシ配布
+    drawGlassCard(90, 1080, 900, 480);
     
-    // Draw Logo
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#FBBF24';
+    ctx.font = 'bold 50px sans-serif';
+    ctx.fillText('📄 ビラ・チラシ配布', 150, 1180);
+
+    drawStatBox(270, 1310, '本日の実績', flyersToday.toLocaleString(), '枚', true);
+    drawStatBox(540, 1310, '累計実績', flyersTotal.toLocaleString(), '枚', false);
+    drawStatBox(810, 1310, '必勝目標', flyersTarget ? flyersTarget.toLocaleString() : '---', '枚', false);
+
+    const p2 = Math.min(1, flyersTotal / (flyersTarget || 1));
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.beginPath(); ctx.roundRect(150, 1470, progressW, 30, 15); ctx.fill();
+    ctx.fillStyle = '#F59E0B';
+    ctx.beginPath(); ctx.roundRect(150, 1470, progressW * p2, 30, 15); ctx.fill();
+
+    // Footer Message
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 45px sans-serif';
+    ctx.fillStyle = '#CBD5E1';
+    ctx.fillText('チームの力が、地域を変える。', canvas.width / 2, 1720);
+    ctx.fillStyle = '#94A3B8';
+    ctx.font = 'bold 35px sans-serif';
+    ctx.fillText('一緒に活動してくれる仲間を募集しています！', canvas.width / 2, 1800);
+
+    // Draw PoliStep Logo at bottom right
+
     const logoImg = new Image();
     logoImg.onload = () => {
       const logoSize = 120;
