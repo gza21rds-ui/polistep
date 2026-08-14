@@ -57,28 +57,28 @@ export default function LandingPage() {
         <div className="comic-grid">
           {/* Scene 1 */}
           <div className="comic-panel">
-            <img src="/story1_paper_map.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="comic-panel-img" />
+            <img src="/story1_anxiety.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-narration">「このペースで、本当に間に合うのか…？」<br/>紙の地図と勘だけが頼りの活動では、ゴールが見えず、常に漠然とした不安がつきまといます。</div>
             </div>
           </div>
           {/* Scene 2 */}
           <div className="comic-panel">
-            <img src="/story2_night_app.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="comic-panel-img" />
+            <img src="/story2_clarity.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-narration">PoliStepに目標を入力すると、1日に必要な「活動件数」が自動計算。今日やるべき行動計画が明確になり、迷いが消え去ります。</div>
             </div>
           </div>
           {/* Scene 3 */}
           <div className="comic-panel">
-            <img src="/story3_show_pins.jpg" alt="スマホの画面を支援者に見せる" className="comic-panel-img" />
+            <img src="/story3_map.jpg" alt="スマホの画面を支援者に見せる" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-narration">毎日歩いた軌跡が、色鮮やかなピンと進捗率（％）に変わる。「今日はあと30件だ」。可視化された数字が、疲れた足を前へと進ませます。</div>
             </div>
           </div>
           {/* Scene 4 */}
           <div className="comic-panel">
-            <img src="/story4_team_smile.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="comic-panel-img" />
+            <img src="/story4_success.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="comic-panel-img" />
             <div className="comic-text-box">
               <div className="comic-dialogue" style={{ fontSize: '1.25rem', textAlign: 'center', background: 'transparent', border: 'none' }}>迷いなく、やり切った。</div>
               <div className="comic-narration" style={{ textAlign: 'center' }}>明確な計画のもと蓄積された膨大な記録。<br/>その「努力の証明」を発信した時、自然と支援の輪が広がっていきます。</div>
@@ -118,7 +118,7 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="feature-row-visual">
-            <img src="/feature_dashboard_ui.jpg" alt="PoliStepのダッシュボード画面" />
+            <img src="/feature_dashboard_jp.jpg" alt="PoliStepのダッシュボード画面" />
           </div>
         </div>
 
