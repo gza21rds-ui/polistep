@@ -90,9 +90,18 @@ function PublicMapApp() {
   const handleMapClick = (latlng, pin = null) => {
     setSelectedLocation(latlng);
     setSelectedPin(pin);
+    
     // マップをタップしたときにメモが入力されていなければ閉じる
     if (memoVisible && !memoText.trim() && !memoName.trim()) {
       handleSkipMemo();
+    }
+
+    if (pin) {
+      const type = pin.latest_action_type || pin.type;
+      if (['speech', 'station_flyer', 'tsujidachi'].includes(type)) {
+        // 絵文字ピンの場合はメニューを挟まずに即座に実行
+        handleAction(type, latlng, pin);
+      }
     }
   };
 
@@ -105,10 +114,13 @@ function PublicMapApp() {
     setUndoVisible(false);
   };
 
-  const handleAction = async (actionType) => {
-    if (!selectedLocation) return;
+  const handleAction = async (actionType, specificLocation = null, specificPin = null) => {
+    const loc = specificLocation || selectedLocation;
+    const pin = specificPin !== null ? specificPin : selectedPin;
 
-    const existingPin = selectedPin;
+    if (!loc) return;
+
+    const existingPin = pin;
     const isCumulativeAction = ['station_flyer', 'tsujidachi', 'speech'].includes(actionType);
     const isStateAction = ['absent', 'talked', 'poster', 'poster_ok'].includes(actionType);
     const existingType = existingPin ? (existingPin.latest_action_type || existingPin.type) : null;
@@ -187,8 +199,8 @@ function PublicMapApp() {
 
     // New pin
     const initCount = ['station_flyer', 'tsujidachi'].includes(actionType) ? 0 : 1;
-    let newLat = selectedLocation ? selectedLocation.lat : (existingPin ? existingPin.lat : 0);
-    let newLng = selectedLocation ? selectedLocation.lng : (existingPin ? existingPin.lng : 0);
+    let newLat = loc ? loc.lat : (existingPin ? existingPin.lat : 0);
+    let newLng = loc ? loc.lng : (existingPin ? existingPin.lng : 0);
     
     // 既存のピン上で新しいピンを作る場合、重なりを防ぐためにごく僅かなズレ（数メートル）を加える
     if (existingPin) {
@@ -398,6 +410,21 @@ function PublicMapApp() {
               保存する
             </button>
           </div>
+          
+          {/* 既存のピンの場合は削除ボタンを表示 */}
+          {pins.find(p => p.id === activePinIdForMemo)?.action_count > 0 && (
+            <button 
+              onClick={() => {
+                if (window.confirm('この記録を削除しますか？')) {
+                  handleDeletePin(activePinIdForMemo);
+                  setMemoVisible(false);
+                }
+              }}
+              style={{ width: '100%', marginTop: '1.25rem', padding: '0.75rem', background: '#FEE2E2', color: '#DC2626', borderRadius: '12px', border: '1px solid #FCA5A5', fontWeight: 'bold', fontSize: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}
+            >
+              🗑️ この記録を削除
+            </button>
+          )}
         </div>
       ) : (
         <ActionBottomSheet 
