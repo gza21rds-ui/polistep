@@ -20,11 +20,12 @@ const getIcon = (pin) => {
   let label = '';
   if (actionType === 'station_flyer') {
     const count = pin.action_count || (pin.memo ? pin.memo.replace(/[^0-9]/g, '') : '');
-    if (count) label = `${count}枚`;
+    if (count) label = `📃 ${count}枚`;
+    else label = '📃 ビラ配り';
   } else if (actionType === 'tsujidachi') {
     const count = pin.action_count || (pin.memo ? pin.memo.replace(/[^0-9]/g, '') : '');
-    if (count) label = `🧍‍♂️ ${count}時間`;
-    else label = '🧍‍♂️ 辻立ち';
+    if (count) label = `🙋‍♂️ ${count}時間`;
+    else label = '🙋‍♂️ 辻立ち';
   } else if (actionType === 'speech') {
     const count = pin.action_count || 1;
     label = `🎤 ${count}回`;
@@ -91,7 +92,7 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, initialC
           <Marker 
             key={pin.id} 
             position={[pin.lat, pin.lng]} 
-            icon={getIcon(pin.latest_action_type || pin.type, pin)}
+            icon={getIcon(pin)}
             eventHandlers={{
               click: (e) => {
                 L.DomEvent.stopPropagation(e);
