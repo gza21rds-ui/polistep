@@ -97,7 +97,7 @@ export default function LandingPage() {
             <div className="feature-num">01</div>
             <h3 className="feature-row-title">直感的なタップ記録と対話メモ</h3>
             <p className="section-desc">
-              歩きながらでも片手で記録可能。「留守」「対話」「ポスター」に加え、「街頭演説」「駅頭ビラ配り」もタップ一つで記録。さらに対話時には簡単なメモを残せるため、有権者の生の声を取りこぼしません。
+              歩きながらでも片手で記録可能。「留守」「対話」「ポスター」に加え、「街頭演説」「ビラ配り」もタップ一つで記録。さらに対話時には簡単なメモを残せるため、有権者の生の声を取りこぼしません。
             </p>
           </div>
           <div className="feature-row-visual">

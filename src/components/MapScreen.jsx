@@ -91,10 +91,11 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, initialC
           <Marker 
             key={pin.id} 
             position={[pin.lat, pin.lng]} 
-            icon={getIcon(pin)}
+            icon={getIcon(pin.latest_action_type || pin.type, pin)}
             eventHandlers={{
-              click: () => {
-                onMapClick({ lat: pin.lat, lng: pin.lng });
+              click: (e) => {
+                L.DomEvent.stopPropagation(e);
+                onMapClick({ lat: pin.lat, lng: pin.lng }, pin);
               }
             }}
           />

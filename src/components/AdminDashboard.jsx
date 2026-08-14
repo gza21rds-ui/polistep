@@ -228,7 +228,7 @@ export default function AdminDashboard() {
                 <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1D4ED8' }}>{stats.absent + stats.flyer}</div>
               </div>
               <div style={{ background: '#FEF3C7', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#92400E' }}>駅頭ビラ配り</div>
+                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#92400E' }}>ビラ配り</div>
                 <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#D97706' }}>{stats.station_flyer} <span style={{fontSize: '1rem'}}>回</span></div>
               </div>
               <div style={{ background: '#FFEDD5', padding: '1.25rem', borderRadius: '1rem' }}>
