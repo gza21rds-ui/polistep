@@ -91,43 +91,63 @@ function PublicMapApp() {
   const handleAction = async (actionType) => {
     if (!selectedLocation) return;
 
-    const existingPin = pins.find(p => p.lat === selectedLocation.lat && p.lng === selectedLocation.lng && (p.latest_action_type || p.type) === actionType);
-    let pinIdToUse;
-    let previousCount = null;
+    const existingPin = pins.find(p => p.lat === selectedLocation.lat && p.lng === selectedLocation.lng);
+    const isCumulativeAction = ['station_flyer', 'tsujidachi', 'speech'].includes(actionType);
+    const isStateAction = ['absent', 'talked', 'poster'].includes(actionType);
 
     if (existingPin) {
-      previousCount = existingPin.action_count || 1;
-      const newCount = previousCount + 1;
-      const { error } = await supabase.from('pins').update({ action_count: newCount }).eq('id', existingPin.id);
-      if (error) {
-        alert('追加に失敗しました。');
+      if (isStateAction) {
+        const { error } = await supabase.from('pins').update({ type: actionType, action_count: 1, memo: null }).eq('id', existingPin.id);
+        if (error) { alert('更新に失敗しました。'); return; }
+        
+        setPins(prev => prev.map(p => p.id === existingPin.id ? { ...p, latest_action_type: actionType, action_count: 1, memo: null } : p));
+        setLastAction({ id: existingPin.id, lat: selectedLocation.lat, lng: selectedLocation.lng, isUpdate: true, previousType: existingPin.latest_action_type });
+        setSelectedLocation(null);
+        
+        if (actionType === 'talked') {
+           setActivePinIdForMemo(existingPin.id);
+           setActiveActionTypeForMemo(actionType);
+           setMemoText('');
+           setMemoVisible(true);
+        } else {
+           setUndoVisible(true);
+        }
         return;
+      } 
+      else if (isCumulativeAction) {
+        if ((existingPin.latest_action_type || existingPin.type) === actionType) {
+          // Defer DB update until memo save
+          setLastAction({ id: existingPin.id, lat: selectedLocation.lat, lng: selectedLocation.lng, isUpdate: true, previousCount: existingPin.action_count || 1 });
+          setSelectedLocation(null);
+          setActivePinIdForMemo(existingPin.id);
+          setActiveActionTypeForMemo(actionType);
+          setMemoText('');
+          setMemoVisible(true);
+          return;
+        }
       }
-      setPins(prev => prev.map(p => p.id === existingPin.id ? { ...p, action_count: newCount } : p));
-      pinIdToUse = existingPin.id;
-    } else {
-      const newPin = {
-        team_id: teamId,
-        lat: selectedLocation.lat,
-        lng: selectedLocation.lng,
-        type: actionType,
-        action_count: 1
-      };
-      const { data, error } = await supabase.from('pins').insert(newPin).select().single();
-      if (error) {
-        alert('記録に失敗しました。');
-        return;
-      }
-      setPins(prev => [...prev, { id: data.id, lat: data.lat, lng: data.lng, latest_action_type: data.type, action_count: 1 }]);
-      pinIdToUse = data.id;
-      setActionCount(prev => prev + 1);
     }
 
-    setLastAction({ id: pinIdToUse, lat: selectedLocation.lat, lng: selectedLocation.lng, isUpdate: !!existingPin, previousCount });
+    // New pin
+    const newPin = {
+      team_id: teamId,
+      lat: selectedLocation.lat,
+      lng: selectedLocation.lng,
+      type: actionType,
+      action_count: 1
+    };
+    const { data, error } = await supabase.from('pins').insert(newPin).select().single();
+    if (error) { alert('記録に失敗しました。'); return; }
+
+    setPins(prev => [...prev, { id: data.id, lat: data.lat, lng: data.lng, latest_action_type: data.type, action_count: 1 }]);
+    pinIdToUse = data.id;
+    setActionCount(prev => prev + 1);
+
+    setLastAction({ id: data.id, lat: selectedLocation.lat, lng: selectedLocation.lng, isUpdate: false });
     setSelectedLocation(null);
 
     if (['talked', 'station_flyer', 'tsujidachi', 'speech'].includes(actionType)) {
-      setActivePinIdForMemo(pinIdToUse);
+      setActivePinIdForMemo(data.id);
       setActiveActionTypeForMemo(actionType);
       setMemoText('');
       setMemoVisible(true);
@@ -142,8 +162,13 @@ function PublicMapApp() {
   const handleUndo = async () => {
     if (lastAction) {
       if (lastAction.isUpdate) {
-        await supabase.from('pins').update({ action_count: lastAction.previousCount }).eq('id', lastAction.id);
-        setPins(prev => prev.map(p => p.id === lastAction.id ? { ...p, action_count: lastAction.previousCount } : p));
+        if (lastAction.previousType) {
+          await supabase.from('pins').update({ type: lastAction.previousType }).eq('id', lastAction.id);
+          setPins(prev => prev.map(p => p.id === lastAction.id ? { ...p, latest_action_type: lastAction.previousType } : p));
+        } else {
+          await supabase.from('pins').update({ action_count: lastAction.previousCount }).eq('id', lastAction.id);
+          setPins(prev => prev.map(p => p.id === lastAction.id ? { ...p, action_count: lastAction.previousCount } : p));
+        }
       } else {
         await supabase.from('pins').delete().eq('id', lastAction.id);
         setPins(prev => prev.filter(p => p.id !== lastAction.id));
@@ -160,29 +185,38 @@ function PublicMapApp() {
       let finalMemo = memoText.trim();
       let updatePayload = { memo: finalMemo };
       
-      if (['station_flyer', 'tsujidachi'].includes(activeActionTypeForMemo) && !isNaN(finalMemo)) {
+      if (['station_flyer', 'tsujidachi', 'speech'].includes(activeActionTypeForMemo) && !isNaN(finalMemo)) {
         const addedVal = parseInt(finalMemo, 10);
         const prevTotal = (lastAction && lastAction.isUpdate) ? (lastAction.previousCount || 0) : 0;
         const newTotal = prevTotal + addedVal;
         
-        finalMemo = activeActionTypeForMemo === 'tsujidachi' ? `${addedVal}時間` : `${addedVal}枚配布`;
+        finalMemo = activeActionTypeForMemo === 'tsujidachi' ? `${addedVal}時間` : 
+                    activeActionTypeForMemo === 'speech' ? `${addedVal}回` : 
+                    `${addedVal}枚配布`;
         updatePayload = { memo: finalMemo, action_count: newTotal };
       }
       
       await supabase.from('pins').update(updatePayload).eq('id', activePinIdForMemo);
       setPins(prev => prev.map(p => p.id === activePinIdForMemo ? { ...p, memo: finalMemo, action_count: updatePayload.action_count || p.action_count } : p));
+      setUndoVisible(true);
+    } else if (activePinIdForMemo && lastAction && lastAction.isUpdate) {
+      // Empty text save on update? Do nothing, basically cancel.
     }
     setMemoVisible(false);
     setActivePinIdForMemo(null);
     setActiveActionTypeForMemo(null);
-    setUndoVisible(true);
   };
 
   const handleSkipMemo = () => {
+    if (lastAction && lastAction.isUpdate && ['station_flyer', 'tsujidachi', 'speech'].includes(activeActionTypeForMemo)) {
+      // Cancel the update entirely if skipped
+      setUndoVisible(false);
+    } else {
+      setUndoVisible(true);
+    }
     setMemoVisible(false);
     setActivePinIdForMemo(null);
     setActiveActionTypeForMemo(null);
-    setUndoVisible(true); // スキップ時でもUndo表示
   };
 
   if (error) {
@@ -217,8 +251,10 @@ function PublicMapApp() {
     memoIsNumber = true;
     unitText = '時間';
   } else if (activeActionTypeForMemo === 'speech') {
-    memoTitle = '🎤 演説の振り返りを記録（任意）';
-    memoPlaceholder = '聴衆の反応、良かった点、改善点などを入力...';
+    memoTitle = '🎤 演説回数を追加記録（任意）';
+    memoPlaceholder = '例: 1';
+    memoIsNumber = true;
+    unitText = '回';
   }
 
   return (
