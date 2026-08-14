@@ -189,6 +189,9 @@ export default function LandingPage() {
         <div style={{ textAlign: 'center', color: '#64748B', fontSize: '0.85rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
           ※現在PoliStepは「完全無料のお試し期間（β版）」として提供しております。<br/>万が一の不具合によるデータ消失等について完全な保証はできかねる場合がございます。あらかじめご了承ください。
         </div>
+        <div style={{ textAlign: 'center', color: '#94A3B8', fontSize: '0.75rem', marginBottom: '1.5rem', lineHeight: 1.6, maxWidth: '800px', margin: '0 auto 1.5rem auto' }}>
+          当サービスのUI/UX、デザイン、および独自の巡回最適化アルゴリズム等の無断複製・リバースエンジニアリング・模倣を固く禁じます。<br className="desktop-only" />悪質な仕様の盗用が発覚した場合は、著作権法および不正競争防止法に基づき法的措置を検討する場合があります。
+        </div>
         <div className="footer-copy">
           &copy; {new Date().getFullYear()} PoliStep. All rights reserved.
         </div>
