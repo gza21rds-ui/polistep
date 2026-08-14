@@ -88,9 +88,6 @@ function PublicMapApp() {
 
 
   const handleMapClick = (latlng, pin = null) => {
-    setSelectedLocation(latlng);
-    setSelectedPin(pin);
-    
     // マップをタップしたときにメモが入力されていなければ閉じる
     if (memoVisible && !memoText.trim() && !memoName.trim()) {
       handleSkipMemo();
@@ -101,8 +98,12 @@ function PublicMapApp() {
       if (['speech', 'station_flyer', 'tsujidachi'].includes(type)) {
         // 絵文字ピンの場合はメニューを挟まずに即座に実行
         handleAction(type, latlng, pin);
+        return; // ここで早期リターンすることでActionBottomSheetの表示を防ぐ
       }
     }
+
+    setSelectedLocation(latlng);
+    setSelectedPin(pin);
   };
 
   const handleDeletePin = async (pinId) => {
