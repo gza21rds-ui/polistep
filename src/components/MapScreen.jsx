@@ -26,7 +26,8 @@ const getIcon = (pin) => {
     if (count) label = `🧍‍♂️ ${count}時間`;
     else label = '🧍‍♂️ 辻立ち';
   } else if (actionType === 'speech') {
-    label = '🎤 演説';
+    const count = pin.action_count || 1;
+    label = `🎤 ${count}回`;
   }
 
   if (label) {
