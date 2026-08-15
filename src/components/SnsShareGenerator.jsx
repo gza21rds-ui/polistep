@@ -102,13 +102,23 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
       ctx.fillText(`📍 ${regionName}周辺`, canvas.width / 2, 450);
     }
 
+    // Safe round rect helper for older browsers (e.g. iOS 15)
+    const safeRoundRect = (x, y, w, h, r) => {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    };
+
     // Helper function for rounded rects (Glassmorphism cards)
     const drawGlassCard = (x, y, w, h) => {
       ctx.fillStyle = bgImage ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.05)';
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
       ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.roundRect(x, y, w, h, 40);
+      safeRoundRect(x, y, w, h, 40);
       ctx.fill();
       ctx.stroke();
     };
@@ -146,9 +156,9 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     const progressW = 780;
     const p1 = Math.min(1, talkedTotal / (talkedTarget || 1));
     ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-    ctx.beginPath(); ctx.roundRect(150, 940, progressW, 30, 15); ctx.fill();
+    safeRoundRect(150, 940, progressW, 30, 15); ctx.fill();
     ctx.fillStyle = '#3B82F6';
-    ctx.beginPath(); ctx.roundRect(150, 940, progressW * p1, 30, 15); ctx.fill();
+    safeRoundRect(150, 940, progressW * p1, 30, 15); ctx.fill();
 
 
     // Card 2: ビラ・チラシ配布
@@ -165,9 +175,9 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
 
     const p2 = Math.min(1, flyersTotal / (flyersTarget || 1));
     ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-    ctx.beginPath(); ctx.roundRect(150, 1470, progressW, 30, 15); ctx.fill();
+    safeRoundRect(150, 1470, progressW, 30, 15); ctx.fill();
     ctx.fillStyle = '#F59E0B';
-    ctx.beginPath(); ctx.roundRect(150, 1470, progressW * p2, 30, 15); ctx.fill();
+    safeRoundRect(150, 1470, progressW * p2, 30, 15); ctx.fill();
 
     // Footer Message
     ctx.textAlign = 'center';
