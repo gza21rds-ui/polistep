@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Download, X, Share2, Copy, CheckCircle } from 'lucide-react';
+import { Download, X, Share2, Copy, CheckCircle, Camera, Trash2 } from 'lucide-react';
 
 export default function SnsShareGenerator({ visible, onClose, stats, statsToday = {}, user = {} }) {
   const [regionName, setRegionName] = useState('');
   const [copied, setCopied] = useState(false);
+  const [bgImage, setBgImage] = useState(null);
   const canvasRef = useRef(null);
 
   const talkedTotal = stats.talked || 0;
@@ -13,6 +14,29 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
   const flyersTotal = (stats.flyer || 0) + (stats.station_flyer || 0) + (stats.absent || 0) + (stats.flyerCount || 0);
   const flyersToday = (statsToday.flyer || 0) + (statsToday.station_flyer || 0) + (statsToday.absent || 0) + (statsToday.flyerCount || 0);
   const flyersTarget = user.target_flyers || 0;
+  const speechToday = statsToday.speech || 0;
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        setBgImage(img);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const clearImage = () => {
+    setBgImage(null);
+    // Reset the input value so the same file can be uploaded again if needed
+    const fileInput = document.getElementById('sns-bg-upload');
+    if (fileInput) fileInput.value = '';
+  };
 
   const drawCanvas = () => {
     const canvas = canvasRef.current;
@@ -22,30 +46,43 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     canvas.width = 1080;
     canvas.height = 1920;
     
-    // Background gradient (Deep Premium Navy to Dark Slate)
-    const gradient = ctx.createLinearGradient(0, 0, 1080, 1920);
-    gradient.addColorStop(0, '#020617'); // Slate-950
-    gradient.addColorStop(0.5, '#0F172A'); // Slate-900
-    gradient.addColorStop(1, '#1E1B4B'); // Indigo-950
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Decorative glowing orbs (Modern Glassmorphism Vibe)
-    ctx.globalCompositeOperation = 'screen';
-    
-    const orb1 = ctx.createRadialGradient(900, 200, 50, 900, 200, 600);
-    orb1.addColorStop(0, 'rgba(37, 99, 235, 0.4)'); // Blue-600
-    orb1.addColorStop(1, 'rgba(37, 99, 235, 0)');
-    ctx.fillStyle = orb1;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (bgImage) {
+      // Draw custom background image with object-fit: cover logic
+      const scale = Math.max(canvas.width / bgImage.width, canvas.height / bgImage.height);
+      const x = (canvas.width / 2) - (bgImage.width / 2) * scale;
+      const y = (canvas.height / 2) - (bgImage.height / 2) * scale;
+      
+      ctx.drawImage(bgImage, x, y, bgImage.width * scale, bgImage.height * scale);
+      
+      // Draw dark semi-transparent overlay to ensure text readability
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    } else {
+      // Default Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, 1080, 1920);
+      gradient.addColorStop(0, '#020617'); // Slate-950
+      gradient.addColorStop(0.5, '#0F172A'); // Slate-900
+      gradient.addColorStop(1, '#1E1B4B'); // Indigo-950
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Decorative glowing orbs
+      ctx.globalCompositeOperation = 'screen';
+      
+      const orb1 = ctx.createRadialGradient(900, 200, 50, 900, 200, 600);
+      orb1.addColorStop(0, 'rgba(37, 99, 235, 0.4)'); // Blue-600
+      orb1.addColorStop(1, 'rgba(37, 99, 235, 0)');
+      ctx.fillStyle = orb1;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const orb2 = ctx.createRadialGradient(100, 1600, 50, 100, 1600, 700);
-    orb2.addColorStop(0, 'rgba(245, 158, 11, 0.25)'); // Amber-500
-    orb2.addColorStop(1, 'rgba(245, 158, 11, 0)');
-    ctx.fillStyle = orb2;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.globalCompositeOperation = 'source-over';
+      const orb2 = ctx.createRadialGradient(100, 1600, 50, 100, 1600, 700);
+      orb2.addColorStop(0, 'rgba(245, 158, 11, 0.25)'); // Amber-500
+      orb2.addColorStop(1, 'rgba(245, 158, 11, 0)');
+      ctx.fillStyle = orb2;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.globalCompositeOperation = 'source-over';
+    }
 
     // Header Area
     ctx.textAlign = 'center';
@@ -67,8 +104,8 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
 
     // Helper function for rounded rects (Glassmorphism cards)
     const drawGlassCard = (x, y, w, h) => {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.fillStyle = bgImage ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.05)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.roundRect(x, y, w, h, 40);
@@ -95,7 +132,7 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
       ctx.font = '900 85px sans-serif';
       ctx.fillText(value, x, y + 100);
       
-      ctx.fillStyle = '#64748B';
+      ctx.fillStyle = '#CBD5E1';
       ctx.font = 'bold 30px sans-serif';
       ctx.fillText(unit, x + (ctx.measureText(value).width / 2) + 40, y + 95);
     };
@@ -103,12 +140,12 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     // Columns: X = 270 (Left), 540 (Center), 810 (Right)
     drawStatBox(270, 780, '本日の実績', talkedToday.toLocaleString(), '件', true);
     drawStatBox(540, 780, '累計実績', talkedTotal.toLocaleString(), '件', false);
-    drawStatBox(810, 780, '必勝目標', talkedTarget ? talkedTarget.toLocaleString() : '---', '件', false);
+    drawStatBox(810, 780, '目標設定', talkedTarget ? talkedTarget.toLocaleString() : '---', '件', false);
 
     // Progress Bar
     const progressW = 780;
     const p1 = Math.min(1, talkedTotal / (talkedTarget || 1));
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     ctx.beginPath(); ctx.roundRect(150, 940, progressW, 30, 15); ctx.fill();
     ctx.fillStyle = '#3B82F6';
     ctx.beginPath(); ctx.roundRect(150, 940, progressW * p1, 30, 15); ctx.fill();
@@ -124,10 +161,10 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
 
     drawStatBox(270, 1310, '本日の実績', flyersToday.toLocaleString(), '枚', true);
     drawStatBox(540, 1310, '累計実績', flyersTotal.toLocaleString(), '枚', false);
-    drawStatBox(810, 1310, '必勝目標', flyersTarget ? flyersTarget.toLocaleString() : '---', '枚', false);
+    drawStatBox(810, 1310, '目標設定', flyersTarget ? flyersTarget.toLocaleString() : '---', '枚', false);
 
     const p2 = Math.min(1, flyersTotal / (flyersTarget || 1));
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     ctx.beginPath(); ctx.roundRect(150, 1470, progressW, 30, 15); ctx.fill();
     ctx.fillStyle = '#F59E0B';
     ctx.beginPath(); ctx.roundRect(150, 1470, progressW * p2, 30, 15); ctx.fill();
@@ -135,14 +172,13 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     // Footer Message
     ctx.textAlign = 'center';
     ctx.font = 'bold 45px sans-serif';
-    ctx.fillStyle = '#CBD5E1';
-    ctx.fillText('チームの力が、地域を変える。', canvas.width / 2, 1720);
+    ctx.fillStyle = '#E2E8F0';
+    ctx.fillText('地道な活動が、地域を変える。', canvas.width / 2, 1720);
     ctx.fillStyle = '#94A3B8';
     ctx.font = 'bold 35px sans-serif';
     ctx.fillText('一緒に活動してくれる仲間を募集しています！', canvas.width / 2, 1800);
 
     // Draw PoliStep Logo at bottom right
-
     const logoImg = new Image();
     logoImg.onload = () => {
       const logoSize = 120;
@@ -156,11 +192,10 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
 
   useEffect(() => {
     if (visible) {
-      // Small delay to ensure canvas is rendered
       setTimeout(drawCanvas, 100);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, regionName, stats]);
+  }, [visible, regionName, stats, bgImage]);
 
   if (!visible) return null;
 
@@ -174,7 +209,7 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     }
   };
 
-  const shareText = `本日も${regionName || '地域'}を回らせていただきました！🏃‍♂️\n\n🎯 本日の活動実績\n🤝 ご挨拶できた数: ${talked}件\n📄 ビラ配布: ${flyers}枚\n🎤 街頭演説: ${speech}回\n\n貴重なご意見をいただき、ありがとうございます。引き続き地域のために走り抜きます！\n#ドブ板活動 #PoliStep`;
+  const shareText = `本日も${regionName || '地域'}で活動させていただきました！🏃‍♂️\n\n🎯 本日の活動実績\n🤝 ご挨拶できた数: ${talkedToday}件\n📄 ビラ配布: ${flyersToday}枚\n🎤 街頭演説: ${speechToday}回\n\n貴重なご意見をいただき、ありがとうございます。引き続き地域のために走り抜きます！\n#政治活動 #PoliStep`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shareText);
@@ -193,8 +228,34 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
         </div>
         
         <p style={{ color: '#475569', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-          日々の努力（活動量）を有権者に分かりやすく伝えるための、スタイリッシュなインフォグラフィック画像と投稿文章を生成します。
+          日々の努力（活動量）を有権者に分かりやすく伝えるための、インフォグラフィック画像と投稿文章を生成します。
         </p>
+
+        <div style={{ marginBottom: '1.5rem', background: '#F0F9FF', padding: '1rem', borderRadius: '12px', border: '1px dashed #93C5FD' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E3A8A' }}>
+            <Camera size={20} /> 📸 背景写真を追加（任意）
+          </label>
+          <p style={{ fontSize: '0.85rem', color: '#3B82F6', marginBottom: '1rem' }}>
+            街頭演説の様子やチームの集合写真などを背景に設定すると、SNSでの反応率がアップします！
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <input 
+              id="sns-bg-upload"
+              type="file" 
+              accept="image/*"
+              onChange={handleImageUpload}
+              style={{ flex: 1, fontSize: '0.9rem' }}
+            />
+            {bgImage && (
+              <button 
+                onClick={clearImage}
+                style={{ background: '#FEE2E2', color: '#EF4444', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold' }}
+              >
+                <Trash2 size={16} /> クリア
+              </button>
+            )}
+          </div>
+        </div>
 
         <div style={{ marginBottom: '1.5rem' }}>
           <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E293B' }}>📍 活動した地域名（任意）</label>
@@ -214,7 +275,7 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
             <p style={{ fontWeight: 'bold', marginBottom: '1rem', color: '#0F172A', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
                ① 画像を保存する
             </p>
-            <div style={{ border: '1px solid #CBD5E1', borderRadius: '12px', overflow: 'hidden', margin: '0 auto 1.5rem', maxWidth: '240px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}>
+            <div style={{ border: '1px solid #CBD5E1', borderRadius: '12px', overflow: 'hidden', margin: '0 auto 1.5rem', maxWidth: '240px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', background: '#020617' }}>
               <canvas ref={canvasRef} style={{ width: '100%', height: 'auto', display: 'block' }}></canvas>
             </div>
             <button onClick={handleDownload} className="btn-premium" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', background: '#1D4ED8', width: '100%' }}>
