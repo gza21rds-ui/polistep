@@ -105,12 +105,17 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
 
     // Safe round rect helper for older browsers (e.g. iOS 15)
     const safeRoundRect = (x, y, w, h, r) => {
+      if (w <= 0 || h <= 0) return;
+      let radius = r;
+      if (w < 2 * radius) radius = w / 2;
+      if (h < 2 * radius) radius = h / 2;
+      
       ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.arcTo(x + w, y, x + w, y + h, r);
-      ctx.arcTo(x + w, y + h, x, y + h, r);
-      ctx.arcTo(x, y + h, x, y, r);
-      ctx.arcTo(x, y, x + w, y, r);
+      ctx.moveTo(x + radius, y);
+      ctx.arcTo(x + w, y, x + w, y + h, radius);
+      ctx.arcTo(x + w, y + h, x, y + h, radius);
+      ctx.arcTo(x, y + h, x, y, radius);
+      ctx.arcTo(x, y, x + w, y, radius);
       ctx.closePath();
     };
 
