@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Download, X, Share2, Copy, CheckCircle, Camera, Trash2 } from 'lucide-react';
 
 export default function SnsShareGenerator({ visible, onClose, stats, statsToday = {}, user = {} }) {
   const [regionName, setRegionName] = useState('');
   const [copied, setCopied] = useState(false);
   const [bgImage, setBgImage] = useState(null);
   const canvasRef = useRef(null);
+  
+  console.log("SnsShareGenerator rendered, visible:", visible);
 
   const talkedTotal = stats?.talked || 0;
   const talkedToday = statsToday?.talked || 0;
@@ -232,9 +233,9 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
       <div className="modal-content" style={{ maxWidth: '600px', width: '95%', padding: '2rem', textAlign: 'left', maxHeight: '95vh', overflowY: 'auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1E293B', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Share2 size={24} color="#2563EB" /> SNS用活動報告を作成
+            <span>🔗</span> SNS用活動報告を作成
           </h3>
-          <button onClick={onClose} style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}><X size={24} color="#64748B" /></button>
+          <button onClick={onClose} style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '1.5rem', color: '#64748B' }}>×</button>
         </div>
         
         <p style={{ color: '#475569', fontSize: '0.95rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
@@ -243,7 +244,7 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
 
         <div style={{ marginBottom: '1.5rem', background: '#F0F9FF', padding: '1rem', borderRadius: '12px', border: '1px dashed #93C5FD' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E3A8A' }}>
-            <Camera size={20} /> 📸 背景写真を追加（任意）
+            <span>📸</span> 背景写真を追加（任意）
           </label>
           <p style={{ fontSize: '0.85rem', color: '#3B82F6', marginBottom: '1rem' }}>
             街頭演説の様子やチームの集合写真などを背景に設定すると、SNSでの反応率がアップします！
@@ -261,7 +262,7 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
                 onClick={clearImage}
                 style={{ background: '#FEE2E2', color: '#EF4444', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold' }}
               >
-                <Trash2 size={16} /> クリア
+                <span>🗑️</span> クリア
               </button>
             )}
           </div>
@@ -289,7 +290,7 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
               <canvas ref={canvasRef} style={{ width: '100%', height: 'auto', display: 'block' }}></canvas>
             </div>
             <button onClick={handleDownload} className="btn-premium" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', background: '#1D4ED8', width: '100%' }}>
-              <Download size={20} /> 画像をダウンロード
+              <span>⬇️</span> 画像をダウンロード
             </button>
           </div>
 
@@ -308,7 +309,7 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
                 onClick={handleCopy}
                 style={{ position: 'absolute', bottom: '10px', right: '10px', background: copied ? '#2563EB' : '#1E293B', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 'bold', transition: 'all 0.2s' }}
               >
-                {copied ? <CheckCircle size={16} /> : <Copy size={16} />}
+                <span>{copied ? '✅' : '📋'}</span>
                 {copied ? 'コピーしました！' : 'コピー'}
               </button>
             </div>
