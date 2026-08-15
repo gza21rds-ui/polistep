@@ -340,7 +340,33 @@ export default function AdminDashboard() {
       </main>
 
       {/* SNS共有モーダル */}
-      <SnsShareGenerator visible={snsModalVisible} onClose={() => setSnsModalVisible(false)} stats={stats} statsToday={statsToday} user={user} />
+      <SnsErrorBoundary>
+        <SnsShareGenerator visible={snsModalVisible} onClose={() => setSnsModalVisible(false)} stats={stats} statsToday={statsToday} user={user} />
+      </SnsErrorBoundary>
     </div>
   );
+}
+
+class SnsErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="overlay">
+          <div className="modal-content" style={{ padding: '2rem', background: '#FEE2E2', color: '#991B1B', borderRadius: '12px' }}>
+            <h3>エラーが発生しました</h3>
+            <p>{this.state.error && this.state.error.toString()}</p>
+            <button onClick={() => this.setState({ hasError: false })} className="btn-outline">閉じる</button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
