@@ -7,14 +7,14 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
   const [bgImage, setBgImage] = useState(null);
   const canvasRef = useRef(null);
 
-  const talkedTotal = stats.talked || 0;
-  const talkedToday = statsToday.talked || 0;
-  const talkedTarget = user.target_visits || 0;
+  const talkedTotal = stats?.talked || 0;
+  const talkedToday = statsToday?.talked || 0;
+  const talkedTarget = user?.target_visits || 0;
 
-  const flyersTotal = (stats.flyer || 0) + (stats.station_flyer || 0) + (stats.absent || 0) + (stats.flyerCount || 0);
-  const flyersToday = (statsToday.flyer || 0) + (statsToday.station_flyer || 0) + (statsToday.absent || 0) + (statsToday.flyerCount || 0);
-  const flyersTarget = user.target_flyers || 0;
-  const speechToday = statsToday.speech || 0;
+  const flyersTotal = (stats?.flyer || 0) + (stats?.station_flyer || 0) + (stats?.absent || 0) + (stats?.flyerCount || 0);
+  const flyersToday = (statsToday?.flyer || 0) + (statsToday?.station_flyer || 0) + (statsToday?.absent || 0) + (statsToday?.flyerCount || 0);
+  const flyersTarget = user?.target_flyers || 0;
+  const speechToday = statsToday?.speech || 0;
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
