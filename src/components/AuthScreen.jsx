@@ -110,7 +110,7 @@ export default function AuthScreen() {
         </div>
         <div className="auth-quote-box">
           <div className="auth-quote">チームの力が、<br/>地域を変える。</div>
-          <div className="auth-quote-author">ドブ板選挙の完全可視化ツール</div>
+          <div className="auth-quote-author">ドブ板活動の完全可視化ツール</div>
         </div>
       </div>
 

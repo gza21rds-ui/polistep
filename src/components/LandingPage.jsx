@@ -20,7 +20,7 @@ export default function LandingPage() {
       <section className="hero-section">
         <div className="hero-content">
           <div className="campaign-banner">
-            【2027年統一地方選挙 限定】通常有料の全機能を今だけ「完全無料」で解放中！
+            【2027年 政治活動応援キャンペーン】通常有料の全機能を今だけ「完全無料」で解放中！
           </div>
           <h1 className="hero-title">
             孤独なドブ板は、<br/><span className="text-gradient">可視化</span>で終わる。
@@ -45,7 +45,7 @@ export default function LandingPage() {
       <section className="section" style={{ background: 'var(--bg-main)' }}>
         <div className="section-inner" style={{ textAlign: 'center' }}>
           <div className="section-label">Story</div>
-          <h2 className="section-title">選挙戦の「見えない不安」を打ち破る</h2>
+          <h2 className="section-title">政治活動の「見えない不安」を打ち破る</h2>
           <p className="section-desc" style={{ margin: '0 auto' }}>
             果てしないドブ板活動。いつまでに、何をすべきか。PoliStepがあなたの羅針盤になります。
           </p>
@@ -111,7 +111,7 @@ export default function LandingPage() {
             <div className="feature-num">02</div>
             <h3 className="feature-row-title">目標からの逆算とダッシュボード</h3>
             <p className="section-desc">
-              選挙日と目標件数から「1日に必要な活動数」を自動算出。どれだけ頑張ったかがパーセンテージで可視化されるため、一人で回っていても確かな達成感とモチベーションを得られます。
+              目標日と目標件数から「1日に必要な活動数」を自動算出。どれだけ頑張ったかがパーセンテージで可視化されるため、一人で回っていても確かな達成感とモチベーションを得られます。
             </p>
           </div>
           <div className="feature-row-visual">
@@ -168,7 +168,7 @@ export default function LandingPage() {
           <div className="section-label" style={{ margin: '0 auto 1rem', background: '#DBEAFE', color: '#1D4ED8' }}>Sister Service</div>
           <h2 className="section-title">ポスター貼りの効率化なら「PoliDash」</h2>
           <p className="section-desc" style={{ margin: '0 auto 2rem', maxWidth: '600px', color: '#1E293B' }}>
-            選挙本番時、最も人手と時間を要する「ポスター貼り」。<br/>
+            政治活動において、特に人手と時間を要する「ポスター貼り」。<br/>
             PoliDashを使えば、ポスター掲示場の地図作成や経路最適化を瞬時に行い、圧倒的な効率化を実現します。
           </p>
           <a href="https://polidash.jp" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textDecoration: 'none' }}>

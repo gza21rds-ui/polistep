@@ -90,7 +90,7 @@ export default function Onboarding() {
         <div className="auth-form-wrapper" style={{ padding: 0 }}>
           <h2 className="auth-title">活動目標の設定</h2>
           <p className="auth-subtitle">
-            PoliStepへようこそ！まずは選挙における必須目標を設定しましょう。
+            PoliStepへようこそ！まずは日々の政治活動における必須目標を設定しましょう。
           </p>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -98,7 +98,7 @@ export default function Onboarding() {
             {/* 1. 期日 */}
             <div>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E293B', fontSize: '1.1rem' }}>
-                <Calendar size={20} color="#0369A1" /> 選挙・投票予定日
+                <Calendar size={20} color="#0369A1" /> 決戦（目標）予定日
               </label>
               <input 
                 type="date" 
@@ -109,13 +109,13 @@ export default function Onboarding() {
               />
             </div>
 
-            {/* 2. 当選目標得票数 */}
+            {/* 2. 目標支持者数 */}
             <div style={{ background: '#F0F9FF', padding: '1.5rem', borderRadius: '1rem', border: '1px solid #BAE6FD' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#0369A1', fontSize: '1.1rem' }}>
-                <Target size={20} /> 当選に必要な「目標得票数」
+                <Target size={20} /> 目標とする「支持者獲得数」
               </label>
               <p style={{ fontSize: '0.85rem', color: '#0C4A6E', marginBottom: '1rem', lineHeight: 1.5 }}>
-                選挙を勝ち抜くために必要な票数を入力してください。この数値をベースに、必要な活動件数を自動計算します。
+                活動の成果を出すために必要な獲得数を入力してください。この数値をベースに、必要な活動件数を自動計算します。
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <input 
@@ -137,7 +137,7 @@ export default function Onboarding() {
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E293B' }}>
                   <UserPlus size={18} color="#2563EB" /> 個別訪問・ご挨拶の目標件数
                 </label>
-                <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標得票数の <strong>3〜5倍</strong></p>
+                <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標支持者数の <strong>3〜5倍</strong></p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <input 
                     type="number" 
@@ -155,7 +155,7 @@ export default function Onboarding() {
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E293B' }}>
                   <FileText size={18} color="#F59E0B" /> ビラ・チラシ配布の目標枚数
                 </label>
-                <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標得票数の <strong>10〜20倍</strong>（対話より反応率が低いため多めに設定）</p>
+                <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標支持者数の <strong>10〜20倍</strong>（対話より反応率が低いため多めに設定）</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <input 
                     type="number" 

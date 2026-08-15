@@ -213,7 +213,7 @@ export default function AdminDashboard() {
         </section>
 
         <p style={{ color: '#64748B', textAlign: 'center', fontSize: '0.95rem', fontWeight: 'bold', marginTop: '-1rem' }}>
-          投票日まで残り <span style={{ color: '#EF4444' }}>{daysLeft}</span> 日
+          決戦の日（目標日）まで残り <span style={{ color: '#EF4444' }}>{daysLeft}</span> 日
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>

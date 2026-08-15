@@ -34,7 +34,7 @@ export default function PoliDashCrossSellBanner({ onClose }) {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ flex: 1 }}>
-          <h3 style={{ margin: 0, color: '#0369A1', fontSize: '1rem' }}>選挙本番時、効率的にポスター貼りしませんか？</h3>
+          <h3 style={{ margin: 0, color: '#0369A1', fontSize: '1rem' }}>政治活動において、効率的にポスター貼りしませんか？</h3>
           <p style={{ margin: '4px 0 0', color: '#0C4A6E', fontSize: '0.85rem' }}>
             本番用ポスター地図作成・経路最適化アプリ「PoliDash」で、ポスター貼りを劇的に効率化。
           </p>
