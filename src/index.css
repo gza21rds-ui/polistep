@@ -119,8 +119,22 @@ body, html {
 .btn-secondary:hover { background: var(--bg-section); border-color: var(--text-muted); }
 
 .hero-visual-container {
-  flex: 1; width: 100%; max-width: 500px; position: relative;
+  flex: 1; width: 100%; max-width: 650px; position: relative;
   animation: fadeInUp 0.8s ease-out 0.4s both;
+  display: flex;
+  justify-content: center;
+}
+.hero-visual-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+  z-index: -1;
+  border-radius: 50%;
 }
 .hero-main-img {
   width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); border: 1px solid var(--border-light);
