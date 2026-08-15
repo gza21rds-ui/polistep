@@ -254,7 +254,10 @@ export default function AdminDashboard() {
                 <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#059669' }}>{stats.tsujidachi} <span style={{fontSize: '1rem'}}>時間</span></div>
               </div>
             </div>
-            <button onClick={() => setSnsModalVisible(true)} className="btn-outline" style={{ width: '100%', borderRadius: '12px', display: 'flex', justifyContent: 'center', gap: '0.5rem', padding: '1rem', color: '#0F172A', borderColor: '#CBD5E1' }}>
+            <button onClick={() => {
+              alert("ボタンが押されました！これからモーダルを開きます。");
+              setSnsModalVisible(true);
+            }} className="btn-outline" style={{ width: '100%', borderRadius: '12px', display: 'flex', justifyContent: 'center', gap: '0.5rem', padding: '1rem', color: '#0F172A', borderColor: '#CBD5E1' }}>
               <Share2 size={20} /> 本日の活動をSNS用画像で出力
             </button>
           </section>
