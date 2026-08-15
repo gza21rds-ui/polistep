@@ -56,6 +56,14 @@
       });
       document.addEventListener('dragstart', event => event.preventDefault());
     </script>
+    <script>
+      window.addEventListener('error', function(e) {
+        alert("GLOBAL ERROR: " + (e.message || e.error));
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        alert("UNHANDLED PROMISE: " + e.reason);
+      });
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
