@@ -20,7 +20,7 @@ export default function LandingPage() {
       <section className="hero-section">
         <div className="hero-content">
           <div className="campaign-banner">
-            【2027年 政治活動応援キャンペーン】通常有料の全機能を今だけ「完全無料」で解放中！
+            【2027年 統一地方選挙 応援キャンペーン】本来なら月額980円のところ、今だけ「完全0円」で全機能を開放中！
           </div>
           <h1 className="hero-title">
             孤独なドブ板は、<br/><span className="text-gradient">可視化</span>で終わる。
@@ -148,6 +148,42 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ===== Pricing Section ===== */}
+      <section className="section" style={{ background: '#F8FAFC', textAlign: 'center', padding: '6rem 2rem' }}>
+        <div className="section-inner" style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <div className="section-label" style={{ margin: '0 auto 1rem', background: '#DBEAFE', color: '#1D4ED8' }}>Pricing</div>
+          <h2 className="section-title">2027年統一地方選挙 応援キャンペーン！</h2>
+          <div style={{ background: 'white', padding: '3rem 2rem', borderRadius: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.05)', marginTop: '2rem', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: '1.5rem', right: '-2.5rem', background: '#EF4444', color: 'white', padding: '0.5rem 3rem', transform: 'rotate(45deg)', fontWeight: 'bold', fontSize: '0.95rem', letterSpacing: '0.05em', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+              今だけ無料
+            </div>
+            <p style={{ fontSize: '1.25rem', color: '#64748B', marginBottom: '1rem', fontWeight: 600 }}>通常価格</p>
+            <div style={{ textDecoration: 'line-through', color: '#CBD5E1', fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+              月額 980円 <span style={{ fontSize: '1rem', fontWeight: 600 }}>(税込)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1.5rem 0' }}>
+              <div style={{ background: '#EFF6FF', borderRadius: '50%', padding: '0.75rem', display: 'flex' }}>
+                <ArrowRight size={24} color="#3B82F6" style={{ transform: 'rotate(90deg)' }} />
+              </div>
+            </div>
+            <div style={{ color: '#0F172A', fontSize: '4.5rem', fontWeight: 900, lineHeight: 1 }}>
+              <span style={{ fontSize: '2rem', verticalAlign: 'top', marginRight: '0.2rem' }}>¥</span>0
+              <span style={{ fontSize: '1.25rem', color: '#64748B', fontWeight: 600, marginLeft: '0.5rem' }}>/ 月</span>
+            </div>
+            <p style={{ marginTop: '2rem', color: '#334155', fontSize: '1.1rem', lineHeight: 1.8, fontWeight: 500, textAlign: 'left', background: '#F1F5F9', padding: '1.5rem', borderRadius: '12px' }}>
+              姉妹サービス「PoliDash」と同様に、地域のために立ち上がる若手候補者の皆様を全力で応援するため、<br />
+              <strong style={{ color: '#2563EB' }}>2027年の統一地方選挙に向けて、今だけ「完全0円」ですべての機能をご提供しています。</strong><br />
+              ポスター貼りから毎日の挨拶回りまで、PoliStepの圧倒的な効率化をこの機会にぜひご体感ください。
+            </p>
+            <div style={{ marginTop: '2.5rem' }}>
+              <Link to="/auth?mode=register" className="btn-primary" style={{ fontSize: '1.1rem', padding: '1rem 3rem', display: 'inline-flex', gap: '0.5rem' }}>
+                無料でアカウント作成 <ArrowRight size={20} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== PoliSide (Premium Consultation) ===== */}
       <section id="poliside" className="premium-section">
         <div className="premium-badge">PREMIUM CONSULTING</div>
@@ -187,7 +223,7 @@ export default function LandingPage() {
           <Link to="/auth" className="footer-link">ログイン / 新規登録</Link>
         </div>
         <div style={{ textAlign: 'center', color: '#64748B', fontSize: '0.85rem', marginBottom: '1rem', lineHeight: 1.6 }}>
-          ※現在PoliStepは「完全無料のお試し期間（β版）」として提供しております。<br/>万が一の不具合によるデータ消失等について完全な保証はできかねる場合がございます。あらかじめご了承ください。
+          ※本来は月額980円の有料サービスですが、2027年の統一地方選挙に向けて今だけ「完全0円」でご提供中です。<br/>現在システムは「お試し期間（β版）」であり、万が一の不具合によるデータ消失等について完全な保証はできかねる場合がございます。あらかじめご了承ください。
         </div>
         <div style={{ textAlign: 'center', color: '#64748B', fontSize: '0.85rem', marginBottom: '1.5rem', lineHeight: 1.6, maxWidth: '800px', margin: '0 auto 1.5rem auto' }}>
           ※【法的免責事項】当サービスは、政治家および立候補予定者の平時における「政治活動（後援会拡大等の日常活動）」の効率化・連絡調整を目的とした業務管理ツールです。公職選挙法で規定される選挙期間中の「選挙運動」を直接的に目的としたサービスではありません。
