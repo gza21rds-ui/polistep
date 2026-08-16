@@ -6,12 +6,6 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
   const [bgImage, setBgImage] = useState(null);
   const canvasRef = useRef(null);
   
-  useEffect(() => {
-    if (visible) {
-      alert("SnsShareGeneratorがレンダリングされました！（表示処理開始）");
-    }
-  }, [visible]);
-
   console.log("SnsShareGenerator rendered, visible:", visible);
 
   const talkedTotal = stats?.talked || 0;
@@ -154,9 +148,11 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
       ctx.font = '900 85px sans-serif';
       ctx.fillText(value, x, y + 100);
       
+      const valWidth = ctx.measureText(value).width;
       ctx.fillStyle = '#CBD5E1';
       ctx.font = 'bold 30px sans-serif';
-      ctx.fillText(unit, x + (ctx.measureText(value).width / 2) + 40, y + 95);
+      ctx.textAlign = 'left';
+      ctx.fillText(unit, x + (valWidth / 2) + 15, y + 95);
     };
 
     // Columns: X = 270 (Left), 540 (Center), 810 (Right)
