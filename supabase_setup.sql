@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS public.users (
   display_name TEXT,
   team_id UUID, -- 管理者(admin)のidと同じUUIDを入れてチームを識別する
   election_date DATE,
+  target_votes INTEGER,
+  target_visits INTEGER,
+  target_flyers INTEGER,
   target_actions INTEGER,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
@@ -22,6 +25,7 @@ CREATE TABLE IF NOT EXISTS public.pins (
   lng DOUBLE PRECISION NOT NULL,
   type TEXT NOT NULL, -- 例: 'visited', 'absent', 'support'
   memo TEXT,
+  action_count INTEGER DEFAULT 1,
   created_by UUID REFERENCES public.users(id), -- NULLの場合は匿名スタッフ
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
