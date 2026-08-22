@@ -3,17 +3,37 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, MessageSquare, BarChart2, Share2 } from 'lucide-react';
 
 export default function LandingPage() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  const [showFloatingCta, setShowFloatingCta] = React.useState(false);
+
+  useEffect(() => { 
+    window.scrollTo(0, 0); 
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowFloatingCta(true);
+      } else {
+        setShowFloatingCta(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <div className="page-container" style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none' }}>
+    <div className="page-container" style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none', paddingBottom: showFloatingCta ? '70px' : '0' }}>
       {/* ===== Header ===== */}
-      <header className="glass-header">
-        <div className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+      <header className="glass-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.875rem 1.5rem' }}>
+        <div className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '1.25rem', fontWeight: 900 }}>
+          <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '32px', height: '32px', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }} />
           PoliStep
         </div>
-        <Link to="/auth?mode=login" className="btn-outline">ログイン</Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <Link to="/auth?mode=login" className="btn-outline" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem', borderRadius: '9999px' }}>
+            ログイン
+          </Link>
+          <Link to="/auth?mode=register" className="btn-primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+            無料で始める <ArrowRight size={14} />
+          </Link>
+        </div>
       </header>
 
       {/* ===== Hero (Japanese Volunteer Style) ===== */}
@@ -262,6 +282,19 @@ export default function LandingPage() {
           &copy; {new Date().getFullYear()} PoliStep. All rights reserved.
         </div>
       </footer>
+
+      {/* ===== Mobile Floating CTA Bar ===== */}
+      {showFloatingCta && (
+        <div className="mobile-floating-cta">
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontSize: '0.75rem', color: '#1E3A8A', fontWeight: 800 }}>2027年統一地方選挙 応援</span>
+            <span style={{ fontSize: '0.85rem', color: '#EF4444', fontWeight: 900 }}>今だけ完全0円で全機能開放</span>
+          </div>
+          <Link to="/auth?mode=register" className="btn-primary" style={{ padding: '0.6rem 1.25rem', fontSize: '0.9rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.35rem', boxShadow: '0 4px 12px rgba(37,99,235,0.3)', whiteSpace: 'nowrap' }}>
+            無料で始める <ArrowRight size={16} />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

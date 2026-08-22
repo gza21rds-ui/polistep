@@ -655,3 +655,59 @@ body, html {
   font-weight: bold;
   cursor: pointer;
 }
+
+/* ==================== MOBILE FLOATING CTA ==================== */
+.mobile-floating-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* LINE SHARE BUTTON */
+.btn-line {
+  background: #06C755;
+  color: white;
+  border: none;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(6, 199, 85, 0.25);
+}
+.btn-line:hover {
+  background: #05B34C;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(6, 199, 85, 0.35);
+}
+
+/* TAP SCALE UTILITY */
+.tap-scale {
+  transition: transform 0.15s ease;
+}
+.tap-scale:active {
+  transform: scale(0.96);
+}
+

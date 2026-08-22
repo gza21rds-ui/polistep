@@ -24,22 +24,28 @@ export default function ActionBottomSheet({ onAction, onClose, selectedPin, onDe
         </button>
       </div>
       <div className="action-grid">
-        <button className="action-btn btn-absent" onClick={() => onAction('absent')}>
+        <button className="action-btn btn-absent tap-scale" onClick={() => onAction('absent')}>
+          <span style={{ fontSize: '1.35rem', display: 'block', marginBottom: '0.25rem' }}>📮</span>
           留守（チラシ投函）
         </button>
-        <button className="action-btn btn-talked" onClick={() => onAction('talked')}>
+        <button className="action-btn btn-talked tap-scale" onClick={() => onAction('talked')}>
+          <span style={{ fontSize: '1.35rem', display: 'block', marginBottom: '0.25rem' }}>🤝</span>
           ご挨拶できた
         </button>
-        <button className="action-btn btn-poster" onClick={() => onAction('poster')}>
+        <button className="action-btn btn-poster tap-scale" onClick={() => onAction('poster')}>
+          <span style={{ fontSize: '1.35rem', display: 'block', marginBottom: '0.25rem' }}>📌</span>
           ポスター貼付
         </button>
-        <button className="action-btn btn-speech" onClick={() => onAction('speech')}>
+        <button className="action-btn btn-speech tap-scale" onClick={() => onAction('speech')}>
+          <span style={{ fontSize: '1.35rem', display: 'block', marginBottom: '0.25rem' }}>📢</span>
           街頭演説
         </button>
-        <button className="action-btn btn-station-flyer" onClick={() => onAction('station_flyer')}>
+        <button className="action-btn btn-station-flyer tap-scale" onClick={() => onAction('station_flyer')}>
+          <span style={{ fontSize: '1.35rem', display: 'block', marginBottom: '0.25rem' }}>📄</span>
           駅頭ビラ配り
         </button>
-        <button className="action-btn btn-tsujidachi" onClick={() => onAction('tsujidachi')}>
+        <button className="action-btn btn-tsujidachi tap-scale" onClick={() => onAction('tsujidachi')}>
+          <span style={{ fontSize: '1.35rem', display: 'block', marginBottom: '0.25rem' }}>🧍‍♂️</span>
           辻立ち（交差点等）
         </button>
       </div>

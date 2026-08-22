@@ -220,86 +220,129 @@ export default function AdminDashboard() {
           
           {/* 本日の活動サマリー */}
           <section className="glass-card" style={{ padding: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <Activity size={24} color="var(--color-primary)" />
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-secondary)' }}>全体の活動サマリー</h3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <Activity size={24} color="var(--primary)" />
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-main)' }}>全体の活動サマリー</h3>
+              </div>
+              <span style={{ fontSize: '0.85rem', color: '#64748B', background: '#F1F5F9', padding: '0.35rem 0.75rem', borderRadius: '9999px', fontWeight: 600 }}>
+                累計実績
+              </span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-              <div style={{ background: '#EFF6FF', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#1E3A8A' }}>留守（チラシ投函）</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1D4ED8' }}>{stats.absent + stats.flyer}</div>
+              <div style={{ background: '#EFF6FF', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #DBEAFE' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1E3A8A', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
+                  <span>📮</span> 留守（チラシ投函）
+                </div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1D4ED8' }}>{stats.absent + stats.flyer} <span style={{fontSize: '0.9rem', fontWeight: 600}}>件</span></div>
               </div>
-              <div style={{ background: '#FEF3C7', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#92400E' }}>ビラ配り</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#D97706' }}>{stats.station_flyer} <span style={{fontSize: '1rem'}}>回</span></div>
+              <div style={{ background: '#FEF3C7', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #FDE68A' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#92400E', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
+                  <span>📄</span> ビラ配り
+                </div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#D97706' }}>{stats.station_flyer} <span style={{fontSize: '0.9rem', fontWeight: 600}}>回</span></div>
               </div>
-              <div style={{ background: '#FFEDD5', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#9A3412' }}>ご挨拶できた</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#C2410C' }}>{stats.talked}</div>
+              <div style={{ background: '#FFEDD5', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #FED7AA' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#9A3412', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
+                  <span>🤝</span> ご挨拶できた
+                </div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#C2410C' }}>{stats.talked} <span style={{fontSize: '0.9rem', fontWeight: 600}}>件</span></div>
               </div>
-              <div style={{ background: '#FEE2E2', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#991B1B' }}>ポスター貼付</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#B91C1C' }}>{stats.poster}</div>
+              <div style={{ background: '#FEE2E2', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #FECACA' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#991B1B', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
+                  <span>📌</span> ポスター貼付
+                </div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#B91C1C' }}>{stats.poster} <span style={{fontSize: '0.9rem', fontWeight: 600}}>箇所</span></div>
               </div>
-              <div style={{ background: '#F0FDF4', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#166534' }}>ポスター許可</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#15803D' }}>{stats.poster_ok}</div>
+              <div style={{ background: '#F0FDF4', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #BBF7D0' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#166534', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
+                  <span>🎯</span> ポスター許可
+                </div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#15803D' }}>{stats.poster_ok} <span style={{fontSize: '0.9rem', fontWeight: 600}}>件</span></div>
               </div>
-              <div style={{ background: '#F5F3FF', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#5B21B6' }}>街頭演説</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#6D28D9' }}>{stats.speech} <span style={{fontSize: '1rem'}}>回</span></div>
+              <div style={{ background: '#F5F3FF', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #DDD6FE' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#5B21B6', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
+                  <span>📢</span> 街頭演説
+                </div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#6D28D9' }}>{stats.speech} <span style={{fontSize: '0.9rem', fontWeight: 600}}>回</span></div>
               </div>
-              <div style={{ background: '#ECFDF5', padding: '1.25rem', borderRadius: '1rem' }}>
-                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#065F46' }}>辻立ち</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#059669' }}>{stats.tsujidachi} <span style={{fontSize: '1rem'}}>時間</span></div>
+              <div style={{ background: '#ECFDF5', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #A7F3D0', gridColumn: '1 / -1' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#065F46', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
+                  <span>🧍‍♂️</span> 辻立ち（交差点・駅前等）
+                </div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#059669' }}>{stats.tsujidachi} <span style={{fontSize: '0.9rem', fontWeight: 600}}>時間</span></div>
               </div>
             </div>
-            <button onClick={() => setSnsModalVisible(true)} className="btn-outline" style={{ width: '100%', borderRadius: '12px', display: 'flex', justifyContent: 'center', gap: '0.5rem', padding: '1rem', color: '#0F172A', borderColor: '#CBD5E1' }}>
-              <Share2 size={20} /> 本日の活動をSNS用画像で出力
+            <button onClick={() => setSnsModalVisible(true)} className="btn-outline tap-scale" style={{ width: '100%', borderRadius: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', padding: '0.875rem', color: '#0F172A', borderColor: '#CBD5E1', fontWeight: 700 }}>
+              <Share2 size={18} /> 本日の活動をSNS用画像で出力
             </button>
           </section>
 
           {/* スタッフ共有リンク */}
           <section className="glass-card" style={{ padding: '2rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <Share2 size={24} color="var(--color-primary)" />
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-secondary)' }}>スタッフ共有リンク</h3>
+              <Share2 size={24} color="var(--primary)" />
+              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-main)' }}>スタッフ共有リンク</h3>
             </div>
-            <p style={{ color: '#475569', marginBottom: '1rem', fontSize: '1rem', lineHeight: 1.7 }}>
+            <p style={{ color: '#475569', marginBottom: '1rem', fontSize: '0.95rem', lineHeight: 1.7 }}>
               以下のURLをボランティアスタッフにLINEやメールで共有するだけ！<strong>登録不要</strong>ですぐにマップで活動を記録できます。
             </p>
             <div style={{ background: '#FFFBEB', padding: '0.75rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', marginBottom: '1.5rem', fontSize: '0.85rem', color: '#92400E' }}>
-              <strong>※ご注意：</strong>スタッフ共有リンクからアクセスした画面では、この「管理者ダッシュボード（進捗グラフ等）」は閲覧できません。記録専用のマップ画面が開きます。
+              <strong>※ご注意：</strong>スタッフ共有リンクからアクセスした画面では、この「管理者ダッシュボード」は閲覧できません。記録専用マップが開きます。
             </div>
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'stretch', flexDirection: 'column' }}>
               <div style={{ width: '100%', padding: '0.875rem 1rem', background: '#F1F5F9', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-light)', fontSize: '0.85rem', color: '#334155', wordBreak: 'break-all', fontFamily: 'monospace', lineHeight: 1.6 }}>
                 {getShareUrl()}
               </div>
-              <button 
-                className="btn-premium" 
-                style={{ width: '100%', borderRadius: 'var(--radius-md)', gap: '0.5rem' }}
-                onClick={handleCopyLink}
-              >
-                {copied ? <><Check size={20} /> コピーしました！</> : <><Copy size={20} /> リンクをコピー</>}
-              </button>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                <button 
+                  className="btn-premium tap-scale" 
+                  style={{ borderRadius: 'var(--radius-md)', gap: '0.5rem', padding: '0.75rem 1rem', fontSize: '0.95rem' }}
+                  onClick={handleCopyLink}
+                >
+                  {copied ? <><Check size={18} /> コピー完了！</> : <><Copy size={18} /> URLをコピー</>}
+                </button>
+                <a
+                  href={`https://line.me/R/msg/text/?${encodeURIComponent(`【PoliStep】本日の活動マップURLです。タップして記録を開始してください！\n${getShareUrl()}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-line tap-scale"
+                  style={{ padding: '0.75rem 1rem', fontSize: '0.95rem' }}
+                >
+                  💬 LINEで送る
+                </a>
+              </div>
             </div>
           </section>
 
           {/* ご挨拶・対話ログ検索 */}
           <section className="glass-card" style={{ padding: '2rem', gridColumn: '1 / -1' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <Search size={24} color="var(--color-primary)" />
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-secondary)' }}>ご挨拶・対話ログ検索</h3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <Search size={24} color="var(--primary)" />
+                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-main)' }}>ご挨拶・対話ログ検索</h3>
+              </div>
+              <span style={{ fontSize: '0.85rem', color: '#64748B', background: '#F1F5F9', padding: '0.35rem 0.75rem', borderRadius: '9999px', fontWeight: 600 }}>
+                {talkedLogs.length} 件の対話メモ
+              </span>
             </div>
             
-            <div style={{ marginBottom: '1.5rem' }}>
+            <div style={{ marginBottom: '1.5rem', position: 'relative' }}>
               <input 
                 type="text" 
                 placeholder="お名前や会話内容で検索..." 
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
-                style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1.1rem', outline: 'none' }}
+                style={{ width: '100%', padding: '0.875rem 1rem', paddingRight: searchText ? '2.5rem' : '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1rem', outline: 'none', transition: 'border-color 0.2s' }}
               />
+              {searchText && (
+                <button
+                  onClick={() => setSearchText('')}
+                  style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#94A3B8', fontSize: '1.2rem', cursor: 'pointer', padding: '0.25rem' }}
+                >
+                  &times;
+                </button>
+              )}
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '500px', overflowY: 'auto', paddingRight: '0.5rem' }}>
