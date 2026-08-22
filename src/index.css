@@ -160,47 +160,125 @@ body, html {
   display: inline-block;
 }
 
-/* ストーリーパネル (縦スクロールWebtoon風) */
-.comic-grid {
-  display: flex;
-  flex-direction: column;
-  max-width: 600px;
+/* ストーリージャーニー (モダンSaaS カードグリッド) */
+.story-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1040px;
   margin: 0 auto;
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--border-light);
 }
-.comic-panel {
+
+@media (max-width: 768px) {
+  .story-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 480px;
+  }
+}
+
+.story-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04), 0 4px 6px -2px rgba(15, 23, 42, 0.02);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
-  background: white;
-  border-bottom: 1px solid var(--border-light);
 }
-.comic-panel:last-child {
-  border-bottom: none;
+
+.story-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px -8px rgba(37, 99, 235, 0.12), 0 8px 12px -4px rgba(15, 23, 42, 0.04);
+  border-color: #BFDBFE;
 }
-.comic-panel-img {
+
+.story-card-img-wrap {
+  position: relative;
   width: 100%;
-  height: 300px;
+  height: 240px;
+  overflow: hidden;
+  background: #0F172A;
+}
+
+@media (max-width: 640px) {
+  .story-card-img-wrap {
+    height: 200px;
+  }
+}
+
+.story-card-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.comic-text-box {
-  padding: 1.5rem 2rem;
-  background: white;
-  text-align: center;
+
+.story-card:hover .story-card-img {
+  transform: scale(1.04);
 }
-.comic-dialogue {
+
+.story-step-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
   font-weight: 800;
-  font-size: 1.1rem;
-  color: var(--primary-hover);
-  margin-bottom: 0.75rem;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-.comic-narration {
-  font-size: 1rem;
+
+.step-before {
+  background: rgba(15, 23, 42, 0.85);
+  color: #F8FAFC;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.step-plan {
+  background: rgba(37, 99, 235, 0.9);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.step-action {
+  background: rgba(2, 132, 199, 0.9);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.step-success {
+  background: rgba(5, 150, 105, 0.9);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.story-card-body {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: left;
+  background: #ffffff;
+}
+
+.story-card-title {
+  font-size: 1.2rem;
+  font-weight: 800;
   color: var(--text-main);
-  line-height: 1.8;
+  line-height: 1.45;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.3px;
+}
+
+.story-card-desc {
+  font-size: 0.925rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  flex: 1;
 }
 
 /* ==================== FEATURE ROWS ==================== */

@@ -41,44 +41,71 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ===== Photo Story ===== */}
-      <section className="section" style={{ background: 'var(--bg-main)' }}>
-        <div className="section-inner" style={{ textAlign: 'center' }}>
-          <div className="section-label">Story</div>
+      {/* ===== Photo Story (Modern Journey Grid) ===== */}
+      <section className="section" style={{ background: 'var(--bg-main)', padding: '6rem 1.5rem' }}>
+        <div className="section-inner" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 4rem auto' }}>
+          <div className="section-label" style={{ margin: '0 auto 1rem', background: '#DBEAFE', color: '#1D4ED8' }}>Story</div>
           <h2 className="section-title">政治活動の「見えない不安」を打ち破る</h2>
-          <p className="section-desc" style={{ margin: '0 auto' }}>
-            果てしないドブ板活動。いつまでに、何をすべきか。PoliStepがあなたの羅針盤になります。
+          <p className="section-desc" style={{ margin: '0 auto', fontSize: '1.05rem', color: '#475569' }}>
+            果てしないドブ板活動。いつまでに、何をすべきか。<br className="desktop-only" />
+            PoliStepがあなたの活動を可視化し、ゴールへの羅針盤になります。
           </p>
         </div>
 
-        <div className="comic-grid">
+        <div className="story-grid">
           {/* Scene 1 */}
-          <div className="comic-panel">
-            <img src="/story1_anxiety.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="comic-panel-img" />
-            <div className="comic-text-box">
-              <div className="comic-narration">「このペースで、本当に間に合うのか…？」<br/>紙の地図と勘だけが頼りの活動では、ゴールが見えず、常に漠然とした不安がつきまといます。</div>
+          <div className="story-card story-card-before">
+            <div className="story-card-img-wrap">
+              <img src="/story1_anxiety.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="story-card-img" />
+              <div className="story-step-badge step-before">STEP 01 · 課題</div>
+            </div>
+            <div className="story-card-body">
+              <h3 className="story-card-title">「このペースで、本当に間に合うのか…？」</h3>
+              <p className="story-card-desc">
+                紙の地図と勘だけが頼りの活動では、ゴールが見えず常に漠然とした不安がつきまといます。自分が今日どれだけ進んだのかも分からず、焦りだけが募る日々。
+              </p>
             </div>
           </div>
+
           {/* Scene 2 */}
-          <div className="comic-panel">
-            <img src="/story2_clarity.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="comic-panel-img" />
-            <div className="comic-text-box">
-              <div className="comic-narration">PoliStepに目標を入力すると、1日に必要な「活動件数」が自動計算。今日やるべき行動計画が明確になり、迷いが消え去ります。</div>
+          <div className="story-card">
+            <div className="story-card-img-wrap">
+              <img src="/story2_clarity.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="story-card-img" />
+              <div className="story-step-badge step-plan">STEP 02 · 逆算計画</div>
+            </div>
+            <div className="story-card-body">
+              <h3 className="story-card-title">目標日からの逆算で、1日のノルマが明確に</h3>
+              <p className="story-card-desc">
+                PoliStepに決戦日と目標支持者数を入力すると、1日に必要な訪問件数やチラシ配布枚数を自動計算。今日やるべき行動量がクリアになり、迷いが自信に変わります。
+              </p>
             </div>
           </div>
+
           {/* Scene 3 */}
-          <div className="comic-panel">
-            <img src="/story3_map.jpg" alt="スマホの画面を支援者に見せる" className="comic-panel-img" />
-            <div className="comic-text-box">
-              <div className="comic-narration">毎日歩いた軌跡が、色鮮やかなピンと進捗率（％）に変わる。「今日はあと30件だ」。可視化された数字が、疲れた足を前へと進ませます。</div>
+          <div className="story-card">
+            <div className="story-card-img-wrap">
+              <img src="/story3_map.jpg" alt="スマホの画面を支援者に見せる" className="story-card-img" />
+              <div className="story-step-badge step-action">STEP 03 · 日々の可視化</div>
+            </div>
+            <div className="story-card-body">
+              <h3 className="story-card-title">歩いた軌跡が「ピン」と「達成率（％）」に</h3>
+              <p className="story-card-desc">
+                歩いた場所をタップするだけで、地図が鮮やかなピンで埋まり、ダッシュボードの進捗バーがぐんぐん伸びる。「あと少しで今日クリアだ」と、足が自然と前へ進みます。
+              </p>
             </div>
           </div>
+
           {/* Scene 4 */}
-          <div className="comic-panel">
-            <img src="/story4_success.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="comic-panel-img" />
-            <div className="comic-text-box">
-              <div className="comic-dialogue" style={{ fontSize: '1.25rem', textAlign: 'center', background: 'transparent', border: 'none' }}>迷いなく、やり切った。</div>
-              <div className="comic-narration" style={{ textAlign: 'center' }}>明確な計画のもと蓄積された膨大な記録。<br/>身内のLINEグループ等で「今日はこれだけ回った！」と日報共有し、モチベーションを高め合えます。</div>
+          <div className="story-card story-card-success">
+            <div className="story-card-img-wrap">
+              <img src="/story4_success.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="story-card-img" />
+              <div className="story-step-badge step-success">STEP 04 · 達成と団結</div>
+            </div>
+            <div className="story-card-body">
+              <h3 className="story-card-title">「やり切った！」確信とチームの一体感</h3>
+              <p className="story-card-desc">
+                蓄積された活動ログは、自動で美しいSNS・日報画像に変換。毎晩チームのLINEグループで共有することで、陣営全体のモチベーションと結束力が爆発的に高まります。
+              </p>
             </div>
           </div>
         </div>
