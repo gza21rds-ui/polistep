@@ -56,7 +56,7 @@ export default function Terms() {
       <p style={{ marginBottom: '1rem' }}>当事務局は、必要と判断した場合には、ユーザーに通知することなくいつでも本規約を変更することができるものとします。</p>
 
       <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: '1px solid #e2e8f0', fontSize: '0.9rem', color: '#64748b' }}>
-        <p>制定日：2026年8月1日</p>
+        <p>制定日：2026年8月23日</p>
         <p>PoliStep運営事務局</p>
       </div>
         </div>

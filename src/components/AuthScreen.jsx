@@ -116,21 +116,31 @@ export default function AuthScreen() {
 
       {/* ===== 右側: フォームエリア ===== */}
       <div className="auth-form-side">
-        <Link to="/" className="auth-back-btn">
-          <ArrowLeft size={18} /> ホームへ戻る
+        <Link to="/" className="auth-back-btn tap-scale" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(8px)', padding: '0.5rem 1rem', borderRadius: '9999px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', color: '#334155', textDecoration: 'none', fontWeight: 600 }}>
+          <ArrowLeft size={16} /> ホームへ
         </Link>
         
-        <div className="auth-form-wrapper">
-          <h2 className="auth-title">{isLogin ? 'Welcome Back' : '候補者アカウント作成'}</h2>
-          <p className="auth-subtitle">
-            {isLogin ? 'アカウントにログインしてダッシュボードを確認しましょう。' : '候補者としてアカウントを作成し、チームの活動を管理しましょう。'}
+        <div className="auth-form-wrapper" style={{ animation: 'fadeInUp 0.5s ease-out' }}>
+          
+          {/* モバイル用ロゴ表示 */}
+          <div className="auth-mobile-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+            <img src="/polistep_logo_new.jpg" alt="Logo" style={{ width: '48px', height: '48px', borderRadius: '50%', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+            <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B', letterSpacing: '-0.5px' }}>PoliStep</span>
+          </div>
+
+          <h2 className="auth-title" style={{ textAlign: 'center', fontSize: '1.75rem' }}>
+            {isLogin ? 'おかえりなさい 👋' : '候補者アカウント作成 ✨'}
+          </h2>
+          <p className="auth-subtitle" style={{ textAlign: 'center', marginBottom: '2.5rem', color: '#64748B', lineHeight: 1.6 }}>
+            {isLogin ? 'アカウントにログインして、本日の活動を開始しましょう。' : '候補者としてチームの活動をデジタル化し、効率的に管理しましょう。'}
           </p>
 
-          <div className="auth-toggle-group">
+          <div className="auth-toggle-group" style={{ marginBottom: '2rem', background: '#F1F5F9', padding: '0.25rem', borderRadius: '12px' }}>
             <button 
               type="button" 
               className={`auth-toggle-btn ${isLogin ? 'active' : ''}`}
               onClick={() => setIsLogin(true)}
+              style={{ borderRadius: '10px', fontWeight: 700 }}
             >
               ログイン
             </button>
@@ -138,59 +148,70 @@ export default function AuthScreen() {
               type="button" 
               className={`auth-toggle-btn ${!isLogin ? 'active' : ''}`}
               onClick={() => setIsLogin(false)}
+              style={{ borderRadius: '10px', fontWeight: 700 }}
             >
               新規登録
             </button>
           </div>
 
           {error && (
-            <div style={{ background: '#FEE2E2', color: '#DC2626', padding: '1rem', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: '500' }}>
-              {error}
+            <div style={{ background: '#FEF2F2', color: '#B91C1C', padding: '1rem', borderRadius: '12px', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: 600, border: '1px solid #FECACA', display: 'flex', alignItems: 'center', gap: '0.5rem', animation: 'shake 0.4s ease-in-out' }}>
+              ⚠️ {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div style={{ animation: 'popIn 0.3s ease-out' }}>
-              <input 
-                type="email" 
-                placeholder="メールアドレス" 
-                className="input-premium" 
-                style={{ marginBottom: '1.25rem' }} 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required 
-              />
-              <input 
-                type="password" 
-                placeholder="パスワード (6文字以上)" 
-                className="input-premium" 
-                style={{ marginBottom: isLogin ? '0' : '1.25rem' }} 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required 
-              />
-              
-              {!isLogin && (
+              <div style={{ position: 'relative', marginBottom: '1.25rem' }}>
                 <input 
-                  type="text" 
-                  placeholder="候補者名（例: 田中太郎）" 
+                  type="email" 
+                  placeholder="メールアドレス" 
                   className="input-premium" 
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
+                  style={{ width: '100%', paddingLeft: '1rem' }} 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required 
                 />
+              </div>
+              <div style={{ position: 'relative', marginBottom: isLogin ? '0' : '1.25rem' }}>
+                <input 
+                  type="password" 
+                  placeholder="パスワード (6文字以上)" 
+                  className="input-premium" 
+                  style={{ width: '100%', paddingLeft: '1rem' }} 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required 
+                />
+              </div>
+              
+              {!isLogin && (
+                <div style={{ position: 'relative' }}>
+                  <input 
+                    type="text" 
+                    placeholder="候補者名（例: 田中太郎）" 
+                    className="input-premium" 
+                    style={{ width: '100%', paddingLeft: '1rem' }} 
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    required 
+                  />
+                </div>
               )}
             </div>
             
-            <button type="submit" className="btn-premium" style={{ marginTop: '0.5rem' }} disabled={loading}>
-              {loading ? '処理中...' : (isLogin ? 'ログイン' : '登録して始める')}
+            <button type="submit" className="btn-premium tap-scale" style={{ marginTop: '1rem', padding: '1rem', fontSize: '1.1rem', borderRadius: '12px', boxShadow: '0 8px 20px -4px rgba(37,99,235,0.3)' }} disabled={loading}>
+              {loading ? '処理中...' : (isLogin ? 'ログインする' : '登録して始める')}
             </button>
           </form>
 
           {!isLogin && (
-            <p style={{ color: '#94A3B8', fontSize: '0.8rem', marginTop: '1.5rem', textAlign: 'center', lineHeight: 1.6 }}>
-              ※ スタッフの方は登録不要です。候補者から共有されたマップURLに直接アクセスしてください。
-            </p>
+            <div style={{ marginTop: '2rem', padding: '1rem', background: '#F8FAFC', borderRadius: '12px', border: '1px dashed #CBD5E1' }}>
+              <p style={{ color: '#475569', fontSize: '0.85rem', textAlign: 'center', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                💡 <strong>ボランティアスタッフの方へ</strong><br/>
+                スタッフはアカウント登録不要です。<br/>候補者から共有されたマップURLに直接アクセスしてください。
+              </p>
+            </div>
           )}
         </div>
       </div>

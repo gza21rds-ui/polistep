@@ -711,3 +711,6 @@ body, html {
   transform: scale(0.96);
 }
 
+@media (min-width: 768px) {
+  .auth-mobile-logo { display: none !important; }
+}

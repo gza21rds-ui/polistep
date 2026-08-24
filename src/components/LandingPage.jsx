@@ -21,17 +21,17 @@ export default function LandingPage() {
   return (
     <div className="page-container" style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none', paddingBottom: showFloatingCta ? '70px' : '0' }}>
       {/* ===== Header ===== */}
-      <header className="glass-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.875rem 1.5rem' }}>
-        <div className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '1.25rem', fontWeight: 900 }}>
-          <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '32px', height: '32px', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }} />
+      <header className="glass-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.875rem 1.25rem' }}>
+        <div className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.25rem', fontWeight: 900 }}>
+          <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '30px', height: '30px', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }} />
           PoliStep
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <Link to="/auth?mode=login" className="btn-outline" style={{ padding: '0.5rem 1rem', fontSize: '0.875rem', borderRadius: '9999px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Link to="/auth?mode=login" className="btn-outline tap-scale" style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem', borderRadius: '9999px', whiteSpace: 'nowrap' }}>
             ログイン
           </Link>
-          <Link to="/auth?mode=register" className="btn-primary" style={{ padding: '0.5rem 1.25rem', fontSize: '0.875rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-            無料で始める <ArrowRight size={14} />
+          <Link to="/auth?mode=register" className="btn-primary tap-scale" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', whiteSpace: 'nowrap' }}>
+            無料で始める <ArrowRight size={14} className="desktop-only" />
           </Link>
         </div>
       </header>
@@ -285,12 +285,12 @@ export default function LandingPage() {
 
       {/* ===== Mobile Floating CTA Bar ===== */}
       {showFloatingCta && (
-        <div className="mobile-floating-cta">
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: '0.75rem', color: '#1E3A8A', fontWeight: 800 }}>2027年統一地方選挙 応援</span>
-            <span style={{ fontSize: '0.85rem', color: '#EF4444', fontWeight: 900 }}>今だけ完全0円で全機能開放</span>
+        <div className="mobile-floating-cta" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1.25rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+            <span style={{ fontSize: '0.75rem', color: '#1E3A8A', fontWeight: 800 }}>統一地方選 応援</span>
+            <span style={{ fontSize: '0.9rem', color: '#EF4444', fontWeight: 900 }}>完全0円で全機能開放！</span>
           </div>
-          <Link to="/auth?mode=register" className="btn-primary" style={{ padding: '0.6rem 1.25rem', fontSize: '0.9rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.35rem', boxShadow: '0 4px 12px rgba(37,99,235,0.3)', whiteSpace: 'nowrap' }}>
+          <Link to="/auth?mode=register" className="btn-primary tap-scale" style={{ padding: '0.6rem 1rem', fontSize: '0.9rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', boxShadow: '0 4px 12px rgba(37,99,235,0.3)', whiteSpace: 'nowrap' }}>
             無料で始める <ArrowRight size={16} />
           </Link>
         </div>

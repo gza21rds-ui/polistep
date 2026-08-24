@@ -71,7 +71,7 @@ export default function Legal() {
           </table>
           
           <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: '1px solid #E2E8F0', fontSize: '0.9rem', color: '#64748B' }}>
-            <p>制定日：2026年8月1日</p>
+            <p>制定日：2026年8月23日</p>
             <p>PoliStep運営事務局</p>
           </div>
         </div>

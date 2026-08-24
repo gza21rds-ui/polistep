@@ -99,9 +99,15 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMov
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <div style={{ position: 'relative', width: '20px', height: '20px' }}>
-          <div style={{ position: 'absolute', top: '9px', left: 0, width: '20px', height: '2px', backgroundColor: 'rgba(0,0,0,0.5)' }}></div>
-          <div style={{ position: 'absolute', top: 0, left: '9px', width: '2px', height: '20px', backgroundColor: 'rgba(0,0,0,0.5)' }}></div>
+        <div style={{ position: 'relative', width: '32px', height: '32px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
+          <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', stroke: '#1D4ED8', strokeWidth: '6px', fill: 'none', opacity: 0.9 }}>
+            <circle cx="50" cy="50" r="16" />
+            <line x1="50" y1="0" x2="50" y2="24" />
+            <line x1="50" y1="76" x2="50" y2="100" />
+            <line x1="0" y1="50" x2="24" y2="50" />
+            <line x1="76" y1="50" x2="100" y2="50" />
+            <circle cx="50" cy="50" r="4" fill="#1D4ED8" stroke="none" />
+          </svg>
         </div>
       </div>
 
