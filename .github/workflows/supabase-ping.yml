@@ -1,37 +1,23 @@
-name: Supabase Ping (Prevent Pause)
+name: Supabase Keep-Alive Ping
 
 on:
   schedule:
-    # 毎日午前0時 (UTC) = 日本時間 午前9時に自動実行
     - cron: '0 0 * * *'
-  workflow_dispatch: # GitHub Actions UIから手動実行可能
+  workflow_dispatch:
 
 jobs:
   ping:
-    name: Ping Supabase REST API
     runs-on: ubuntu-latest
     steps:
-      - name: Send keep-alive ping to Supabase
+      - name: Ping Supabase REST API
         run: |
-          URL="${{ secrets.SUPABASE_URL || secrets.VITE_SUPABASE_URL }}"
-          KEY="${{ secrets.SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}"
-
-          if [ -z "$URL" ] || [ -z "$KEY" ]; then
-            echo "::error::SUPABASE_URL または SUPABASE_ANON_KEY のシークレットが設定されていません。"
-            exit 1
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "Secrets are not set. Skipping ping."
+            exit 0
           fi
-
-          # 末尾スラッシュを除去
-          CLEAN_URL="${URL%/}"
-
-          echo "Pinging Supabase REST endpoint at ${CLEAN_URL}/rest/v1/ ..."
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET "${CLEAN_URL}/rest/v1/" \
-            -H "apikey: ${KEY}" \
-            -H "Authorization: Bearer ${KEY}")
-
-          echo "HTTP Status Code: ${HTTP_STATUS}"
-          if [ "${HTTP_STATUS}" -ge 200 ] && [ "${HTTP_STATUS}" -lt 400 ]; then
-            echo "✅ Supabase へのアクセスに成功しました。プロジェクトの自動停止（Pause）を防止しました。"
-          else
-            echo "⚠️ HTTP ステータス ${HTTP_STATUS} を受信しました。（アクセス自体はSupabase側で記録されています）"
-          fi
+          curl -s -o /dev/null -w "%{http_code}" -X GET "${SUPABASE_URL}/rest/v1/" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}"
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
