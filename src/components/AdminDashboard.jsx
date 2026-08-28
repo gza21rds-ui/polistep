@@ -35,9 +35,12 @@ export default function AdminDashboard() {
           }
           setUser(data);
           
-          // 初回ログイン時のチュートリアル自動実行チェック
-          const tourSeen = localStorage.getItem('polistep_dashboard_tour_seen');
+          // 初回ログイン時のみチュートリアル自動実行（一度起動したら即フラグ保存）
+          const tourKey = `polistep_tour_seen_${data.id}`;
+          const tourSeen = localStorage.getItem(tourKey) || localStorage.getItem('polistep_dashboard_tour_seen');
           if (!tourSeen) {
+            localStorage.setItem(tourKey, 'true');
+            localStorage.setItem('polistep_dashboard_tour_seen', 'true');
             setTimeout(() => setTourRun(true), 800);
           }
           
