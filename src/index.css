@@ -552,6 +552,19 @@ body, html {
   padding: 3rem 2rem 3rem;
 }
 
+.admin-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  width: 100%;
+}
+
+@media (min-width: 860px) {
+  .admin-dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* ACTION BOTTOM SHEET */
 .bottom-sheet {
   position: absolute;

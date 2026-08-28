@@ -242,9 +242,9 @@ export default function AdminDashboard() {
           決戦の日（目標日）まで残り <span style={{ color: '#EF4444' }}>{daysLeft}</span> 日
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-          
-          {/* 3. 本日の活動サマリー */}
+        {/* 3. サマリーと共有リンク（左右均等な2カラム） */}
+        <div className="admin-dashboard-grid">
+          {/* 本日の活動サマリー */}
           <section id="tour-today-summary" className="glass-card" style={{ padding: '2rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -340,9 +340,10 @@ export default function AdminDashboard() {
               </div>
             </div>
           </section>
+        </div>
 
-          {/* 4. ご挨拶・対話ログ検索（タイムライン） */}
-          <section id="tour-timeline" className="glass-card" style={{ padding: '2rem', gridColumn: '1 / -1' }}>
+        {/* 4. ご挨拶・対話ログ検索（タイムライン） */}
+        <section id="tour-timeline" className="glass-card" style={{ padding: '2rem', width: '100%' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <Search size={24} color="var(--primary)" />
@@ -398,7 +399,6 @@ export default function AdminDashboard() {
               )}
             </div>
           </section>
-        </div>
 
         {/* 5. 出撃ボタン */}
         <div id="tour-action-button" style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center', animation: 'fadeInUp 0.8s 0.2s forwards' }}>
