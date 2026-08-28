@@ -18,6 +18,7 @@ export default function AdminDashboard() {
   const [snsModalVisible, setSnsModalVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [tourRun, setTourRun] = useState(false);
+  const [selectedImageForModal, setSelectedImageForModal] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -121,16 +122,16 @@ export default function AdminDashboard() {
     .map(pin => {
       let name = '';
       let content = pin.memo;
+      let imageUrl = null;
       if (pin.memo.startsWith('{')) {
         try {
           const obj = JSON.parse(pin.memo);
-          if (obj.name !== undefined) {
-            name = obj.name;
-            content = obj.content;
-          }
+          if (obj.name !== undefined) name = obj.name;
+          if (obj.content !== undefined) content = obj.content;
+          if (obj.imageUrl !== undefined) imageUrl = obj.imageUrl;
         } catch(e) {}
       }
-      return { ...pin, parsedName: name, parsedContent: content };
+      return { ...pin, parsedName: name, parsedContent: content, parsedImageUrl: imageUrl };
     })
     .filter(pin => {
       if (!searchText.trim()) return true;
@@ -386,11 +387,37 @@ export default function AdminDashboard() {
                         {new Date(log.created_at).toLocaleString('ja-JP')}
                       </span>
                     </div>
-                    <p style={{ margin: 0, color: '#334155', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
-                      {log.parsedContent}
-                    </p>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
-                      <Link to={`/m/${user.team_id}?lat=${log.lat}&lng=${log.lng}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.9rem', color: '#2563EB', textDecoration: 'none', background: '#EFF6FF', padding: '0.5rem 1rem', borderRadius: '8px', fontWeight: 600 }}>
+
+                    {log.parsedContent && (
+                      <p style={{ margin: 0, color: '#334155', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                        {log.parsedContent}
+                      </p>
+                    )}
+
+                    {/* 添付写真の表示 */}
+                    {log.parsedImageUrl && (
+                      <div style={{ marginTop: '0.25rem' }}>
+                        <img
+                          src={log.parsedImageUrl}
+                          alt="対話メモ写真"
+                          onClick={() => setSelectedImageForModal(log.parsedImageUrl)}
+                          style={{
+                            maxWidth: '180px',
+                            maxHeight: '130px',
+                            borderRadius: '8px',
+                            objectFit: 'cover',
+                            cursor: 'pointer',
+                            border: '1px solid #CBD5E1',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+                            transition: 'transform 0.2s'
+                          }}
+                          title="クリックして拡大"
+                        />
+                      </div>
+                    )}
+
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
+                      <Link to={`/m/${user.team_id}?lat=${log.lat}&lng=${log.lng}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.9rem', color: '#2563EB', textDecoration: 'none', background: '#EFF6FF', padding: '0.4rem 0.8rem', borderRadius: '8px', fontWeight: 600 }}>
                         <Map size={16} /> マップで見る
                       </Link>
                     </div>
@@ -407,6 +434,58 @@ export default function AdminDashboard() {
           </Link>
         </div>
       </main>
+
+      {/* 写真拡大プレビューモーダル */}
+      {selectedImageForModal && (
+        <div 
+          onClick={() => setSelectedImageForModal(null)} 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(15, 23, 42, 0.85)',
+            backdropFilter: 'blur(6px)',
+            zIndex: 10000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1.5rem',
+            cursor: 'zoom-out'
+          }}
+        >
+          <div style={{ position: 'relative', maxWidth: '90vw', maxHeight: '90vh' }}>
+            <img 
+              src={selectedImageForModal} 
+              alt="写真拡大表示" 
+              style={{ maxWidth: '100%', maxHeight: '90vh', borderRadius: '12px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)', objectFit: 'contain' }} 
+            />
+            <button
+              onClick={() => setSelectedImageForModal(null)}
+              style={{
+                position: 'absolute',
+                top: '-12px',
+                right: '-12px',
+                background: 'white',
+                border: 'none',
+                borderRadius: '50%',
+                width: '36px',
+                height: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.25rem',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+              }}
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* SNS共有モーダル */}
       <SnsErrorBoundary>

@@ -125,8 +125,8 @@ export default function DashboardMapPreview({ pins = [], teamId }) {
           pin.lat && pin.lng ? (
             <Marker key={pin.id} position={[pin.lat, pin.lng]} icon={getIcon(pin)}>
               <Popup>
-                <div style={{ padding: '4px' }}>
-                  <p style={{ margin: 0, fontWeight: 'bold', fontSize: '0.9rem' }}>
+                <div style={{ padding: '4px', maxWidth: '200px' }}>
+                  <p style={{ margin: 0, fontWeight: 'bold', fontSize: '0.9rem', color: '#0F172A' }}>
                     {pin.type === 'poster' ? '📌 ポスター掲示' :
                      pin.type === 'talked' ? '🗣 対話・ご挨拶' :
                      pin.type === 'flyer' ? '📬 ビラ投函' :
@@ -135,7 +135,33 @@ export default function DashboardMapPreview({ pins = [], teamId }) {
                      pin.type === 'speech' ? '🎤 街頭演説' :
                      pin.type === 'tsujidachi' ? '🙋‍♂️ 辻立ち' : '活動記録'}
                   </p>
-                  {pin.memo && <p style={{ margin: '4px 0 0 0', fontSize: '0.8rem', color: '#475569' }}>{pin.memo}</p>}
+                  {(() => {
+                    if (!pin.memo) return null;
+                    let displayContent = pin.memo;
+                    let displayName = '';
+                    let displayImage = null;
+                    if (pin.memo.startsWith('{')) {
+                      try {
+                        const obj = JSON.parse(pin.memo);
+                        if (obj.name) displayName = obj.name;
+                        if (obj.content) displayContent = obj.content;
+                        if (obj.imageUrl) displayImage = obj.imageUrl;
+                      } catch (e) {}
+                    }
+                    return (
+                      <div style={{ marginTop: '4px' }}>
+                        {displayName && <p style={{ margin: '0 0 2px 0', fontSize: '0.85rem', fontWeight: 700, color: '#1E293B' }}>{displayName}</p>}
+                        {displayContent && <p style={{ margin: 0, fontSize: '0.8rem', color: '#475569', lineHeight: 1.4 }}>{displayContent}</p>}
+                        {displayImage && (
+                          <img 
+                            src={displayImage} 
+                            alt="記録写真" 
+                            style={{ width: '100%', maxHeight: '100px', objectFit: 'cover', borderRadius: '6px', marginTop: '6px' }} 
+                          />
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               </Popup>
             </Marker>

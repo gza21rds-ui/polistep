@@ -20,6 +20,43 @@ import Legal from './components/Legal';
 import { supabase } from './lib/supabase';
 import useNoIndex from './hooks/useNoIndex';
 
+// 画像圧縮ヘルパー関数（長辺800px、JPEG quality 0.7で約50-80KBに圧縮）
+const compressImage = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxDim = 800;
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        resolve(dataUrl);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
 // 公開マップ画面（登録不要、URLのteamIdでアクセス）
 function PublicMapApp() {
   useNoIndex();
@@ -42,6 +79,7 @@ function PublicMapApp() {
   const [memoVisible, setMemoVisible] = useState(false);
   const [memoName, setMemoName] = useState('');
   const [memoText, setMemoText] = useState('');
+  const [memoImage, setMemoImage] = useState(null);
   const [activePinIdForMemo, setActivePinIdForMemo] = useState(null);
   const [activeActionTypeForMemo, setActiveActionTypeForMemo] = useState(null);
   
@@ -181,17 +219,18 @@ function PublicMapApp() {
              setActiveActionTypeForMemo(actionType);
              let parsedName = '';
              let parsedContent = existingPin.memo || '';
+             let parsedImage = null;
              if (existingPin.memo && existingPin.memo.startsWith('{')) {
                try {
                  const obj = JSON.parse(existingPin.memo);
-                 if (obj.name !== undefined) {
-                   parsedName = obj.name;
-                   parsedContent = obj.content;
-                 }
+                 if (obj.name !== undefined) parsedName = obj.name;
+                 if (obj.content !== undefined) parsedContent = obj.content;
+                 if (obj.imageUrl !== undefined) parsedImage = obj.imageUrl;
                } catch (e) {}
              }
              setMemoName(parsedName);
              setMemoText(parsedContent);
+             setMemoImage(parsedImage);
              setMemoVisible(true);
           }
           return;
@@ -211,6 +250,7 @@ function PublicMapApp() {
            setActiveActionTypeForMemo(actionType);
            setMemoName('');
            setMemoText('');
+           setMemoImage(null);
            setMemoVisible(true);
         } else {
            setUndoVisible(true);
@@ -257,6 +297,7 @@ function PublicMapApp() {
       setActiveActionTypeForMemo(actionType);
       setMemoName('');
       setMemoText('');
+      setMemoImage(null);
       setMemoVisible(true);
     } else {
       setUndoVisible(true);
@@ -288,14 +329,15 @@ function PublicMapApp() {
   };
 
   const handleSaveMemo = async () => {
-    if (activePinIdForMemo && (memoText.trim() || memoName.trim())) {
+    if (activePinIdForMemo && (memoText.trim() || memoName.trim() || memoImage)) {
       let finalMemo = memoText.trim();
       let updatePayload = { memo: finalMemo };
       
       if (activeActionTypeForMemo === 'talked') {
         const obj = {
           name: memoName.trim(),
-          content: finalMemo
+          content: finalMemo,
+          imageUrl: memoImage || null
         };
         finalMemo = JSON.stringify(obj);
         updatePayload = { memo: finalMemo };
@@ -317,6 +359,7 @@ function PublicMapApp() {
     setMemoVisible(false);
     setActivePinIdForMemo(null);
     setActiveActionTypeForMemo(null);
+    setMemoImage(null);
   };
 
   const handleSkipMemo = async () => {
@@ -333,6 +376,18 @@ function PublicMapApp() {
     setMemoVisible(false);
     setActivePinIdForMemo(null);
     setActiveActionTypeForMemo(null);
+    setMemoImage(null);
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const compressedDataUrl = await compressImage(file);
+      setMemoImage(compressedDataUrl);
+    } catch (err) {
+      alert('画像の処理に失敗しました。');
+    }
   };
 
   if (error) {
@@ -355,8 +410,8 @@ function PublicMapApp() {
   let unitText = '';
 
   if (activeActionTypeForMemo === 'talked') {
-    memoTitle = '💬 ご挨拶メモ（任意）';
-    memoPlaceholder = '有権者の要望などを入力してください...';
+    memoTitle = '💬 ご挨拶メモ＆写真（任意）';
+    memoPlaceholder = '有権者の要望や対話内容を入力してください...';
     memoIsTalked = true;
   } else if (activeActionTypeForMemo === 'station_flyer') {
     memoTitle = (lastAction && lastAction.isUpdate) ? '📄 配布枚数を追加記録' : '📄 配布枚数を記録';
@@ -394,7 +449,7 @@ function PublicMapApp() {
         />
       
       {memoVisible ? (
-        <div className="bottom-sheet" style={{ zIndex: 2000, boxShadow: '0 -10px 30px rgba(0,0,0,0.2)' }}>
+        <div className="bottom-sheet" style={{ zIndex: 2000, boxShadow: '0 -10px 30px rgba(0,0,0,0.2)', maxHeight: '85vh', overflowY: 'auto' }}>
           <h3 style={{ marginBottom: '1rem', fontSize: '1.25rem', color: '#1E293B', fontWeight: 800 }}>{memoTitle}</h3>
           {memoIsNumber ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
@@ -408,20 +463,66 @@ function PublicMapApp() {
               <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#475569' }}>{unitText}</span>
             </div>
           ) : memoIsTalked ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '1rem' }}>
               <input
                 type="text"
                 placeholder="お名前（任意）"
                 value={memoName}
                 onChange={(e) => setMemoName(e.target.value)}
-                style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1.1rem' }}
+                style={{ width: '100%', padding: '0.85rem 1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1rem' }}
               />
               <textarea
                 placeholder={memoPlaceholder}
                 value={memoText}
                 onChange={(e) => setMemoText(e.target.value)}
-                style={{ width: '100%', minHeight: '120px', padding: '1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1.1rem', resize: 'vertical' }}
+                style={{ width: '100%', minHeight: '90px', padding: '0.85rem 1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '1rem', resize: 'vertical' }}
               />
+
+              {/* 写真添付エリア */}
+              <div style={{ background: '#F8FAFC', padding: '0.85rem', borderRadius: '12px', border: '1.5px dashed #CBD5E1' }}>
+                {memoImage ? (
+                  <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <img 
+                      src={memoImage} 
+                      alt="添付写真プレビュー" 
+                      style={{ maxHeight: '180px', maxWidth: '100%', borderRadius: '8px', objectFit: 'contain', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} 
+                    />
+                    <button
+                      onClick={() => setMemoImage(null)}
+                      style={{
+                        position: 'absolute',
+                        top: '-8px',
+                        right: '-8px',
+                        background: '#EF4444',
+                        color: 'white',
+                        border: '2px solid white',
+                        borderRadius: '50%',
+                        width: '28px',
+                        height: '28px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
+                      }}
+                      title="写真を削除"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ) : (
+                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.6rem', color: '#2563EB', fontWeight: 700, cursor: 'pointer', fontSize: '0.95rem' }}>
+                    <span>📷 写真を追加（名刺や現場状況など）</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={handleImageUpload} 
+                      style={{ display: 'none' }} 
+                    />
+                  </label>
+                )}
+              </div>
             </div>
           ) : (
             <textarea
