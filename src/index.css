@@ -492,6 +492,34 @@ body, html {
 }
 
 /* UI BUTTONS */
+.btn-gps {
+  position: absolute;
+  bottom: 80px;
+  right: 16px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: white;
+  color: #1E293B;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-gps:active {
+  transform: scale(0.92);
+  background: #F1F5F9;
+}
+
+@keyframes locationPulse {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
 .btn-fire {
   background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
   color: white;

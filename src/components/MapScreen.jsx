@@ -1,19 +1,20 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
+import React, { useState, useEffect, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import { Navigation, Crosshair } from 'lucide-react';
 import L from 'leaflet';
 
 // Create custom icons based on action type
 const getIcon = (pin) => {
   const actionType = pin.latest_action_type || pin.type;
   const colors = {
-    absent: '#1D4ED8',     // 留守
-    flyer: '#F59E0B',      // チラシ
-    talked: '#EA580C',     // ご挨拶
-    poster: '#DC2626',     // ポスター貼付
-    poster_ok: '#166534',  // ポスター許可
-    speech: '#7C3AED',     // 街頭演説
+    absent: '#1D4ED8',        // 留守
+    flyer: '#F59E0B',         // チラシ
+    talked: '#EA580C',        // ご挨拶
+    poster: '#DC2626',        // ポスター貼付
+    poster_ok: '#166534',     // ポスター許可
+    speech: '#7C3AED',        // 街頭演説
     station_flyer: '#0284C7', // 駅頭ビラ
-    tsujidachi: '#059669'  // 辻立ち
+    tsujidachi: '#059669'     // 辻立ち
   };
   const color = colors[actionType] || '#888';
   
@@ -35,7 +36,7 @@ const getIcon = (pin) => {
     return L.divIcon({
       className: 'custom-marker-label',
       html: `<div style="background-color: ${color}; padding: 0.25rem 0.5rem; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.2); color: white; font-size: 0.75rem; font-weight: bold; white-space: nowrap; transform: translate(-50%, -50%);">${label}</div>`,
-      iconSize: [0, 0], // CSS handles the size, centering via transform
+      iconSize: [0, 0],
       iconAnchor: [0, 0]
     });
   }
@@ -57,6 +58,15 @@ const getSelectedIcon = () => {
   });
 };
 
+const getCurrentLocationIcon = () => {
+  return L.divIcon({
+    className: 'current-location-marker',
+    html: `<div class="current-location-pulse"></div>`,
+    iconSize: [18, 18],
+    iconAnchor: [9, 9]
+  });
+};
+
 function MapEventHandler({ onMapClick, onMapMove }) {
   const map = useMap();
   useMapEvents({
@@ -74,7 +84,7 @@ function MapEventHandler({ onMapClick, onMapMove }) {
 
 function MapPanHandler({ center }) {
   const map = useMap();
-  React.useEffect(() => {
+  useEffect(() => {
     if (center) {
       map.setView(center, 18);
     }
@@ -82,8 +92,55 @@ function MapPanHandler({ center }) {
   return null;
 }
 
+// 初回およびボタンタップ時に現在地へパンするコントローラー
+function GeolocationController({ initialCenter, onLocationFound, triggerLocate }) {
+  const map = useMap();
+  const hasInitialized = useRef(false);
+
+  // 初回マウント時：URL指定がなければ現在地へ移動
+  useEffect(() => {
+    if (hasInitialized.current) return;
+    hasInitialized.current = true;
+
+    if (!initialCenter && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const coords = [pos.coords.latitude, pos.coords.longitude];
+          map.setView(coords, 17);
+          if (onLocationFound) onLocationFound(coords);
+        },
+        (err) => {
+          console.warn('Geolocation failed or denied:', err);
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    }
+  }, [initialCenter, map, onLocationFound]);
+
+  // 手動で現在地ボタンを押した時
+  useEffect(() => {
+    if (triggerLocate && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const coords = [pos.coords.latitude, pos.coords.longitude];
+          map.flyTo(coords, 17, { duration: 1.2 });
+          if (onLocationFound) onLocationFound(coords);
+        },
+        (err) => {
+          alert('現在地を取得できませんでした。端末の位置情報設定をご確認ください。');
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    }
+  }, [triggerLocate, map, onLocationFound]);
+
+  return null;
+}
+
 export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMove, initialCenter }) {
   const center = initialCenter || [35.6895, 139.6917];
+  const [currentCoords, setCurrentCoords] = useState(null);
+  const [locateTrigger, setLocateTrigger] = useState(0);
 
   return (
     <div className="map-section" style={{ position: 'relative' }}>
@@ -111,13 +168,33 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMov
         </div>
       </div>
 
-      <MapContainer center={center} zoom={15} zoomControl={false} style={{ height: '100%', width: '100%' }}>
+      {/* 現在地へジャンプするフローティングGPSボタン */}
+      <button 
+        className="btn-gps tap-scale" 
+        onClick={() => setLocateTrigger(prev => prev + 1)}
+        title="現在地へ移動"
+      >
+        <Navigation size={22} color="#2563EB" />
+      </button>
+
+      <MapContainer center={center} zoom={16} zoomControl={false} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapPanHandler center={initialCenter} />
+        <GeolocationController 
+          initialCenter={initialCenter} 
+          onLocationFound={(coords) => setCurrentCoords(coords)}
+          triggerLocate={locateTrigger}
+        />
         <MapEventHandler onMapClick={onMapClick} onMapMove={onMapMove} />
+        
+        {/* 自分の現在地マーカー（青い波紋ドット） */}
+        {currentCoords && (
+          <Marker position={currentCoords} icon={getCurrentLocationIcon()} />
+        )}
+
         {pins.map((pin) => (
           <Marker 
             key={pin.id} 
