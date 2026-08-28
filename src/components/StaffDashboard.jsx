@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Map, Target, Flame, LogOut, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import DashboardMapPreview from './DashboardMapPreview';
 import useNoIndex from '../hooks/useNoIndex';
 
 export default function StaffDashboard() {
   useNoIndex();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [pins, setPins] = useState([]);
   const [teamStats, setTeamStats] = useState({ poster: 0, talked: 0, flyer: 0 });
   const [myStats, setMyStats] = useState({ total: 0 });
 
@@ -26,10 +28,11 @@ export default function StaffDashboard() {
           }
           setUser(data);
           
-          // チーム全体の統計
-          supabase.from('pins').select('type, action_count').eq('team_id', data.team_id)
+          // チーム全体のピンデータと統計
+          supabase.from('pins').select('*').eq('team_id', data.team_id)
             .then(({ data: pinsData }) => {
               if (pinsData) {
+                setPins(pinsData);
                 const stats = { poster: 0, talked: 0, flyer: 0 };
                 pinsData.forEach(pin => {
                   if (pin.type === 'poster') stats.poster++;
@@ -75,6 +78,9 @@ export default function StaffDashboard() {
           <p style={{ color: '#64748B', fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.25rem' }}>ボランティアスタッフ</p>
           <h1 className="candidate-name" style={{ fontSize: '1.75rem' }}>{user.display_name} さん</h1>
         </div>
+
+        {/* マッププレビュー */}
+        <DashboardMapPreview pins={pins} teamId={user.team_id} />
 
         {/* チームの進捗サマリー */}
         <section className="glass-card" style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #1E293B, #0F172A)', color: 'white', border: 'none', position: 'relative', overflow: 'hidden' }}>
@@ -123,4 +129,3 @@ export default function StaffDashboard() {
     </div>
   );
 }
-
