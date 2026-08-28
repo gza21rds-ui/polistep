@@ -113,7 +113,7 @@ export default function Onboarding() {
             {/* 1. 期日 */}
             <div style={{ animation: 'popIn 0.3s ease-out', animationDelay: '0.1s', animationFillMode: 'both' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E293B', fontSize: '1.1rem' }}>
-                <Calendar size={20} color="#0369A1" /> 決戦（目標）予定日 🗓️
+                <Calendar size={20} color="#0369A1" /> 活動の目標・節目となる予定日 🗓️
               </label>
               <input 
                 type="date" 
@@ -127,10 +127,10 @@ export default function Onboarding() {
             {/* 2. 目標支持者数 */}
             <div style={{ background: '#F0F9FF', padding: '1.5rem', borderRadius: '1rem', border: '1px solid #BAE6FD', animation: 'popIn 0.3s ease-out', animationDelay: '0.2s', animationFillMode: 'both' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#0369A1', fontSize: '1.1rem' }}>
-                <CheckCircle2 size={20} /> 目標とする「支持者獲得数」 🗳️
+                <CheckCircle2 size={20} /> 活動の目標とする「賛同・支持者数」 🎯
               </label>
               <p style={{ fontSize: '0.85rem', color: '#0C4A6E', marginBottom: '1rem', lineHeight: 1.5 }}>
-                活動の成果を出すために必要な獲得数を入力してください。この数値をベースに、必要な活動件数を自動計算します。
+                日々の活動を通じて獲得したい賛同者数を入力してください。この数値をベースに、必要な日々の活動件数を自動計算します。
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <input 
@@ -142,7 +142,7 @@ export default function Onboarding() {
                   onChange={handleVotesChange}
                   required 
                 />
-                <span style={{ fontWeight: 'bold', color: '#0C4A6E', fontSize: '1.25rem' }}>票</span>
+                <span style={{ fontWeight: 'bold', color: '#0C4A6E', fontSize: '1.25rem' }}>人</span>
               </div>
             </div>
 
@@ -152,7 +152,7 @@ export default function Onboarding() {
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E293B' }}>
                   <UserPlus size={18} color="#2563EB" /> 個別訪問・ご挨拶の目標件数 🤝
                 </label>
-                <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標支持者数の <strong>3〜5倍</strong></p>
+                <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標数の <strong>3〜5倍</strong></p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <input 
                     type="number" 
@@ -170,7 +170,7 @@ export default function Onboarding() {
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#1E293B' }}>
                   <FileText size={18} color="#F59E0B" /> ビラ・チラシ配布の目標枚数 📄
                 </label>
-                <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標支持者数の <strong>10〜20倍</strong>（対話より反応率が低いため多めに設定）</p>
+                <p style={{ fontSize: '0.85rem', color: '#64748B', marginBottom: '0.5rem' }}>※セオリー：目標数の <strong>10〜20倍</strong>（対話より反応率が低いため多めに設定）</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <input 
                     type="number" 

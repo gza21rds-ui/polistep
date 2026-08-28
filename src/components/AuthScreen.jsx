@@ -129,10 +129,10 @@ export default function AuthScreen() {
           </div>
 
           <h2 className="auth-title" style={{ textAlign: 'center', fontSize: '1.75rem' }}>
-            {isLogin ? 'おかえりなさい 👋' : '候補者アカウント作成 ✨'}
+            {isLogin ? 'おかえりなさい 👋' : '管理者アカウント作成 ✨'}
           </h2>
           <p className="auth-subtitle" style={{ textAlign: 'center', marginBottom: '2.5rem', color: '#64748B', lineHeight: 1.6 }}>
-            {isLogin ? 'アカウントにログインして、本日の活動を開始しましょう。' : '候補者としてチームの活動をデジタル化し、効率的に管理しましょう。'}
+            {isLogin ? 'アカウントにログインして、本日の活動を開始しましょう。' : '活動の代表者としてチームをデジタル化し、効率的に管理しましょう。'}
           </p>
 
           <div className="auth-toggle-group" style={{ marginBottom: '2rem', background: '#F1F5F9', padding: '0.25rem', borderRadius: '12px' }}>
@@ -206,12 +206,12 @@ export default function AuthScreen() {
           </form>
 
           {!isLogin && (
-            <div style={{ marginTop: '2rem', padding: '1rem', background: '#F8FAFC', borderRadius: '12px', border: '1px dashed #CBD5E1' }}>
-              <p style={{ color: '#475569', fontSize: '0.85rem', textAlign: 'center', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-                💡 <strong>ボランティアスタッフの方へ</strong><br/>
-                スタッフはアカウント登録不要です。<br/>候補者から共有されたマップURLに直接アクセスしてください。
-              </p>
-            </div>
+            <div style={{ marginTop: '2.5rem', padding: '1.5rem', background: '#F8FAFC', borderRadius: '16px', border: '1px dashed #CBD5E1' }}>
+            <p style={{ fontSize: '0.9rem', color: '#475569', lineHeight: 1.6, margin: 0 }}>
+              💡 <strong>ボランティアスタッフの方へ</strong><br/>
+              スタッフはアカウント登録不要です。<br/>代表者から共有されたマップURLに直接アクセスしてください。
+            </p>
+          </div>
           )}
         </div>
       </div>
