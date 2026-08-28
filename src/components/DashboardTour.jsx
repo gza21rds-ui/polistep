@@ -15,33 +15,38 @@ export default function DashboardTour({ run, onFinish }) {
       target: 'body',
       placement: 'center',
       title: '🌟 PoliStepへようこそ！',
-      content: '政治活動・ドブ板活動の成果をリアルタイムに可視化する「PoliStep」へようこそ！ダッシュボードの基本的な使い方を30秒でご紹介します。',
+      content: '政治活動・ドブ板活動を見える化し、チーム一丸で勝利を目指すための管理画面です。基本的な使い方を30秒でご案内します！',
       disableBeacon: true,
     },
     {
-      target: '#tour-dashboard-map',
-      title: '🗺️ 1. 活動エリアマップ',
-      content: 'ログイン直後に、チーム全体が立てたピンの広がりが一目でわかります。どこを訪問済みで、どこが未開拓かが直感的に把握できます！',
+      target: '#tour-progress-bar',
+      title: '🎯 1. まずは活動目標を設定しましょう！',
+      content: '選挙本番（投票日）までに必要な「訪問件数」や「ビラ配布枚数」の目標を設定します。右上の「目標再設定」からいつでも変更でき、本番までの「1日あたりの必要ノルマ」が自動計算されます！',
     },
     {
-      target: '#tour-progress-bar',
-      title: '🎯 2. 必勝プログレスバー',
-      content: '当選に必要な目標訪問数やポスター目標に対する、現在の達成率がリアルタイムにメーターで表示されます。',
+      target: '#tour-dashboard-map',
+      title: '🗺️ 2. 活動エリアマップで全体を可視化！',
+      content: 'チーム全員が立てたピンの広がりがひと目でわかります。どの地域を訪問済みで、どこがまだ未開拓かが直感的に把握できます。',
     },
     {
       target: '#tour-today-summary',
-      title: '📊 3. 本日の活動サマリー',
-      content: '今日1日で達成された「対話」「ポスター」「ビラ投函」「辻立ち」などの合計アクション数がひと目でわかります。',
+      title: '📊 3. チームの活動実績を集計！',
+      content: '本日達成された「対話」「ポスター」「ビラ配り」「辻立ち」などの合計数がリアルタイムに集計されます。下のボタンから「活動報告用のSNS画像」も一瞬で作成できます！',
+    },
+    {
+      target: '#tour-share-link',
+      title: '🔗 4. スタッフへマップを共有！',
+      content: '表示されているURLをLINEやメールでボランティア・運動員に共有するだけ！スタッフは面倒な会員登録なしで、スマホの地図からすぐに活動を記録できます。',
     },
     {
       target: '#tour-timeline',
-      title: '⚡ 4. リアルタイム・タイムライン',
-      content: '現場の運動員やボランティアがピンを立てると、メモや写真付きの活動報告がリアルタイムにここに届きます！',
+      title: '⚡ 5. 現場の声をリアルタイム確認！',
+      content: '運動員が現場で記録したお名前や対話メモがリアルタイムに届きます。過去のメモはお名前やキーワードでいつでも検索可能です。',
     },
     {
       target: '#tour-action-button',
-      title: '🚀 5. マップを開いて活動する',
-      content: 'ここを押すと全画面の活動マップが起動します。スマホの現在地（GPS）と連動して、現場で簡単にピンを打つことができます！',
+      title: '🚀 6. マップを開いて活動開始！',
+      content: '候補者ご自身やスタッフが現場に出る際は、ここからマップを開いてスマホのGPS連動でピンを打っていきましょう！',
     },
   ];
 
@@ -75,7 +80,7 @@ export default function DashboardTour({ run, onFinish }) {
         options: {
           arrowColor: '#ffffff',
           backgroundColor: '#ffffff',
-          overlayColor: 'rgba(15, 23, 42, 0.65)',
+          overlayColor: 'rgba(15, 23, 42, 0.7)',
           primaryColor: '#2563EB',
           textColor: '#0F172A',
           zIndex: 10000,
@@ -83,18 +88,18 @@ export default function DashboardTour({ run, onFinish }) {
         tooltip: {
           borderRadius: '16px',
           padding: '1.25rem',
-          boxShadow: '0 20px 40px -10px rgba(15, 23, 42, 0.25)',
+          boxShadow: '0 20px 40px -10px rgba(15, 23, 42, 0.3)',
           fontFamily: "'Noto Sans JP', sans-serif",
         },
         tooltipTitle: {
           fontSize: '1.2rem',
           fontWeight: 800,
-          marginBottom: '0.5rem',
+          marginBottom: '0.6rem',
           color: '#0F172A',
         },
         tooltipContent: {
           fontSize: '0.95rem',
-          lineHeight: 1.6,
+          lineHeight: 1.65,
           color: '#334155',
         },
         buttonNext: {

@@ -305,7 +305,7 @@ export default function AdminDashboard() {
           </section>
 
           {/* スタッフ共有リンク */}
-          <section className="glass-card" style={{ padding: '2rem' }}>
+          <section id="tour-share-link" className="glass-card" style={{ padding: '2rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
               <Share2 size={24} color="var(--primary)" />
               <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-main)' }}>スタッフ共有リンク</h3>
