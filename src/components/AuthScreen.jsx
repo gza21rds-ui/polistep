@@ -62,6 +62,14 @@ export default function AuthScreen() {
 
           if (insertError) throw insertError;
 
+          // GA Event Trigger (Conversion)
+          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+            window.gtag('event', 'sign_up', {
+              event_category: 'conversion',
+              method: 'email'
+            });
+          }
+
           // Slack通知APIの呼び出し
           try {
             await fetch('/api/notify-slack', {
