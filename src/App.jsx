@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import liff from '@line/liff';
 import { BrowserRouter, Routes, Route, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import MapScreen from './components/MapScreen';
 import ActionBottomSheet from './components/ActionBottomSheet';
@@ -62,6 +63,25 @@ function PublicMapApp() {
   useNoIndex();
   const { teamId } = useParams();
   const navigate = useNavigate();
+  
+  // LINE Profile State
+  const [lineProfile, setLineProfile] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    liff.init({ liffId: '2011462282-d9h0l139' }).then(() => {
+      if (!isMounted) return;
+      if (liff.isLoggedIn()) {
+        liff.getProfile().then(profile => {
+          if (isMounted) setLineProfile(profile);
+        }).catch(err => console.error('LIFF getProfile error', err));
+      } else if (liff.isInClient()) {
+        // LINEアプリ内で開いている場合は自動ログイン
+        liff.login();
+      }
+    }).catch(err => console.error('LIFF init error', err));
+    return () => { isMounted = false; };
+  }, []);
   const [pins, setPins] = useState([]);
   const [actionCount, setActionCount] = useState(0);
   const [ready, setReady] = useState(false);
@@ -281,7 +301,9 @@ function PublicMapApp() {
       lat: newLat,
       lng: newLng,
       type: actionType,
-      action_count: initCount
+      action_count: initCount,
+      // LINE連携されている場合はLINEの名前を記録
+      created_by: lineProfile ? lineProfile.displayName : 'スタッフ'
     };
     
     // Safety check
