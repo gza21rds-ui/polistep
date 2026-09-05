@@ -56,8 +56,15 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
-        <div className="hero-visual-container">
-          <img src="/hero_visual_blue.jpg" alt="スマホを見て安心する候補者" className="hero-main-img" />
+        <div className="hero-visual-container" style={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: 'var(--shadow-xl)', border: '1px solid var(--border-light)' }}>
+          <iframe 
+            width="100%" 
+            style={{ aspectRatio: '16/9', display: 'block', border: 'none' }}
+            src="https://www.youtube.com/embed/1LqbyVq2ByY?autoplay=1&mute=1&rel=0" 
+            title="PoliStep 紹介動画" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen
+          ></iframe>
         </div>
       </section>
 
