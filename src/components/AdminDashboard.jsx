@@ -198,18 +198,20 @@ export default function AdminDashboard() {
               </Link>
             </div>
             
-            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div className="progress-card-content">
               {/* ドーナツチャート（左） */}
-              <CircularProgress 
-                percentage={Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)} 
-                color="#F97316" 
-                valueText={stats.talked.toString()} 
-                size={140}
-                strokeWidth={14}
-              />
+              <div style={{ flexShrink: 0 }}>
+                <CircularProgress 
+                  percentage={Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)} 
+                  color="#F97316" 
+                  valueText={stats.talked.toString()} 
+                  size={140}
+                  strokeWidth={14}
+                />
+              </div>
               
               {/* 数値詳細とバー（右） */}
-              <div style={{ flex: '1 1 200px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div className="progress-card-detail" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>目標</span>
                   <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{user.target_visits?.toLocaleString() || '---'} <span style={{ fontSize: '1rem', color: '#64748B' }}>件</span></span>
@@ -255,18 +257,20 @@ export default function AdminDashboard() {
               </h3>
             </div>
             
-            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div className="progress-card-content">
               {/* ドーナツチャート（左） */}
-              <CircularProgress 
-                percentage={Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)} 
-                color="#1D4ED8" 
-                valueText={(stats.absent + stats.flyer + (stats.flyerCount || 0)).toString()} 
-                size={140}
-                strokeWidth={14}
-              />
+              <div style={{ flexShrink: 0 }}>
+                <CircularProgress 
+                  percentage={Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)} 
+                  color="#1D4ED8" 
+                  valueText={(stats.absent + stats.flyer + (stats.flyerCount || 0)).toString()} 
+                  size={140}
+                  strokeWidth={14}
+                />
+              </div>
               
               {/* 数値詳細とバー（右） */}
-              <div style={{ flex: '1 1 200px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div className="progress-card-detail" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>目標</span>
                   <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{user.target_flyers?.toLocaleString() || '---'} <span style={{ fontSize: '1rem', color: '#64748B' }}>枚</span></span>

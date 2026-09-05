@@ -773,3 +773,23 @@ body, html {
     padding: 0.5rem;
   }
 }
+
+/* AdminDashboard Progress Cards Responsive */
+.progress-card-content {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: nowrap; /* スマホでも横並びを維持するか、あるいは綺麗に縦にする */
+}
+
+@media (max-width: 600px) {
+  .progress-card-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+  .progress-card-detail {
+    width: 100%;
+  }
+}
