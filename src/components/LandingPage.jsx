@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MessageSquare, BarChart2, Share2 } from 'lucide-react';
+import { ArrowRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles } from 'lucide-react';
 
 export default function LandingPage() {
   const [showFloatingCta, setShowFloatingCta] = React.useState(false);
@@ -37,36 +37,93 @@ export default function LandingPage() {
       </header>
 
       {/* ===== Hero (Japanese Volunteer Style) ===== */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <div className="campaign-banner">
-            【2027年 統一地方選挙 応援キャンペーン】本来なら月額980円のところ、今だけ「完全0円」で全機能を開放中！
+      <div className="hero-wrapper">
+        <section className="hero-section">
+          <div className="hero-content">
+            <div className="campaign-banner">
+              <Sparkles size={16} />
+              <span>【2027年 統一地方選挙 応援】今だけ「完全0円」で全機能開放中！</span>
+            </div>
+            <h1 className="hero-title">
+              孤独なドブ板は、<br/><span className="text-gradient">可視化</span>で終わる。
+            </h1>
+            <p className="hero-subtitle">
+              終わりの見えないポスター貼りや戸別訪問。<br/>
+              タップ一つであなたの活動をマップとグラフに変換し、<br/>
+              自身のモチベーション維持と、チームへの日報共有を圧倒的に簡単にします。
+            </p>
+            <div className="hero-cta-group">
+              <Link to="/auth?mode=register" className="btn-primary tap-scale" style={{ fontSize: '1.1rem', padding: '1rem 2.25rem' }}>
+                【完全無料】アカウント登録して始める <ArrowRight size={18} />
+              </Link>
+            </div>
+            <div className="hero-trust-badges">
+              <div className="hero-trust-item">
+                <CheckCircle2 size={15} color="#16A34A" /> クレジットカード不要
+              </div>
+              <div className="hero-trust-item">
+                <CheckCircle2 size={15} color="#16A34A" /> アプリDL不要（即ブラウザ起動）
+              </div>
+              <div className="hero-trust-item">
+                <CheckCircle2 size={15} color="#16A34A" /> 30秒で簡単スタート
+              </div>
+            </div>
           </div>
-          <h1 className="hero-title">
-            孤独なドブ板は、<br/><span className="text-gradient">可視化</span>で終わる。
-          </h1>
-          <p className="hero-subtitle">
-            終わりの見えないポスター貼りや戸別訪問。<br/>
-            タップ一つであなたの活動をマップとグラフに変換し、<br/>
-            自身のモチベーション維持と、チームへの日報共有を圧倒的に簡単にします。
-          </p>
-          <div className="hero-cta-group">
-            <Link to="/auth?mode=register" className="btn-primary" style={{ fontSize: '1.1rem', padding: '1rem 2rem' }}>
-              【完全無料】アカウント登録して始める <ArrowRight size={18} />
-            </Link>
+
+          <div className="hero-visual-container">
+            {/* 浮遊ギミック 1: 訪問実績バッジ */}
+            <div className="floating-badge floating-badge-top">
+              <div className="badge-icon-box icon-orange">🤝</div>
+              <div>
+                <div className="badge-label">本日の訪問・対話</div>
+                <div className="badge-value">
+                  128件 達成 <span className="badge-tag-mini">+18% 🔥</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Mac風モダンブラウザフレーム */}
+            <div className="hero-video-window">
+              <div className="window-header">
+                <div className="window-dots">
+                  <span className="window-dot dot-red"></span>
+                  <span className="window-dot dot-yellow"></span>
+                  <span className="window-dot dot-green"></span>
+                </div>
+                <div className="window-address-bar">
+                  <span>🔒</span> polistep.app/demo
+                </div>
+                <div className="window-badge">
+                  <span className="pulse-indicator"></span>
+                  <span>1分でわかる機能解説</span>
+                </div>
+              </div>
+              <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000' }}>
+                <iframe 
+                  width="100%" 
+                  height="100%"
+                  style={{ border: 'none', position: 'absolute', top: 0, left: 0 }}
+                  src="https://www.youtube.com/embed/1LqbyVq2ByY?autoplay=1&mute=1&rel=0&playsinline=1" 
+                  title="PoliStep 紹介動画" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+
+            {/* 浮遊ギミック 2: GPSリアルタイムマッピングバッジ */}
+            <div className="floating-badge floating-badge-bottom">
+              <div className="badge-icon-box icon-blue">📍</div>
+              <div>
+                <div className="badge-label">リアルタイム巡回マップ</div>
+                <div className="badge-value">
+                  チーム3名が活動中 <span className="pulse-indicator" style={{ background: '#10B981', boxShadow: '0 0 6px #10B981' }}></span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="hero-visual-container" style={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: 'var(--shadow-xl)', border: '1px solid var(--border-light)' }}>
-          <iframe 
-            width="100%" 
-            style={{ aspectRatio: '16/9', display: 'block', border: 'none' }}
-            src="https://www.youtube.com/embed/1LqbyVq2ByY?autoplay=1&mute=1&rel=0" 
-            title="PoliStep 紹介動画" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen
-          ></iframe>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* ===== Photo Story (Modern Journey Grid) ===== */}
       <section className="section" style={{ background: 'var(--bg-main)', padding: '6rem 1.5rem' }}>
