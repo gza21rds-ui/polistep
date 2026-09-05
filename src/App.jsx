@@ -86,7 +86,7 @@ function PublicMapApp() {
   const [mapCenter, setMapCenter] = useState(null);
   const [isSheetExpanded, setIsSheetExpanded] = useState(true);
   
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   const [searchParams] = useSearchParams();
   const queryLat = searchParams.get('lat');
@@ -110,9 +110,14 @@ function PublicMapApp() {
   };
 
   useEffect(() => {
-    // ログイン状態をチェックして管理者かどうかを判定
+    // ログイン状態とユーザーの役割（role）をチェック
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) setIsAdmin(true);
+      if (session) {
+        supabase.from('users').select('role').eq('id', session.user.id).single()
+          .then(({ data }) => {
+            if (data) setUserRole(data.role); // 'admin' or 'staff'
+          });
+      }
     });
 
     if (!teamId) {
@@ -429,12 +434,12 @@ function PublicMapApp() {
     <div className="app-container" style={{ position: 'relative', overflow: 'hidden' }}>
       {/* 戻るボタン群 */}
       <div style={{ position: 'absolute', top: 'max(1rem, env(safe-area-inset-top))', left: '1rem', zIndex: 1000, display: 'flex', gap: '0.5rem' }}>
-        <button onClick={() => window.history.back()} style={{ padding: '0.75rem 1rem', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 'bold', color: '#1E293B' }}>
-          ← 戻る
+        <button onClick={() => window.history.back()} style={{ padding: '0.6rem 1rem', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 'bold', color: '#1E293B', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem' }}>
+          <span>←</span> 戻る
         </button>
-        {isAdmin && (
-          <button onClick={() => navigate('/admin')} style={{ padding: '0.75rem 1rem', background: '#2563EB', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 'bold', color: 'white' }}>
-            ⚙️ 管理画面へ
+        {userRole && (
+          <button onClick={() => navigate(userRole === 'admin' ? '/admin' : '/staff')} style={{ padding: '0.6rem 1rem', background: '#1E293B', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 'bold', color: 'white', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem' }}>
+            <span>⚙️</span> {userRole === 'admin' ? '管理画面へ' : 'ダッシュボードへ'}
           </button>
         )}
       </div>
@@ -450,7 +455,12 @@ function PublicMapApp() {
       
       {memoVisible ? (
         <div className="bottom-sheet" style={{ zIndex: 2000, boxShadow: '0 -10px 30px rgba(0,0,0,0.2)', maxHeight: '85vh', overflowY: 'auto' }}>
-          <h3 style={{ marginBottom: '1rem', fontSize: '1.25rem', color: '#1E293B', fontWeight: 800 }}>{memoTitle}</h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <h3 style={{ fontSize: '1.25rem', color: '#1E293B', fontWeight: 800 }}>{memoTitle}</h3>
+            <button onClick={handleSkipMemo} style={{ background: '#F1F5F9', border: 'none', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748B', fontWeight: 'bold' }}>
+              ✕
+            </button>
+          </div>
           {memoIsNumber ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
               <input
@@ -597,7 +607,8 @@ function AuthenticatedMapRedirect() {
   return <div style={{ padding: '2rem', textAlign: 'center' }}>読み込み中...</div>;
 }
 
-// App コンポーネントはルーティングを担当
+import StaffDashboard from './components/StaffDashboard';
+
 // App コンポーネントはルーティングを担当
 export default function App() {
   return (
@@ -607,6 +618,7 @@ export default function App() {
         <Route path="/auth" element={<AuthScreen />} />
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/staff" element={<StaffDashboard />} />
         <Route path="/m/:teamId" element={<PublicMapApp />} />
         <Route path="/map" element={<AuthenticatedMapRedirect />} />
         <Route path="/terms" element={<Terms />} />

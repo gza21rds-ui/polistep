@@ -41,7 +41,11 @@ export default function AuthScreen() {
 
         if (userError) throw userError;
 
-        navigate('/admin');
+        if (userData.role === 'staff') {
+          navigate('/staff');
+        } else {
+          navigate('/admin');
+        }
       } else {
         // --- 新規登録処理（管理者のみ） ---
         const { data: authData, error: authError } = await supabase.auth.signUp({
