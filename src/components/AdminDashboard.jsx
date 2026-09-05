@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase';
 import SnsShareGenerator from './SnsShareGenerator';
 import DashboardMapPreview from './DashboardMapPreview';
 import DashboardTour from './DashboardTour';
+import CircularProgress from './CircularProgress';
 import useNoIndex from '../hooks/useNoIndex';
 
 export default function AdminDashboard() {
@@ -187,55 +188,99 @@ export default function AdminDashboard() {
         {/* 2. 必勝プログレスバー群 */}
         <div id="tour-progress-bar" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {/* 個別訪問（対話）進捗 */}
-          <section className="glass-card" style={{ padding: '2rem', background: 'linear-gradient(145deg, #ffffff 0%, #F8FAFC 100%)', color: '#1E293B', border: '1px solid rgba(226, 232, 240, 0.8)', boxShadow: '0 12px 32px -4px rgba(37, 99, 235, 0.08), 0 4px 12px -2px rgba(37, 99, 235, 0.04)', position: 'relative', overflow: 'hidden', marginBottom: '0' }}>
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '8px', height: '100%', background: 'linear-gradient(to bottom, #3B82F6, #1D4ED8)' }}></div>
-            <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(37,99,235,0.05) 0%, rgba(37,99,235,0) 70%)', borderRadius: '50%' }}></div>
-            
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem', paddingLeft: '1rem', position: 'relative', zIndex: 10 }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
-                <Target size={24} color="#2563EB" style={{ filter: 'drop-shadow(0 2px 4px rgba(37,99,235,0.3))' }} /> 訪問・ご挨拶の進捗
+          <section className="glass-card" style={{ padding: '2rem', background: '#ffffff', color: '#1E293B', border: '1px solid #E2E8F0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid #F1F5F9' }}>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
+                <span style={{ fontSize: '1.4rem' }}>🏠</span> 訪問・ご挨拶の進捗
               </h3>
-              <Link to="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: '#2563EB', textDecoration: 'none', background: '#EFF6FF', padding: '0.4rem 0.8rem', borderRadius: '8px', border: '1px solid #BFDBFE', fontWeight: 600, boxShadow: '0 2px 6px rgba(37,99,235,0.1)' }}>
+              <Link to="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem', color: '#2563EB', textDecoration: 'none', background: '#EFF6FF', padding: '0.4rem 0.8rem', borderRadius: '8px', fontWeight: 700 }}>
                 目標再設定
               </Link>
             </div>
-            <div style={{ paddingLeft: '1rem', position: 'relative', zIndex: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                <span style={{ fontSize: '2.75rem', fontWeight: 900, background: 'linear-gradient(135deg, #1D4ED8 0%, #3B82F6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1 }}>{stats.talked.toLocaleString()}</span>
-                <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 600 }}>/ {user.target_visits?.toLocaleString() || '---'} 件</span>
-              </div>
-              <p style={{ color: '#64748B', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: 500, wordBreak: 'keep-all' }}>
-                残り {daysLeft} 日（1日あたり目標：<strong style={{ color: '#DC2626' }}>{Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft) > 0 ? Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft) : 0}</strong> 件）
-              </p>
-              <div className="progress-container" style={{ height: '1.75rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.06)' }}>
-                <div className="progress-fill" style={{ '--target-width': `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '0.85rem', background: 'linear-gradient(90deg, #60A5FA, #2563EB)', display: 'flex', alignItems: 'center', padding: ((stats.talked / (user.target_visits || 1)) * 100) > 5 ? '0 0.75rem' : '0', fontWeight: 'bold', color: 'white', textShadow: '0 1px 2px rgba(0,0,0,0.2)', boxShadow: '0 2px 10px rgba(37,99,235,0.4)', animationDelay: '0.1s' }}>
-                  {((stats.talked / (user.target_visits || 1)) * 100) > 5 ? `${((stats.talked / (user.target_visits || 1)) * 100).toFixed(1)}%` : ''}
+            
+            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              {/* ドーナツチャート（左） */}
+              <CircularProgress 
+                percentage={Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)} 
+                color="#F97316" 
+                valueText={stats.talked.toString()} 
+                size={140}
+                strokeWidth={14}
+              />
+              
+              {/* 数値詳細とバー（右） */}
+              <div style={{ flex: '1 1 200px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>目標</span>
+                  <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{user.target_visits?.toLocaleString() || '---'} <span style={{ fontSize: '1rem', color: '#64748B' }}>件</span></span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px dashed #E2E8F0', paddingBottom: '0.5rem' }}>
+                  <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>現在の訪問</span>
+                  <div style={{ textAlign: 'right' }}>
+                    <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{stats.talked.toLocaleString()}</span>
+                    <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 700 }}> / {user.target_visits?.toLocaleString() || '---'} 件</span>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="progress-container" style={{ height: '1rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
+                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '0.7rem', background: '#3B82F6', display: 'flex', alignItems: 'center', padding: ((stats.talked / (user.target_visits || 1)) * 100) > 10 ? '0 0.5rem' : '0', fontWeight: 'bold', color: 'white' }}>
+                      {((stats.talked / (user.target_visits || 1)) * 100) > 10 ? `${((stats.talked / (user.target_visits || 1)) * 100).toFixed(0)}%` : ''}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#475569' }}>
+                      あと {(user.target_visits || 0) > stats.talked ? ((user.target_visits || 0) - stats.talked).toLocaleString() : 0} 件
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* ビラ・チラシ進捗 */}
-          <section className="glass-card" style={{ padding: '2rem', background: 'linear-gradient(145deg, #ffffff 0%, #FFFBEB 100%)', color: '#1E293B', border: '1px solid rgba(253, 230, 138, 0.8)', boxShadow: '0 12px 32px -4px rgba(245, 158, 11, 0.08), 0 4px 12px -2px rgba(245, 158, 11, 0.04)', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '8px', height: '100%', background: 'linear-gradient(to bottom, #FBBF24, #D97706)' }}></div>
-            <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(245,158,11,0.05) 0%, rgba(245,158,11,0) 70%)', borderRadius: '50%' }}></div>
-            
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem', paddingLeft: '1rem', position: 'relative', zIndex: 10 }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#92400E' }}>
-                <Target size={24} color="#F59E0B" style={{ filter: 'drop-shadow(0 2px 4px rgba(245,158,11,0.3))' }} /> ビラ・チラシ配布の進捗
+          {/* ビラ・チラシ配布の進捗 */}
+          <section className="glass-card" style={{ padding: '2rem', background: '#ffffff', color: '#1E293B', border: '1px solid #E2E8F0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid #F1F5F9' }}>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
+                <span style={{ fontSize: '1.4rem' }}>📄</span> ビラ配布の進捗
               </h3>
             </div>
-            <div style={{ paddingLeft: '1rem', position: 'relative', zIndex: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                <span style={{ fontSize: '2.75rem', fontWeight: 900, background: 'linear-gradient(135deg, #D97706 0%, #FBBF24 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1 }}>{(stats.absent + stats.flyer + (stats.flyerCount || 0)).toLocaleString()}</span>
-                <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 600 }}>/ {user.target_flyers?.toLocaleString() || '---'} 枚</span>
-              </div>
-              <p style={{ color: '#64748B', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: 500, wordBreak: 'keep-all' }}>
-                残り {daysLeft} 日（1日あたり目標：<strong style={{ color: '#DC2626' }}>{Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft) > 0 ? Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft) : 0}</strong> 枚）
-              </p>
-              <div className="progress-container" style={{ height: '1.75rem', background: '#FDE68A', borderRadius: '9999px', overflow: 'hidden', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.06)' }}>
-                <div className="progress-fill" style={{ '--target-width': `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '0.85rem', background: 'linear-gradient(90deg, #FBBF24, #EA580C)', display: 'flex', alignItems: 'center', padding: (((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 5 ? '0 0.75rem' : '0', fontWeight: 'bold', color: 'white', textShadow: '0 1px 2px rgba(0,0,0,0.2)', boxShadow: '0 2px 10px rgba(245,158,11,0.4)', animationDelay: '0.3s' }}>
-                  {(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 5 ? `${(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100).toFixed(1)}%` : ''}
+            
+            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              {/* ドーナツチャート（左） */}
+              <CircularProgress 
+                percentage={Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)} 
+                color="#1D4ED8" 
+                valueText={(stats.absent + stats.flyer + (stats.flyerCount || 0)).toString()} 
+                size={140}
+                strokeWidth={14}
+              />
+              
+              {/* 数値詳細とバー（右） */}
+              <div style={{ flex: '1 1 200px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>目標</span>
+                  <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{user.target_flyers?.toLocaleString() || '---'} <span style={{ fontSize: '1rem', color: '#64748B' }}>枚</span></span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px dashed #E2E8F0', paddingBottom: '0.5rem' }}>
+                  <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>配布枚数</span>
+                  <div style={{ textAlign: 'right' }}>
+                    <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{(stats.absent + stats.flyer + (stats.flyerCount || 0)).toLocaleString()}</span>
+                    <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 700 }}> / {user.target_flyers?.toLocaleString() || '---'} 枚</span>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="progress-container" style={{ height: '1rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
+                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '0.7rem', background: '#3B82F6', display: 'flex', alignItems: 'center', padding: (((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 10 ? '0 0.5rem' : '0', fontWeight: 'bold', color: 'white' }}>
+                      {(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 10 ? `${(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100).toFixed(0)}%` : ''}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#475569' }}>
+                      あと {(user.target_flyers || 0) > (stats.absent + stats.flyer + (stats.flyerCount || 0)) ? ((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))).toLocaleString() : 0} 枚
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
