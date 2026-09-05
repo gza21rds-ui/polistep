@@ -4,27 +4,40 @@
 :root {
   /* PoliSide ブランドカラーへの統一 */
   --primary: #2563EB; /* Blue 600 */
-  --primary-light: #DBEAFE; /* Blue 100 */
+  --primary-light: #EFF6FF; /* Blue 50 */
   --primary-hover: #1D4ED8; /* Blue 700 */
+  --primary-subtle: rgba(37, 99, 235, 0.08);
   --accent: #0284C7; /* Sky 600 */
-  --bg-main: #f8fafc; /* 白に近いグレーでクリーンに */
+  --bg-main: #F8FAFC; /* 白に近いグレーでクリーンに */
   --bg-section: #ffffff;
-  --bg-dark: #0f172a; /* ネイビースレート */
-  --text-main: #0f172a; /* より濃く */
+  --bg-dark: #0F172A; /* ネイビースレート */
+  --text-main: #0F172A; /* より濃く */
   --text-muted: #475569;
-  --text-light: #94a3b8;
-  --border-light: #e2e8f0;
+  --text-light: #94A3B8;
+  --border-light: #E2E8F0;
+  --border-strong: #CBD5E1;
   --grad-text: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* アクションセマンティックカラー */
+  --color-absent: #2563EB;       /* 留守（Blue） */
+  --color-talked: #EA580C;       /* 対話・訪問（Orange） */
+  --color-poster: #DC2626;       /* ポスター（Red） */
+  --color-poster-ok: #16A34A;    /* ポスター許可（Green） */
+  --color-speech: #7C3AED;       /* 街頭演説（Purple） */
+  --color-station-flyer: #0284C7; /* 駅頭ビラ（Sky） */
+  --color-tsujidachi: #0D9488;    /* 辻立ち（Teal） */
 
+  /* Linear/Apple 水準の繊細なシャドウ */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+
+  --radius-xs: 6px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 32px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
   
   --font-sans: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -960,7 +973,7 @@ body, html {
   display: flex;
   gap: 1.5rem;
   align-items: center;
-  flex-wrap: nowrap; /* スマホでも横並びを維持するか、あるいは綺麗に縦にする */
+  flex-wrap: nowrap;
 }
 
 @media (max-width: 600px) {
@@ -973,4 +986,276 @@ body, html {
   .progress-card-detail {
     width: 100%;
   }
+}
+
+/* ==================== CLEAN METRIC CARDS (脱・多色病) ==================== */
+.metric-card-clean {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.metric-card-clean:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+.metric-icon-bubble {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.metric-content-box {
+  flex: 1;
+}
+.metric-label-clean {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.metric-value-clean {
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1.1;
+}
+.metric-unit-clean {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-left: 0.25rem;
+}
+
+/* ==================== ACTION BOTTOM SHEET & GRABBER ==================== */
+.sheet-grabber-bar {
+  width: 36px;
+  height: 4px;
+  background: #CBD5E1;
+  border-radius: 9999px;
+  margin: 0 auto 1rem auto;
+  opacity: 0.8;
+  transition: opacity 0.2s, width 0.2s;
+}
+.bottom-sheet:hover .sheet-grabber-bar {
+  opacity: 1;
+  width: 44px;
+}
+.action-grid-clean {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+.action-btn-clean {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-sm);
+}
+.action-btn-clean:hover {
+  border-color: var(--primary);
+  background: #F8FAFC;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.action-btn-clean:active {
+  transform: scale(0.97);
+}
+.action-btn-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ==================== BENTO GRID (LandingPage Features) ==================== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.75rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.bento-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+  position: relative;
+}
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+.bento-card-header {
+  padding: 2.25rem 2.25rem 1.25rem;
+}
+.bento-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.85rem;
+}
+.bento-card-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+}
+.bento-card-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.bento-card-visual {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 1.5rem 1.5rem;
+  overflow: hidden;
+}
+.bento-card-visual img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+  transition: transform 0.3s ease;
+}
+.bento-card:hover .bento-card-visual img {
+  transform: scale(1.02);
+}
+
+.bento-span-8 { grid-column: span 8; }
+.bento-span-4 { grid-column: span 4; }
+.bento-span-6 { grid-column: span 6; }
+
+@media (max-width: 900px) {
+  .bento-span-8, .bento-span-4, .bento-span-6 {
+    grid-column: span 12;
+  }
+  .bento-card-header {
+    padding: 1.5rem;
+  }
+}
+
+/* ==================== STRIPE-GRADE PRICING TIER CARD ==================== */
+.pricing-tier-card {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 3rem 2.5rem;
+  max-width: 640px;
+  margin: 2.5rem auto 0;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  text-align: left;
+}
+.pricing-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #EFF6FF;
+  color: #2563EB;
+  border: 1px solid #BFDBFE;
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+.pricing-feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 2rem 0;
+}
+.pricing-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* ==================== FOOTER 4-COLUMN ==================== */
+.footer-clean {
+  background: #0B0F19;
+  color: #94A3B8;
+  padding: 4rem 2rem 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.footer-inner-clean {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-disclaimer-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 3rem;
+  font-size: 0.825rem;
+  line-height: 1.75;
+  color: #94A3B8;
+}
+
+/* ==================== DASHBOARD RESPONSIVE CARD ==================== */
+.dashboard-card-clean {
+  padding: 2rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+@media (max-width: 640px) {
+  .dashboard-card-clean {
+    padding: 1.25rem !important;
+  }
+  .pricing-tier-card {
+    padding: 2rem 1.25rem;
+  }
+}
+.heading-responsive-tight {
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }

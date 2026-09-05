@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Share2, Map, Activity, Target, LogOut, Copy, Check, Search, HelpCircle } from 'lucide-react';
+import { 
+  Share2, Map, Activity, Target, LogOut, Copy, Check, Search, HelpCircle,
+  Users, FileText, Mail, Pin, CheckCircle2, Megaphone, UserCheck, Calendar, Flame
+} from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import SnsShareGenerator from './SnsShareGenerator';
 import DashboardMapPreview from './DashboardMapPreview';
@@ -172,26 +175,29 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      <main className="admin-main-content" style={{ maxWidth: '1100px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <main className="admin-main-content" style={{ maxWidth: '1100px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: '2.25rem' }}>
         
-        {/* 陣営名ヘッダー */}
-        <div style={{ textAlign: 'center', marginBottom: '0.5rem', animation: 'fadeInUp 0.6s ease-out' }}>
-          <h1 className="candidate-name" style={{ fontSize: '2rem' }}>{user.display_name} 陣営</h1>
-          <p style={{ color: '#64748B', fontSize: '1.1rem', fontWeight: 600 }}>管理者ダッシュボード</p>
+        {/* 陣営名ヘッダー ＆ カウントダウンバッジ */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', borderBottom: '1px solid var(--border-light)', paddingBottom: '1.25rem', animation: 'fadeInUp 0.6s ease-out' }}>
+          <div>
+            <h1 className="candidate-name" style={{ fontSize: '1.85rem', fontWeight: 900, letterSpacing: '-0.5px', color: 'var(--text-main)' }}>{user.display_name} 陣営</h1>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: 600 }}>管理者ダッシュボード</p>
+          </div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: '#EFF6FF', border: '1px solid #BFDBFE', padding: '0.5rem 1rem', borderRadius: '9999px', boxShadow: 'var(--shadow-sm)' }}>
+            <Calendar size={16} color="#2563EB" />
+            <span style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1E40AF' }}>
+              目標日まで あと <strong style={{ fontSize: '1.15rem', color: '#1D4ED8' }}>{daysLeft}</strong> 日
+            </span>
+          </div>
         </div>
 
-        {/* 1. マッププレビュー（最上部に配置して直感的に可視化） */}
-        <section style={{ animation: 'fadeInUp 0.6s 0.1s forwards' }}>
-          <DashboardMapPreview pins={pins} teamId={user.team_id} />
-        </section>
-
-        {/* 2. 必勝プログレスバー群 */}
-        <div id="tour-progress-bar" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        {/* 1. 必勝プログレスバー群（最上部に配置して今日の目標達成率を即座に把握） */}
+        <div id="tour-progress-bar" style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
           {/* 個別訪問（対話）進捗 */}
-          <section className="glass-card" style={{ padding: '2rem', background: '#ffffff', color: '#1E293B', border: '1px solid #E2E8F0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
+          <section className="glass-card dashboard-card-clean" style={{ background: '#ffffff', color: '#1E293B', border: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid #F1F5F9' }}>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
-                <span style={{ fontSize: '1.4rem' }}>🏠</span> 訪問・ご挨拶の進捗
+              <h3 className="heading-responsive-tight" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
+                <Users size={20} color="#EA580C" /> 訪問・ご挨拶の進捗
               </h3>
               <Link to="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem', color: '#2563EB', textDecoration: 'none', background: '#EFF6FF', padding: '0.4rem 0.8rem', borderRadius: '8px', fontWeight: 700 }}>
                 目標再設定
@@ -203,7 +209,7 @@ export default function AdminDashboard() {
               <div style={{ flexShrink: 0 }}>
                 <CircularProgress 
                   percentage={Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)} 
-                  color="#F97316" 
+                  color="#EA580C" 
                   valueText={stats.talked.toString()} 
                   size={140}
                   strokeWidth={14}
@@ -224,23 +230,23 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 
-                <div style={{ background: '#FFF7ED', padding: '0.75rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #FFEDD5' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#9A3412', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                    🔥 1日あたりの目標
+                <div style={{ background: '#FFF7ED', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #FFEDD5' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#9A3412', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <Flame size={16} color="#EA580C" /> 1日あたりの目標
                   </span>
-                  <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#EA580C' }}>
+                  <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#EA580C' }}>
                     {Math.max(0, Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft)).toLocaleString()} <span style={{ fontSize: '0.8rem', color: '#9A3412' }}>件/日</span>
                   </span>
                 </div>
 
                 <div>
-                  <div className="progress-container" style={{ height: '1rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
-                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '0.7rem', background: '#3B82F6', display: 'flex', alignItems: 'center', padding: ((stats.talked / (user.target_visits || 1)) * 100) > 10 ? '0 0.5rem' : '0', fontWeight: 'bold', color: 'white' }}>
+                  <div className="progress-container" style={{ height: '0.85rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
+                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '0.7rem', background: '#EA580C', display: 'flex', alignItems: 'center', padding: ((stats.talked / (user.target_visits || 1)) * 100) > 10 ? '0 0.5rem' : '0', fontWeight: 'bold', color: 'white' }}>
                       {((stats.talked / (user.target_visits || 1)) * 100) > 10 ? `${((stats.talked / (user.target_visits || 1)) * 100).toFixed(0)}%` : ''}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#475569' }}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.35rem' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748B' }}>
                       あと {(user.target_visits || 0) > stats.talked ? ((user.target_visits || 0) - stats.talked).toLocaleString() : 0} 件
                     </span>
                   </div>
@@ -250,10 +256,10 @@ export default function AdminDashboard() {
           </section>
 
           {/* ビラ・チラシ配布の進捗 */}
-          <section className="glass-card" style={{ padding: '2rem', background: '#ffffff', color: '#1E293B', border: '1px solid #E2E8F0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
+          <section className="glass-card dashboard-card-clean" style={{ background: '#ffffff', color: '#1E293B', border: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid #F1F5F9' }}>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
-                <span style={{ fontSize: '1.4rem' }}>📄</span> ビラ配布の進捗
+              <h3 className="heading-responsive-tight" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
+                <FileText size={20} color="#2563EB" /> ビラ配布の進捗
               </h3>
             </div>
             
@@ -262,7 +268,7 @@ export default function AdminDashboard() {
               <div style={{ flexShrink: 0 }}>
                 <CircularProgress 
                   percentage={Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)} 
-                  color="#1D4ED8" 
+                  color="#2563EB" 
                   valueText={(stats.absent + stats.flyer + (stats.flyerCount || 0)).toString()} 
                   size={140}
                   strokeWidth={14}
@@ -283,23 +289,23 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 
-                <div style={{ background: '#EFF6FF', padding: '0.75rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #DBEAFE' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1E40AF', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                    🔥 1日あたりの目標
+                <div style={{ background: '#EFF6FF', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #DBEAFE' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1E40AF', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <Flame size={16} color="#2563EB" /> 1日あたりの目標
                   </span>
-                  <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#1D4ED8' }}>
+                  <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#1D4ED8' }}>
                     {Math.max(0, Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft)).toLocaleString()} <span style={{ fontSize: '0.8rem', color: '#1E40AF' }}>枚/日</span>
                   </span>
                 </div>
 
                 <div>
-                  <div className="progress-container" style={{ height: '1rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
-                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '0.7rem', background: '#3B82F6', display: 'flex', alignItems: 'center', padding: (((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 10 ? '0 0.5rem' : '0', fontWeight: 'bold', color: 'white' }}>
+                  <div className="progress-container" style={{ height: '0.85rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
+                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '0.7rem', background: '#2563EB', display: 'flex', alignItems: 'center', padding: (((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 10 ? '0 0.5rem' : '0', fontWeight: 'bold', color: 'white' }}>
                       {(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 10 ? `${(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100).toFixed(0)}%` : ''}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#475569' }}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.35rem' }}>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748B' }}>
                       あと {(user.target_flyers || 0) > (stats.absent + stats.flyer + (stats.flyerCount || 0)) ? ((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))).toLocaleString() : 0} 枚
                     </span>
                   </div>
@@ -309,116 +315,159 @@ export default function AdminDashboard() {
           </section>
         </div>
 
-        <p style={{ color: '#64748B', textAlign: 'center', fontSize: '0.95rem', fontWeight: 'bold', margin: '0' }}>
-          決戦の日（目標日）まで残り <span style={{ color: '#EF4444' }}>{daysLeft}</span> 日
-        </p>
-
-        {/* 3. サマリーと共有リンク（左右均等な2カラム） */}
-        <div className="admin-dashboard-grid">
-          {/* 本日の活動サマリー */}
-          <section id="tour-today-summary" className="glass-card" style={{ padding: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <Activity size={24} color="var(--primary)" />
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-main)' }}>全体の活動サマリー</h3>
-              </div>
-              <span style={{ fontSize: '0.85rem', color: '#64748B', background: '#F1F5F9', padding: '0.35rem 0.75rem', borderRadius: '9999px', fontWeight: 600 }}>
-                累計実績
-              </span>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-              <div style={{ background: '#EFF6FF', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #DBEAFE' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1E3A8A', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
-                  <span>📮</span> 留守（チラシ投函）
-                </div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1D4ED8' }}>{stats.absent + stats.flyer} <span style={{fontSize: '0.9rem', fontWeight: 600}}>件</span></div>
-              </div>
-              <div style={{ background: '#FEF3C7', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #FDE68A' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#92400E', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
-                  <span>📄</span> ビラ配り
-                </div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#D97706' }}>{stats.station_flyer} <span style={{fontSize: '0.9rem', fontWeight: 600}}>回</span></div>
-              </div>
-              <div style={{ background: '#FFEDD5', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #FED7AA' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#9A3412', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
-                  <span>🤝</span> ご挨拶できた
-                </div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#C2410C' }}>{stats.talked} <span style={{fontSize: '0.9rem', fontWeight: 600}}>件</span></div>
-              </div>
-              <div style={{ background: '#FEE2E2', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #FECACA' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#991B1B', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
-                  <span>📌</span> ポスター貼付
-                </div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#B91C1C' }}>{stats.poster} <span style={{fontSize: '0.9rem', fontWeight: 600}}>箇所</span></div>
-              </div>
-              <div style={{ background: '#F0FDF4', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #BBF7D0' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#166534', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
-                  <span>🎯</span> ポスター許可
-                </div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#15803D' }}>{stats.poster_ok} <span style={{fontSize: '0.9rem', fontWeight: 600}}>件</span></div>
-              </div>
-              <div style={{ background: '#F5F3FF', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #DDD6FE' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#5B21B6', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
-                  <span>📢</span> 街頭演説
-                </div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#6D28D9' }}>{stats.speech} <span style={{fontSize: '0.9rem', fontWeight: 600}}>回</span></div>
-              </div>
-              <div style={{ background: '#ECFDF5', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #A7F3D0', gridColumn: '1 / -1' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#065F46', display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.25rem' }}>
-                  <span>🧍‍♂️</span> 辻立ち（交差点・駅前等）
-                </div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#059669' }}>{stats.tsujidachi} <span style={{fontSize: '0.9rem', fontWeight: 600}}>時間</span></div>
-              </div>
-            </div>
-            <button onClick={() => setSnsModalVisible(true)} className="btn-outline tap-scale" style={{ width: '100%', borderRadius: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', padding: '0.875rem', color: '#0F172A', borderColor: '#CBD5E1', fontWeight: 700 }}>
-              <Share2 size={18} /> 本日の活動をSNS用画像で出力
-            </button>
+        {/* 2. マッププレビュー ＆ スタッフ共有ハブ（第2階層） */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.75rem', alignItems: 'stretch' }}>
+          {/* マッププレビュー */}
+          <section style={{ height: '100%', minHeight: '340px' }}>
+            <DashboardMapPreview pins={pins} teamId={user.team_id} />
           </section>
 
           {/* スタッフ共有リンク */}
-          <section id="tour-share-link" className="glass-card" style={{ padding: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <Share2 size={24} color="var(--primary)" />
-              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-main)' }}>スタッフ共有リンク</h3>
+          <section id="tour-share-link" className="glass-card dashboard-card-clean" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: '#FFFFFF', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-lg)' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', background: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Share2 size={20} color="#2563EB" />
+                </div>
+                <div>
+                  <h3 className="heading-responsive-tight" style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-main)' }}>スタッフ共有リンク</h3>
+                  <span style={{ fontSize: '0.75rem', color: '#16A34A', fontWeight: 700 }}>● アカウント登録不要で即日利用可能</span>
+                </div>
+              </div>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '0.9rem', lineHeight: 1.7 }}>
+                以下のURLをスタッフや支援者にLINE・メールで共有するだけで、同じマップを共有して手分け作業を行えます。
+              </p>
             </div>
-            <p style={{ color: '#475569', marginBottom: '1rem', fontSize: '0.95rem', lineHeight: 1.7 }}>
-              以下のURLをボランティアスタッフにLINEやメールで共有するだけ！<strong>登録不要</strong>ですぐにマップで活動を記録できます。
-            </p>
-            <div style={{ background: '#FFFBEB', padding: '0.75rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', marginBottom: '1.5rem', fontSize: '0.85rem', color: '#92400E' }}>
-              <strong>※ご注意：</strong>スタッフ共有リンクからアクセスした画面では、この「管理者ダッシュボード」は閲覧できません。記録専用マップが開きます。
-            </div>
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'stretch', flexDirection: 'column' }}>
-              <div style={{ width: '100%', padding: '0.875rem 1rem', background: '#F1F5F9', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-light)', fontSize: '0.85rem', color: '#334155', wordBreak: 'break-all', fontFamily: 'monospace', lineHeight: 1.6 }}>
+            
+            <div style={{ display: 'flex', gap: '0.75rem', flexDirection: 'column' }}>
+              <div style={{ width: '100%', padding: '0.75rem 1rem', background: '#F8FAFC', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-light)', fontSize: '0.825rem', color: '#334155', wordBreak: 'break-all', fontFamily: 'monospace' }}>
                 {getShareUrl()}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                 <button 
                   className="btn-premium tap-scale" 
-                  style={{ borderRadius: 'var(--radius-md)', gap: '0.5rem', padding: '0.75rem 1rem', fontSize: '0.95rem' }}
+                  style={{ borderRadius: 'var(--radius-md)', gap: '0.5rem', padding: '0.75rem 1rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                   onClick={handleCopyLink}
                 >
-                  {copied ? <><Check size={18} /> コピー完了！</> : <><Copy size={18} /> URLをコピー</>}
+                  {copied ? <><Check size={16} /> コピー済</> : <><Copy size={16} /> URLコピー</>}
                 </button>
                 <a
                   href={`https://line.me/R/msg/text/?${encodeURIComponent(`【PoliStep】本日の活動マップURLです。タップして記録を開始してください！\n${getShareUrl()}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-line tap-scale"
-                  style={{ padding: '0.75rem 1rem', fontSize: '0.95rem' }}
+                  style={{ padding: '0.75rem 1rem', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', borderRadius: 'var(--radius-md)' }}
                 >
-                  💬 LINEで送る
+                  LINEで送る
                 </a>
               </div>
             </div>
           </section>
         </div>
 
+        {/* 3. 全体の活動サマリー（脱・多色病: 洗練されたクリーンなメトリクスカード） */}
+        <section id="tour-summary-cards" className="glass-card dashboard-card-clean" style={{ background: '#FFFFFF', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-lg)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', background: '#F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Activity size={20} color="#0F172A" />
+              </div>
+              <div>
+                <h3 className="heading-responsive-tight" style={{ fontSize: 'clamp(1.05rem, 3.5vw, 1.25rem)', fontWeight: 800, color: 'var(--text-main)' }}>活動種別ごとの実績サマリー</h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>全メンバーによる活動実績のリアルタイム合計</p>
+              </div>
+            </div>
+            <button onClick={() => setSnsModalVisible(true)} className="btn-outline tap-scale" style={{ borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.65rem 1.25rem', fontSize: '0.875rem', fontWeight: 700 }}>
+              <Share2 size={16} /> SNS用日報画像を出力
+            </button>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+            {/* 留守（チラシ） */}
+            <div className="metric-card-clean">
+              <div className="metric-icon-bubble" style={{ background: '#EFF6FF', color: '#2563EB' }}>
+                <Mail size={22} />
+              </div>
+              <div className="metric-content-box">
+                <div className="metric-label-clean">留守（投函）</div>
+                <div className="metric-value-clean">{stats.absent.toLocaleString()} <span className="metric-unit-clean">件</span></div>
+              </div>
+            </div>
+
+            {/* ご挨拶できた */}
+            <div className="metric-card-clean">
+              <div className="metric-icon-bubble" style={{ background: '#FFF7ED', color: '#EA580C' }}>
+                <Users size={22} />
+              </div>
+              <div className="metric-content-box">
+                <div className="metric-label-clean">ご挨拶・対話</div>
+                <div className="metric-value-clean">{stats.talked.toLocaleString()} <span className="metric-unit-clean">件</span></div>
+              </div>
+            </div>
+
+            {/* 駅頭ビラ配り */}
+            <div className="metric-card-clean">
+              <div className="metric-icon-bubble" style={{ background: '#F0F9FF', color: '#0284C7' }}>
+                <FileText size={22} />
+              </div>
+              <div className="metric-content-box">
+                <div className="metric-label-clean">駅頭ビラ</div>
+                <div className="metric-value-clean">{stats.station_flyer.toLocaleString()} <span className="metric-unit-clean">回</span></div>
+              </div>
+            </div>
+
+            {/* ポスター貼付 */}
+            <div className="metric-card-clean">
+              <div className="metric-icon-bubble" style={{ background: '#FEF2F2', color: '#DC2626' }}>
+                <Pin size={22} />
+              </div>
+              <div className="metric-content-box">
+                <div className="metric-label-clean">ポスター貼付</div>
+                <div className="metric-value-clean">{stats.poster.toLocaleString()} <span className="metric-unit-clean">箇所</span></div>
+              </div>
+            </div>
+
+            {/* ポスター許可 */}
+            <div className="metric-card-clean">
+              <div className="metric-icon-bubble" style={{ background: '#F0FDF4', color: '#16A34A' }}>
+                <CheckCircle2 size={22} />
+              </div>
+              <div className="metric-content-box">
+                <div className="metric-label-clean">ポスター許可</div>
+                <div className="metric-value-clean">{stats.poster_ok.toLocaleString()} <span className="metric-unit-clean">件</span></div>
+              </div>
+            </div>
+
+            {/* 街頭演説 */}
+            <div className="metric-card-clean">
+              <div className="metric-icon-bubble" style={{ background: '#FAF5FF', color: '#7C3AED' }}>
+                <Megaphone size={22} />
+              </div>
+              <div className="metric-content-box">
+                <div className="metric-label-clean">街頭演説</div>
+                <div className="metric-value-clean">{stats.speech.toLocaleString()} <span className="metric-unit-clean">回</span></div>
+              </div>
+            </div>
+
+            {/* 辻立ち */}
+            <div className="metric-card-clean">
+              <div className="metric-icon-bubble" style={{ background: '#F0FDFA', color: '#0D9488' }}>
+                <UserCheck size={22} />
+              </div>
+              <div className="metric-content-box">
+                <div className="metric-label-clean">辻立ち（交差点等）</div>
+                <div className="metric-value-clean">{stats.tsujidachi.toLocaleString()} <span className="metric-unit-clean">時間</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 4. ご挨拶・対話ログ検索（タイムライン） */}
-        <section id="tour-timeline" className="glass-card" style={{ padding: '2rem', width: '100%' }}>
+        <section id="tour-timeline" className="glass-card dashboard-card-clean" style={{ width: '100%' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <Search size={24} color="var(--primary)" />
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-main)' }}>ご挨拶・対話ログ検索</h3>
+                <h3 className="heading-responsive-tight" style={{ fontSize: 'clamp(1.1rem, 3.5vw, 1.35rem)', fontWeight: 800, color: 'var(--text-main)' }}>ご挨拶・対話ログ検索</h3>
               </div>
               <span style={{ fontSize: '0.85rem', color: '#64748B', background: '#F1F5F9', padding: '0.35rem 0.75rem', borderRadius: '9999px', fontWeight: 600 }}>
                 {talkedLogs.length} 件の対話メモ
