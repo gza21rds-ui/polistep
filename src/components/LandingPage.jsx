@@ -40,12 +40,13 @@ export default function LandingPage() {
       <div className="hero-wrapper">
         <section className="hero-section">
           <div className="hero-content">
-            <div className="campaign-banner">
-              <Sparkles size={16} />
-              <span>【2027年 統一地方選挙 応援】今だけ「完全0円」で全機能開放中！</span>
+            <div className="hero-badge-pill">
+              <span className="badge-pulse-dot"></span>
+              <span className="badge-text">2027年 統一地方選挙 応援キャンペーン中</span>
+              <span className="badge-highlight">完全0円</span>
             </div>
             <h1 className="hero-title">
-              孤独なドブ板は、<br/><span className="text-gradient">可視化</span>で終わる。
+              孤独なドブ板は、<br/><span className="text-gradient-animated">可視化</span>で終わる。
             </h1>
             <p className="hero-subtitle">
               終わりの見えないポスター貼りや戸別訪問。<br/>
@@ -53,72 +54,33 @@ export default function LandingPage() {
               自身のモチベーション維持と、チームへの日報共有を圧倒的に簡単にします。
             </p>
             <div className="hero-cta-group">
-              <Link to="/auth?mode=register" className="btn-primary tap-scale" style={{ fontSize: '1.1rem', padding: '1rem 2.25rem' }}>
-                【完全無料】アカウント登録して始める <ArrowRight size={18} />
+              <Link to="/auth?mode=register" className="btn-primary hero-btn-glow tap-scale">
+                無料でアカウント作成 <ArrowRight size={18} />
               </Link>
-            </div>
-            <div className="hero-trust-badges">
-              <div className="hero-trust-item">
-                <CheckCircle2 size={15} color="#16A34A" /> クレジットカード不要
-              </div>
-              <div className="hero-trust-item">
-                <CheckCircle2 size={15} color="#16A34A" /> アプリDL不要（即ブラウザ起動）
-              </div>
-              <div className="hero-trust-item">
-                <CheckCircle2 size={15} color="#16A34A" /> 30秒で簡単スタート
-              </div>
             </div>
           </div>
 
           <div className="hero-visual-container">
-            {/* 浮遊ギミック 1: 訪問実績バッジ */}
-            <div className="floating-badge floating-badge-top">
-              <div className="badge-icon-box icon-orange">🤝</div>
-              <div>
-                <div className="badge-label">本日の訪問・対話</div>
-                <div className="badge-value">
-                  128件 達成 <span className="badge-tag-mini">+18% 🔥</span>
-                </div>
-              </div>
-            </div>
+            {/* シネマティックなアンビエント光彩 */}
+            <div className="ambient-glow"></div>
 
-            {/* Mac風モダンブラウザフレーム */}
-            <div className="hero-video-window">
-              <div className="window-header">
+            {/* 洗練された極薄ベゼル・シネマフレーム */}
+            <div className="cinema-video-frame">
+              <div className="frame-header-minimal">
                 <div className="window-dots">
                   <span className="window-dot dot-red"></span>
                   <span className="window-dot dot-yellow"></span>
                   <span className="window-dot dot-green"></span>
                 </div>
-                <div className="window-address-bar">
-                  <span>🔒</span> polistep.app/demo
-                </div>
-                <div className="window-badge">
-                  <span className="pulse-indicator"></span>
-                  <span>1分でわかる機能解説</span>
-                </div>
               </div>
-              <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000' }}>
+              <div className="video-aspect-box">
                 <iframe 
-                  width="100%" 
-                  height="100%"
-                  style={{ border: 'none', position: 'absolute', top: 0, left: 0 }}
+                  className="hero-iframe"
                   src="https://www.youtube.com/embed/1LqbyVq2ByY?autoplay=1&mute=1&rel=0&playsinline=1" 
                   title="PoliStep 紹介動画" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowFullScreen
                 ></iframe>
-              </div>
-            </div>
-
-            {/* 浮遊ギミック 2: GPSリアルタイムマッピングバッジ */}
-            <div className="floating-badge floating-badge-bottom">
-              <div className="badge-icon-box icon-blue">📍</div>
-              <div>
-                <div className="badge-label">リアルタイム巡回マップ</div>
-                <div className="badge-value">
-                  チーム3名が活動中 <span className="pulse-indicator" style={{ background: '#10B981', boxShadow: '0 0 6px #10B981' }}></span>
-                </div>
               </div>
             </div>
           </div>
