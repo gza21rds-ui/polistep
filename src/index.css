@@ -755,3 +755,21 @@ body, html {
 @media (min-width: 768px) {
   .auth-mobile-logo { display: none !important; }
 }
+
+@media (max-width: 600px) {
+  .admin-glass-header {
+    padding: 0.5rem;
+  }
+  .admin-glass-header .logo-text {
+    display: none;
+  }
+  .admin-header-controls {
+    gap: 0.5rem;
+  }
+  .admin-header-controls span, .admin-glass-header span.guide-text {
+    display: none;
+  }
+  .btn-header-outline, .btn-header-action {
+    padding: 0.5rem;
+  }
+}

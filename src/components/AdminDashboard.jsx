@@ -159,15 +159,15 @@ export default function AdminDashboard() {
             style={{ fontSize: '0.8rem', padding: '0.35rem 0.65rem', display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#2563EB', borderColor: '#BFDBFE', background: '#EFF6FF' }}
             title="使い方チュートリアルを開始"
           >
-            <HelpCircle size={14} /> 使い方ガイド
+            <HelpCircle size={14} /> <span className="guide-text">使い方ガイド</span>
           </button>
         </div>
         <div className="admin-header-controls">
           <Link to={`/m/${user.team_id}`} className="btn-fire btn-header-action" style={{ color: 'white', textDecoration: 'none' }}>
-            <Map size={16} /> マップ
+            <Map size={16} /> <span>マップ</span>
           </Link>
           <button onClick={handleLogout} className="btn-header-outline">
-            <LogOut size={16} /> ログアウト
+            <LogOut size={16} /> <span>ログアウト</span>
           </button>
         </div>
       </header>
