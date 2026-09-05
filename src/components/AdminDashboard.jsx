@@ -221,6 +221,15 @@ export default function AdminDashboard() {
                     <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 700 }}> / {user.target_visits?.toLocaleString() || '---'} 件</span>
                   </div>
                 </div>
+                
+                <div style={{ background: '#FFF7ED', padding: '0.75rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #FFEDD5' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#9A3412', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                    🔥 1日あたりの目標
+                  </span>
+                  <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#EA580C' }}>
+                    {Math.max(0, Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft)).toLocaleString()} <span style={{ fontSize: '0.8rem', color: '#9A3412' }}>件/日</span>
+                  </span>
+                </div>
 
                 <div>
                   <div className="progress-container" style={{ height: '1rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
@@ -268,6 +277,15 @@ export default function AdminDashboard() {
                     <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{(stats.absent + stats.flyer + (stats.flyerCount || 0)).toLocaleString()}</span>
                     <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 700 }}> / {user.target_flyers?.toLocaleString() || '---'} 枚</span>
                   </div>
+                </div>
+                
+                <div style={{ background: '#EFF6FF', padding: '0.75rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #DBEAFE' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1E40AF', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                    🔥 1日あたりの目標
+                  </span>
+                  <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#1D4ED8' }}>
+                    {Math.max(0, Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft)).toLocaleString()} <span style={{ fontSize: '0.8rem', color: '#1E40AF' }}>枚/日</span>
+                  </span>
                 </div>
 
                 <div>
