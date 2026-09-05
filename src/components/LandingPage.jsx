@@ -1,11 +1,28 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles, MapPin, X } from 'lucide-react';
 
 export default function LandingPage() {
-  const [showFloatingCta, setShowFloatingCta] = React.useState(false);
+  const navigate = useNavigate();
+  const [showFloatingCta, setShowFloatingCta] = useState(false);
+  const [lineGuideModal, setLineGuideModal] = useState(false);
 
   useEffect(() => { 
+    // LINEアプリ内ブラウザ（またはLIFF）でアクセスされた場合
+    const isLine = typeof navigator !== 'undefined' && /Line\//i.test(navigator.userAgent);
+    const lastTeamId = localStorage.getItem('polistep_last_team_id');
+
+    if (isLine) {
+      if (lastTeamId) {
+        // 過去に参加したチームマップへ直行！
+        navigate(`/m/${lastTeamId}`, { replace: true });
+        return;
+      } else {
+        // LINE内なのにチーム未設定の場合、案内モーダルを表示
+        setLineGuideModal(true);
+      }
+    }
+
     window.scrollTo(0, 0); 
     const handleScroll = () => {
       if (window.scrollY > 400) {
@@ -16,7 +33,7 @@ export default function LandingPage() {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="page-container" style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none', paddingBottom: showFloatingCta ? '70px' : '0' }}>
@@ -377,6 +394,31 @@ export default function LandingPage() {
           <Link to="/auth?mode=register" className="btn-primary tap-scale" style={{ padding: '0.6rem 1rem', fontSize: '0.9rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', boxShadow: '0 4px 12px rgba(37,99,235,0.3)', whiteSpace: 'nowrap' }}>
             無料で始める <ArrowRight size={16} />
           </Link>
+        </div>
+      )}
+
+      {/* ===== LINE OA Guidance Modal (If opened without teamId) ===== */}
+      {lineGuideModal && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 99999, background: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{ background: '#ffffff', borderRadius: '24px', padding: '28px 24px', maxWidth: '380px', width: '100%', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', border: '1px solid rgba(226, 232, 240, 0.8)' }}>
+            <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#EFF6FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', boxShadow: '0 4px 12px rgba(37,99,235,0.15)' }}>
+              <MapPin size={28} />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0F172A', marginBottom: '8px' }}>
+              チーム専用URLが必要です
+            </h3>
+            <p style={{ fontSize: '0.9rem', color: '#64748B', lineHeight: 1.6, marginBottom: '24px', textAlign: 'left', background: '#F8FAFC', padding: '12px 16px', borderRadius: '12px', border: '1px solid #E2E8F0' }}>
+              PoliStepで活動を記録するには、候補者や陣営の管理者から共有された<strong>「マップ専用URL」</strong>を一度タップしてください。<br/><br/>
+              一度アクセスすれば、次回からはこのリッチメニューから<strong>自動的にあなたの陣営マップが開く</strong>ようになります！
+            </p>
+            <button 
+              onClick={() => setLineGuideModal(false)}
+              className="tap-scale"
+              style={{ width: '100%', padding: '14px', background: '#2563EB', color: '#ffffff', border: 'none', borderRadius: '9999px', fontWeight: 800, fontSize: '0.95rem', boxShadow: '0 4px 12px rgba(37,99,235,0.25)', cursor: 'pointer' }}
+            >
+              閉じる（トップページを見る）
+            </button>
+          </div>
         </div>
       )}
     </div>

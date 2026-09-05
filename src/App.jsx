@@ -68,6 +68,9 @@ function PublicMapApp() {
   const [lineProfile, setLineProfile] = useState(null);
 
   useEffect(() => {
+    if (teamId) {
+      localStorage.setItem('polistep_last_team_id', teamId);
+    }
     let isMounted = true;
     liff.init({ liffId: '2011462282-d9h0l139' }).then(() => {
       if (!isMounted) return;
