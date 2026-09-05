@@ -74,6 +74,16 @@ function PublicMapApp() {
       if (liff.isLoggedIn()) {
         liff.getProfile().then(profile => {
           if (isMounted) setLineProfile(profile);
+          
+          // 初回起動時のみLステップ自動タグ付け用のキーワードを送信
+          if (liff.isInClient() && !localStorage.getItem('polistep_line_linked')) {
+            liff.sendMessages([{ type: 'text', text: '【システム用:ボランティア利用開始】' }])
+              .then(() => {
+                localStorage.setItem('polistep_line_linked', 'true');
+                console.log('Lステップ連携用メッセージ送信成功');
+              })
+              .catch(err => console.error('sendMessages error', err));
+          }
         }).catch(err => console.error('LIFF getProfile error', err));
       } else if (liff.isInClient()) {
         // LINEアプリ内で開いている場合は自動ログイン
