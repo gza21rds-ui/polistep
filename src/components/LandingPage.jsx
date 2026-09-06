@@ -207,10 +207,24 @@ export default function LandingPage() {
               <div className="bento-pill-tag" style={{ background: '#FFF7ED', color: '#EA580C', border: '1px solid #FED7AA' }}>
                 逆算プランニング
               </div>
-              <h3 className="bento-card-title">1日のノルマを自動算出</h3>
+              <h3 className="bento-card-title">1日のノルマを自動逆算。迷いを確信に変える</h3>
               <p className="bento-card-desc">
-                目標日と目標数から「今日何件回るべきか」を自動逆算。達成率がリアルタイムで可視化されます。
+                投票日と目標数を設定するだけで、「今日あと何件回るべきか」を自動算出。進捗バーで残りがひと目で分かり、陣営のモチベーションを常に最高潮に保ちます。
               </p>
+              <div className="bento-feature-points">
+                <div className="bento-point-item">
+                  <CheckCircle2 size={14} color="#EA580C" style={{ flexShrink: 0 }} />
+                  <span>決戦日までの残り日数を自動カウント</span>
+                </div>
+                <div className="bento-point-item">
+                  <CheckCircle2 size={14} color="#EA580C" style={{ flexShrink: 0 }} />
+                  <span>訪問・挨拶とビラ配布の個別進捗バー</span>
+                </div>
+                <div className="bento-point-item">
+                  <CheckCircle2 size={14} color="#EA580C" style={{ flexShrink: 0 }} />
+                  <span>チーム全体の達成率をリアルタイム合算</span>
+                </div>
+              </div>
             </div>
             <div className="bento-card-visual">
               <img src="/feature_dashboard_jp.jpg" alt="PoliStepのダッシュボード画面" />
@@ -223,10 +237,24 @@ export default function LandingPage() {
               <div className="bento-pill-tag" style={{ background: '#FAF5FF', color: '#7C3AED', border: '1px solid #E9D5FF' }}>
                 自動日報合成
               </div>
-              <h3 className="bento-card-title">ワンタップで美しい活動レポート</h3>
+              <h3 className="bento-card-title">ワンタップでSNS・日報用画像を瞬時に生成</h3>
               <p className="bento-card-desc">
-                その日の実績を美しい縦型画像に自動合成。チームのLINEグループやSNSへ即座に共有可能です。
+                歩行距離・ピン数・時間別実績を、洗練された縦型レポート画像に即座にレイアウト。活動後の報告業務がゼロになり、毎晩のLINE共有やX発信を加速させます。
               </p>
+              <div className="bento-feature-points">
+                <div className="bento-point-item">
+                  <CheckCircle2 size={14} color="#7C3AED" style={{ flexShrink: 0 }} />
+                  <span>日報作成にかかる事務作業をゼロに短縮</span>
+                </div>
+                <div className="bento-point-item">
+                  <CheckCircle2 size={14} color="#7C3AED" style={{ flexShrink: 0 }} />
+                  <span>LINEグループやX（旧Twitter）へ即共有</span>
+                </div>
+                <div className="bento-point-item">
+                  <CheckCircle2 size={14} color="#7C3AED" style={{ flexShrink: 0 }} />
+                  <span>支援者の熱量を高めるビジュアル活動報告</span>
+                </div>
+              </div>
             </div>
             <div className="bento-card-visual">
               <img src="/feature_sns_blue.jpg" alt="SNSシェアジェネレーター画面" />
