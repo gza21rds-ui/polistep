@@ -93,7 +93,7 @@ export default function LandingPage() {
               <div className="video-aspect-box">
                 <iframe 
                   className="hero-iframe"
-                  src="https://www.youtube.com/embed/1LqbyVq2ByY?autoplay=1&mute=1&rel=0&playsinline=1" 
+                  src="https://www.youtube.com/embed/1LqbyVq2ByY?autoplay=1&mute=1&rel=0&playsinline=1&cc_load_policy=3&iv_load_policy=3" 
                   title="PoliStep 紹介動画" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowFullScreen
