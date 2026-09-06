@@ -90,14 +90,26 @@ export default function AdminDashboard() {
     return `https://liff.line.me/2011462282-d9h0l139/m/${user.team_id}`;
   };
 
+  const getShareMessage = () => {
+    const url = getShareUrl();
+    return `【PoliStep 陣営共有マップのご案内】
+以下のURLをタップして、活動マップを開いてください！
+
+※当システムはLINEミニアプリを使用しています。初回のみシステム用公式アカウント（PoliSide）の友だち追加画面が表示されますので、そのまま「追加」して進んでください。追加後はリッチメニューからいつでも一発でマップを開けるようになります！
+
+👇 マップを開く
+${url}`;
+  };
+
   const handleCopyLink = async () => {
+    const text = getShareMessage();
     try {
-      await navigator.clipboard.writeText(getShareUrl());
+      await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
       const textArea = document.createElement('textarea');
-      textArea.value = getShareUrl();
+      textArea.value = text;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand('copy');
