@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { ArrowLeft, Mail, Lock, User, Eye, EyeOff, Loader2, Sparkles, CheckCircle2, Users, LogIn, UserPlus } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import useNoIndex from '../hooks/useNoIndex';
 
 export default function AuthScreen() {
   useNoIndex();
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    return searchParams.get('mode') !== 'register';
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const mode = searchParams.get('mode');
+  const isLogin = mode !== 'register';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const handleToggleMode = (loginMode) => {
+    setError(null);
+    setSearchParams({ mode: loginMode ? 'login' : 'register' });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -132,116 +138,186 @@ export default function AuthScreen() {
     <div className="auth-page-container">
       {/* ===== 左側: ビジュアルエリア (PCのみ) ===== */}
       <div className="auth-visual-side">
-        <img src="/hero_map_visual.jpg" alt="PoliStep ボランティア" className="auth-visual-img" />
-        <div className="auth-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <img src="/polistep_logo_new.jpg" alt="Logo" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
-          PoliStep
-        </div>
+        <img src="/auth_visual_modern.jpg" alt="PoliStep 活動マップ" className="auth-visual-img" />
+        <div className="auth-visual-overlay"></div>
+
+        {/* 上部ロゴ */}
+        <Link to="/" className="auth-logo tap-scale" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem' }}>
+          <img src="/polistep_logo_new.jpg" alt="Logo" style={{ width: '38px', height: '38px', borderRadius: '50%', boxShadow: '0 4px 12px rgba(0,0,0,0.25)' }} />
+          <span>PoliStep</span>
+        </Link>
+
+        {/* 下部メッセージ＆ハイライト */}
         <div className="auth-quote-box">
-          <div className="auth-quote">チームの力が、<br/>地域を変える。</div>
-          <div className="auth-quote-author">ドブ板活動の完全可視化ツール</div>
+          <div className="auth-quote-badge">
+            <Sparkles size={14} />
+            <span>2027年 統一地方選 応援中 · 完全0円</span>
+          </div>
+          <div className="auth-quote">
+            チームの歩みが、<br/>地域を変える。
+          </div>
+          <div className="auth-quote-author">
+            ドブ板活動をデジタル地図とデータで可視化し、<br/>陣営の一体感と推進力を最大化する政治活動DXツール。
+          </div>
+
+          <div className="auth-feature-pills">
+            <span className="auth-pill-item">
+              <CheckCircle2 size={13} color="#60A5FA" /> GPSリアルタイム同期
+            </span>
+            <span className="auth-pill-item">
+              <CheckCircle2 size={13} color="#60A5FA" /> 目標自動逆算
+            </span>
+            <span className="auth-pill-item">
+              <CheckCircle2 size={13} color="#60A5FA" /> 日報画像ワンタップ生成
+            </span>
+          </div>
         </div>
       </div>
 
       {/* ===== 右側: フォームエリア ===== */}
       <div className="auth-form-side">
-        <Link to="/" className="auth-back-btn tap-scale" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(8px)', padding: '0.5rem 1rem', borderRadius: '9999px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', color: '#334155', textDecoration: 'none', fontWeight: 600 }}>
+        <Link to="/" className="auth-back-btn tap-scale">
           <ArrowLeft size={16} /> ホームへ
         </Link>
         
-        <div className="auth-form-wrapper" style={{ animation: 'fadeInUp 0.5s ease-out' }}>
+        <div className="auth-form-wrapper">
           
           {/* モバイル用ロゴ表示 */}
-          <div className="auth-mobile-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
-            <img src="/polistep_logo_new.jpg" alt="Logo" style={{ width: '48px', height: '48px', borderRadius: '50%', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-            <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B', letterSpacing: '-0.5px' }}>PoliStep</span>
+          <div className="auth-mobile-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.75rem' }}>
+            <img src="/polistep_logo_new.jpg" alt="Logo" style={{ width: '44px', height: '44px', borderRadius: '50%', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+            <span style={{ fontSize: '1.45rem', fontWeight: 900, color: '#0F172A', letterSpacing: '-0.5px' }}>PoliStep</span>
           </div>
 
-          <h2 className="auth-title" style={{ textAlign: 'center', fontSize: '1.75rem' }}>
+          <h2 className="auth-title" style={{ textAlign: 'center' }}>
             {isLogin ? 'おかえりなさい 👋' : '管理者アカウント作成 ✨'}
           </h2>
-          <p className="auth-subtitle" style={{ textAlign: 'center', marginBottom: '2.5rem', color: '#64748B', lineHeight: 1.6 }}>
-            {isLogin ? 'アカウントにログインして、本日の活動を開始しましょう。' : '活動の代表者としてチームをデジタル化し、効率的に管理しましょう。'}
+          <p className="auth-subtitle" style={{ textAlign: 'center' }}>
+            {isLogin ? 'アカウントにログインして、本日の活動を開始しましょう。' : '陣営の代表者としてチームをデジタル化し、効率的に管理しましょう。'}
           </p>
 
-          <div className="auth-toggle-group" style={{ marginBottom: '2rem', background: '#F1F5F9', padding: '0.25rem', borderRadius: '12px' }}>
+          <div className="auth-toggle-group">
             <button 
               type="button" 
               className={`auth-toggle-btn ${isLogin ? 'active' : ''}`}
-              onClick={() => setIsLogin(true)}
-              style={{ borderRadius: '10px', fontWeight: 700 }}
+              onClick={() => handleToggleMode(true)}
             >
-              ログイン
+              <LogIn size={15} /> ログイン
             </button>
             <button 
               type="button" 
               className={`auth-toggle-btn ${!isLogin ? 'active' : ''}`}
-              onClick={() => setIsLogin(false)}
-              style={{ borderRadius: '10px', fontWeight: 700 }}
+              onClick={() => handleToggleMode(false)}
             >
-              新規登録
+              <UserPlus size={15} /> 新規登録
             </button>
           </div>
 
           {error && (
-            <div style={{ background: '#FEF2F2', color: '#B91C1C', padding: '1rem', borderRadius: '12px', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: 600, border: '1px solid #FECACA', display: 'flex', alignItems: 'center', gap: '0.5rem', animation: 'shake 0.4s ease-in-out' }}>
-              ⚠️ {error}
+            <div style={{ background: '#FEF2F2', color: '#B91C1C', padding: '0.875rem 1rem', borderRadius: '12px', marginBottom: '1.25rem', fontSize: '0.875rem', fontWeight: 600, border: '1px solid #FECACA', display: 'flex', alignItems: 'flex-start', gap: '0.5rem', animation: 'shake 0.4s ease-in-out' }}>
+              <span style={{ flexShrink: 0, marginTop: '2px' }}>⚠️</span>
+              <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            <div style={{ animation: 'popIn 0.3s ease-out' }}>
-              <div style={{ position: 'relative', marginBottom: '1.25rem' }}>
-                <input 
-                  type="email" 
-                  placeholder="メールアドレス" 
-                  className="input-premium" 
-                  style={{ width: '100%', paddingLeft: '1rem' }} 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required 
-                />
-              </div>
-              <div style={{ position: 'relative', marginBottom: isLogin ? '0' : '1.25rem' }}>
-                <input 
-                  type="password" 
-                  placeholder="パスワード (6文字以上)" 
-                  className="input-premium" 
-                  style={{ width: '100%', paddingLeft: '1rem' }} 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required 
-                />
-              </div>
-              
-              {!isLogin && (
-                <div style={{ position: 'relative' }}>
-                  <input 
-                    type="text" 
-                    placeholder="候補者名（例: 田中太郎）" 
-                    className="input-premium" 
-                    style={{ width: '100%', paddingLeft: '1rem' }} 
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    required 
-                  />
-                </div>
-              )}
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+            {/* メールアドレス入力 */}
+            <div className="auth-input-container">
+              <span className="auth-input-icon">
+                <Mail size={18} />
+              </span>
+              <input 
+                type="email" 
+                placeholder="メールアドレス" 
+                className="input-premium has-icon" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+                inputMode="email"
+                required 
+              />
+            </div>
+
+            {/* パスワード入力 */}
+            <div className="auth-input-container">
+              <span className="auth-input-icon">
+                <Lock size={18} />
+              </span>
+              <input 
+                type={showPassword ? 'text' : 'password'} 
+                placeholder={isLogin ? "パスワード" : "パスワード (6文字以上)"} 
+                className="input-premium has-icon has-toggle" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete={isLogin ? "current-password" : "new-password"}
+                minLength={isLogin ? undefined : 6}
+                required 
+              />
+              <button
+                type="button"
+                className="auth-password-toggle-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "パスワードを隠す" : "パスワードを表示"}
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
             
-            <button type="submit" className="btn-premium tap-scale" style={{ marginTop: '1rem', padding: '1rem', fontSize: '1.1rem', borderRadius: '12px', boxShadow: '0 8px 20px -4px rgba(37,99,235,0.3)' }} disabled={loading}>
-              {loading ? '処理中...' : (isLogin ? 'ログインする' : '登録して始める')}
+            {/* 候補者・代表者名入力（新規登録時のみ） */}
+            {!isLogin && (
+              <div className="auth-input-container" style={{ animation: 'popIn 0.25s ease-out' }}>
+                <span className="auth-input-icon">
+                  <User size={18} />
+                </span>
+                <input 
+                  type="text" 
+                  placeholder="代表者・候補者名（例: 山田太郎）" 
+                  className="input-premium has-icon" 
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  autoComplete="name"
+                  required 
+                />
+              </div>
+            )}
+            
+            <button 
+              type="submit" 
+              className="btn-premium tap-scale" 
+              style={{ marginTop: '0.5rem' }} 
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  <span>処理中...</span>
+                </>
+              ) : (
+                isLogin ? 'ログインする' : '登録して始める'
+              )}
             </button>
+
+            {!isLogin && (
+              <p style={{ fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: '0.85rem', lineHeight: 1.5 }}>
+                アカウント作成により、
+                <Link to="/terms" target="_blank" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>利用規約</Link>
+                および
+                <Link to="/privacy" target="_blank" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>プライバシーポリシー</Link>
+                に同意したものとみなされます。
+              </p>
+            )}
           </form>
 
-          {!isLogin && (
-            <div style={{ marginTop: '2.5rem', padding: '1.5rem', background: '#F8FAFC', borderRadius: '16px', border: '1px dashed #CBD5E1' }}>
-            <p style={{ fontSize: '0.9rem', color: '#475569', lineHeight: 1.6, margin: 0 }}>
-              💡 <strong>ボランティアスタッフの方へ</strong><br/>
-              スタッフはアカウント登録不要です。<br/>代表者から共有されたマップURLに直接アクセスしてください。
-            </p>
+          {/* ボランティアスタッフ向けガイダンス */}
+          <div style={{ marginTop: '2rem', padding: '1rem 1.15rem', background: '#F8FAFC', borderRadius: '14px', border: '1px solid #E2E8F0', display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+            <div style={{ background: '#EFF6FF', color: '#2563EB', padding: '0.45rem', borderRadius: '8px', flexShrink: 0 }}>
+              <Users size={18} />
+            </div>
+            <div style={{ fontSize: '0.825rem', color: '#475569', lineHeight: 1.5 }}>
+              <strong style={{ color: '#0F172A', display: 'block', marginBottom: '0.2rem', fontSize: '0.85rem' }}>ボランティアスタッフの方へ</strong>
+              スタッフのアカウント登録は不要です。陣営の管理者から共有された専用マップURLに直接アクセスしてください。
+            </div>
           </div>
-          )}
         </div>
       </div>
     </div>
