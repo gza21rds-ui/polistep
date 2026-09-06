@@ -31,7 +31,6 @@ export default function LandingPage() {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      isMounted = false;
       window.removeEventListener('scroll', handleScroll);
     };
   }, [navigate]);
