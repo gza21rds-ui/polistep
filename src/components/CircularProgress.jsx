@@ -15,6 +15,9 @@ export default function CircularProgress({ percentage, color, valueText, size = 
   const circumference = radius * 2 * Math.PI;
   const offset = circumference - (animatedPercentage / 100) * circumference;
 
+  const valueFontSize = (size * 0.22) + 'px';
+  const labelFontSize = Math.max(10, size * 0.08) + 'px';
+
   return (
     <div style={{ position: 'relative', width: size, height: size, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
       <svg width={size} height={size} style={{ transform: 'rotate(-90deg)', position: 'absolute', top: 0, left: 0 }}>
@@ -39,15 +42,15 @@ export default function CircularProgress({ percentage, color, valueText, size = 
           style={{ transition: 'stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1)' }}
         />
       </svg>
-      <div style={{ zIndex: 1, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-        <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#475569', letterSpacing: '-0.2px' }}>
-          達成率 {percentage.toFixed(0)}%
+      <div style={{ zIndex: 1, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1px' }}>
+        <div style={{ fontSize: labelFontSize, fontWeight: 700, color: '#475569', letterSpacing: '-0.2px' }}>
+          {percentage.toFixed(0)}%
         </div>
-        <div style={{ fontSize: '2.2rem', fontWeight: 900, color: color, lineHeight: 1, letterSpacing: '-1px' }}>
+        <div style={{ fontSize: valueFontSize, fontWeight: 900, color: color, lineHeight: 1, letterSpacing: '-0.5px' }}>
           {valueText}
         </div>
-        <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748B' }}>
-          進捗率
+        <div style={{ fontSize: labelFontSize, fontWeight: 700, color: '#64748B' }}>
+          進捗
         </div>
       </div>
     </div>

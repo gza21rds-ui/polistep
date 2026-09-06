@@ -968,23 +968,84 @@ body, html {
   }
 }
 
-/* AdminDashboard Progress Cards Responsive */
-.progress-card-content {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-  flex-wrap: nowrap;
+/* AdminDashboard Progress Cards 2-Column Responsive Grid */
+.progress-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  width: 100%;
 }
 
-@media (max-width: 600px) {
+.progress-card {
+  background: #ffffff;
+  color: #1E293B;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justifyContent: space-between;
+}
+
+.progress-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.progress-card-content {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  flex: 1;
+}
+
+.progress-chart-desktop {
+  display: block;
+}
+.progress-chart-mobile {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .progress-cards-grid {
+    gap: 0.5rem;
+  }
+  .progress-card {
+    padding: 0.75rem 0.5rem;
+    border-radius: var(--radius-md);
+  }
+  .progress-card-header {
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+  }
+  .progress-card-header h3 {
+    font-size: 0.85rem !important;
+    gap: 0.25rem !important;
+  }
+  .progress-card-header a {
+    padding: 0.2rem 0.4rem !important;
+    font-size: 0.65rem !important;
+  }
   .progress-card-content {
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     text-align: center;
   }
   .progress-card-detail {
     width: 100%;
+    gap: 0.5rem !important;
+  }
+  .progress-chart-desktop {
+    display: none;
+  }
+  .progress-chart-mobile {
+    display: block;
   }
 }
 

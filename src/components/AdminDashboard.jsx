@@ -205,62 +205,71 @@ ${url}`;
         </div>
 
         {/* 1. 必勝プログレスバー群（最上部に配置して今日の目標達成率を即座に把握） */}
-        <div id="tour-progress-bar" style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+        <div id="tour-progress-bar" className="progress-cards-grid">
           {/* 個別訪問（対話）進捗 */}
-          <section className="glass-card dashboard-card-clean" style={{ background: '#ffffff', color: '#1E293B', border: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid #F1F5F9' }}>
-              <h3 className="heading-responsive-tight" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
-                <Users size={20} color="#EA580C" /> 訪問・ご挨拶の進捗
+          <section className="progress-card">
+            <div className="progress-card-header">
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#1E3A8A', margin: 0 }}>
+                <Users size={18} color="#EA580C" /> 訪問・対話の進捗
               </h3>
-              <Link to="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem', color: '#2563EB', textDecoration: 'none', background: '#EFF6FF', padding: '0.4rem 0.8rem', borderRadius: '8px', fontWeight: 700 }}>
-                目標再設定
+              <Link to="/onboarding" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.2rem', fontSize: '0.75rem', color: '#2563EB', textDecoration: 'none', background: '#EFF6FF', padding: '0.35rem 0.65rem', borderRadius: '6px', fontWeight: 700 }}>
+                再設定
               </Link>
             </div>
             
             <div className="progress-card-content">
-              {/* ドーナツチャート（左） */}
-              <div style={{ flexShrink: 0 }}>
+              {/* ドーナツチャート */}
+              <div className="progress-chart-desktop">
                 <CircularProgress 
                   percentage={Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)} 
                   color="#EA580C" 
                   valueText={stats.talked.toString()} 
-                  size={140}
-                  strokeWidth={14}
+                  size={110}
+                  strokeWidth={11}
+                />
+              </div>
+              <div className="progress-chart-mobile">
+                <CircularProgress 
+                  percentage={Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)} 
+                  color="#EA580C" 
+                  valueText={stats.talked.toString()} 
+                  size={76}
+                  strokeWidth={8}
                 />
               </div>
               
-              {/* 数値詳細とバー（右） */}
-              <div className="progress-card-detail" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {/* 数値詳細とバー */}
+              <div className="progress-card-detail" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>目標</span>
-                  <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{user.target_visits?.toLocaleString() || '---'} <span style={{ fontSize: '1rem', color: '#64748B' }}>件</span></span>
+                  <span style={{ color: '#64748B', fontSize: '0.85rem', fontWeight: 700 }}>目標</span>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#1E293B' }}>{user.target_visits?.toLocaleString() || '---'} <span style={{ fontSize: '0.8rem', color: '#64748B' }}>件</span></span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px dashed #E2E8F0', paddingBottom: '0.5rem' }}>
-                  <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>現在の訪問</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px dashed #E2E8F0', paddingBottom: '0.35rem' }}>
+                  <span style={{ color: '#64748B', fontSize: '0.85rem', fontWeight: 700 }}>実績</span>
                   <div style={{ textAlign: 'right' }}>
-                    <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{stats.talked.toLocaleString()}</span>
-                    <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 700 }}> / {user.target_visits?.toLocaleString() || '---'} 件</span>
+                    <span style={{ fontSize: '1.25rem', fontWeight: 900, color: '#EA580C' }}>{stats.talked.toLocaleString()}</span>
+                    <span style={{ color: '#64748B', fontSize: '0.85rem', fontWeight: 700 }}> / {user.target_visits?.toLocaleString() || '---'} 件</span>
                   </div>
                 </div>
                 
-                <div style={{ background: '#FFF7ED', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #FFEDD5' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#9A3412', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                    <Flame size={16} color="#EA580C" /> 1日あたりの目標
+                <div style={{ background: '#FFF7ED', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #FFEDD5' }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#9A3412', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                    <Flame size={14} color="#EA580C" /> 1日ノルマ
                   </span>
-                  <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#EA580C' }}>
-                    {Math.max(0, Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft)).toLocaleString()} <span style={{ fontSize: '0.8rem', color: '#9A3412' }}>件/日</span>
+                  <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#EA580C' }}>
+                    {Math.max(0, Math.ceil(((user.target_visits || 0) - stats.talked) / daysLeft)).toLocaleString()} <span style={{ fontSize: '0.7rem', color: '#9A3412' }}>件/日</span>
                   </span>
                 </div>
 
                 <div>
-                  <div className="progress-container" style={{ height: '0.85rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
-                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '0.7rem', background: '#EA580C', display: 'flex', alignItems: 'center', padding: ((stats.talked / (user.target_visits || 1)) * 100) > 10 ? '0 0.5rem' : '0', fontWeight: 'bold', color: 'white' }}>
-                      {((stats.talked / (user.target_visits || 1)) * 100) > 10 ? `${((stats.talked / (user.target_visits || 1)) * 100).toFixed(0)}%` : ''}
+                  <div className="progress-container" style={{ height: '0.65rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
+                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, (stats.talked / (user.target_visits || 1)) * 100)}%`, fontSize: '0.65rem', background: '#EA580C', display: 'flex', alignItems: 'center', padding: ((stats.talked / (user.target_visits || 1)) * 100) > 12 ? '0 0.4rem' : '0', fontWeight: 'bold', color: 'white' }}>
+                      {((stats.talked / (user.target_visits || 1)) * 100) > 12 ? `${((stats.talked / (user.target_visits || 1)) * 100).toFixed(0)}%` : ''}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.35rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748B' }}>
-                      あと {(user.target_visits || 0) > stats.talked ? ((user.target_visits || 0) - stats.talked).toLocaleString() : 0} 件
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748B' }}>
+                      残 {(user.target_visits || 0) > stats.talked ? ((user.target_visits || 0) - stats.talked).toLocaleString() : 0} 件
                     </span>
                   </div>
                 </div>
@@ -269,57 +278,66 @@ ${url}`;
           </section>
 
           {/* ビラ・チラシ配布の進捗 */}
-          <section className="glass-card dashboard-card-clean" style={{ background: '#ffffff', color: '#1E293B', border: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid #F1F5F9' }}>
-              <h3 className="heading-responsive-tight" style={{ fontSize: '1.15rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#1E3A8A' }}>
-                <FileText size={20} color="#2563EB" /> ビラ配布の進捗
+          <section className="progress-card">
+            <div className="progress-card-header">
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#1E3A8A', margin: 0 }}>
+                <FileText size={18} color="#2563EB" /> ビラ配布の進捗
               </h3>
             </div>
             
             <div className="progress-card-content">
-              {/* ドーナツチャート（左） */}
-              <div style={{ flexShrink: 0 }}>
+              {/* ドーナツチャート */}
+              <div className="progress-chart-desktop">
                 <CircularProgress 
                   percentage={Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)} 
                   color="#2563EB" 
                   valueText={(stats.absent + stats.flyer + (stats.flyerCount || 0)).toString()} 
-                  size={140}
-                  strokeWidth={14}
+                  size={110}
+                  strokeWidth={11}
+                />
+              </div>
+              <div className="progress-chart-mobile">
+                <CircularProgress 
+                  percentage={Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)} 
+                  color="#2563EB" 
+                  valueText={(stats.absent + stats.flyer + (stats.flyerCount || 0)).toString()} 
+                  size={76}
+                  strokeWidth={8}
                 />
               </div>
               
-              {/* 数値詳細とバー（右） */}
-              <div className="progress-card-detail" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {/* 数値詳細とバー */}
+              <div className="progress-card-detail" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                  <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>目標</span>
-                  <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{user.target_flyers?.toLocaleString() || '---'} <span style={{ fontSize: '1rem', color: '#64748B' }}>枚</span></span>
+                  <span style={{ color: '#64748B', fontSize: '0.85rem', fontWeight: 700 }}>目標</span>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#1E293B' }}>{user.target_flyers?.toLocaleString() || '---'} <span style={{ fontSize: '0.8rem', color: '#64748B' }}>枚</span></span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px dashed #E2E8F0', paddingBottom: '0.5rem' }}>
-                  <span style={{ color: '#475569', fontSize: '1rem', fontWeight: 700 }}>配布枚数</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px dashed #E2E8F0', paddingBottom: '0.35rem' }}>
+                  <span style={{ color: '#64748B', fontSize: '0.85rem', fontWeight: 700 }}>実績</span>
                   <div style={{ textAlign: 'right' }}>
-                    <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1E293B' }}>{(stats.absent + stats.flyer + (stats.flyerCount || 0)).toLocaleString()}</span>
-                    <span style={{ color: '#64748B', fontSize: '1rem', fontWeight: 700 }}> / {user.target_flyers?.toLocaleString() || '---'} 枚</span>
+                    <span style={{ fontSize: '1.25rem', fontWeight: 900, color: '#2563EB' }}>{(stats.absent + stats.flyer + (stats.flyerCount || 0)).toLocaleString()}</span>
+                    <span style={{ color: '#64748B', fontSize: '0.85rem', fontWeight: 700 }}> / {user.target_flyers?.toLocaleString() || '---'} 枚</span>
                   </div>
                 </div>
                 
-                <div style={{ background: '#EFF6FF', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #DBEAFE' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1E40AF', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                    <Flame size={16} color="#2563EB" /> 1日あたりの目標
+                <div style={{ background: '#EFF6FF', padding: '0.5rem 0.75rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #DBEAFE' }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1E40AF', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                    <Flame size={14} color="#2563EB" /> 1日ノルマ
                   </span>
-                  <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#1D4ED8' }}>
-                    {Math.max(0, Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft)).toLocaleString()} <span style={{ fontSize: '0.8rem', color: '#1E40AF' }}>枚/日</span>
+                  <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1D4ED8' }}>
+                    {Math.max(0, Math.ceil(((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))) / daysLeft)).toLocaleString()} <span style={{ fontSize: '0.7rem', color: '#1E40AF' }}>枚/日</span>
                   </span>
                 </div>
 
                 <div>
-                  <div className="progress-container" style={{ height: '0.85rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
-                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '0.7rem', background: '#2563EB', display: 'flex', alignItems: 'center', padding: (((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 10 ? '0 0.5rem' : '0', fontWeight: 'bold', color: 'white' }}>
-                      {(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 10 ? `${(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100).toFixed(0)}%` : ''}
+                  <div className="progress-container" style={{ height: '0.65rem', background: '#E2E8F0', borderRadius: '9999px', overflow: 'hidden' }}>
+                    <div className="progress-fill" style={{ '--target-width': `${Math.min(100, ((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100)}%`, fontSize: '0.65rem', background: '#2563EB', display: 'flex', alignItems: 'center', padding: (((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 12 ? '0 0.4rem' : '0', fontWeight: 'bold', color: 'white' }}>
+                      {(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100) > 12 ? `${(((stats.absent + stats.flyer + (stats.flyerCount || 0)) / (user.target_flyers || 1)) * 100).toFixed(0)}%` : ''}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.35rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748B' }}>
-                      あと {(user.target_flyers || 0) > (stats.absent + stats.flyer + (stats.flyerCount || 0)) ? ((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))).toLocaleString() : 0} 枚
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.25rem' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748B' }}>
+                      残 {(user.target_flyers || 0) > (stats.absent + stats.flyer + (stats.flyerCount || 0)) ? ((user.target_flyers || 0) - (stats.absent + stats.flyer + (stats.flyerCount || 0))).toLocaleString() : 0} 枚
                     </span>
                   </div>
                 </div>
