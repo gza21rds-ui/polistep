@@ -87,7 +87,8 @@ export default function AdminDashboard() {
   };
 
   const getShareUrl = () => {
-    return `https://liff.line.me/2011462282-d9h0l139/m/${user.team_id}`;
+    const base = window.location.origin;
+    return `${base}/m/${user.team_id}`;
   };
 
   const getShareMessage = () => {
@@ -95,10 +96,8 @@ export default function AdminDashboard() {
     return `【PoliStep 陣営共有マップのご案内】
 以下のURLをタップして、活動マップを開いてください！
 
-※当システムはLINEミニアプリを使用しています。初回のみシステム用の公式アカウント（PoliSide）の友だち追加画面が表示されます。
-✅ 追加するメリット：次回からLINEのメニューボタンから「1タップ」でいつでもマップを開けるようになります！
-✅ システム用アカウントのため、余計なメッセージ配信や通知が届くことは一切ありませんのでご安心ください。
-ぜひそのまま「追加」してご活用ください！
+面倒なアプリのインストールやアカウント登録は一切不要です。
+URLを開くだけで、すぐにチームと同じマップを共有して活動できます。
 
 👇 マップを開く
 ${url}`;
