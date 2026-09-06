@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles, MapPin, X } from 'lucide-react';
-import liff from '@line/liff';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -9,32 +8,18 @@ export default function LandingPage() {
   const [lineGuideModal, setLineGuideModal] = useState(false);
 
   useEffect(() => { 
-    let isMounted = true;
+    // LINEアプリ内ブラウザでアクセスされた場合
+    const isLine = /Line\//i.test(navigator.userAgent);
+    const lastTeamId = localStorage.getItem('polistep_last_team_id');
 
-    const checkLineRedirect = async () => {
-      try {
-        await liff.init({ liffId: '2011462282-d9h0l139' });
-        if (!isMounted) return;
-        
-        // LINEアプリ内ブラウザ（またはLIFF）でアクセスされた場合
-        const isLine = liff.isInClient() || /Line\//i.test(navigator.userAgent);
-        const lastTeamId = localStorage.getItem('polistep_last_team_id');
-
-        if (isLine) {
-          if (lastTeamId) {
-            // 過去に参加したチームマップへ直行！
-            navigate(`/m/${lastTeamId}`, { replace: true });
-            return;
-          } else {
-            // LINE内なのにチーム未設定の場合、案内モーダルを表示
-            setLineGuideModal(true);
-          }
-        }
-      } catch (err) {
-        console.error('LIFF init error on Landing:', err);
+    if (isLine) {
+      if (lastTeamId) {
+        navigate(`/m/${lastTeamId}`, { replace: true });
+        return;
+      } else {
+        setLineGuideModal(true);
       }
-    };
-    checkLineRedirect();
+    }
 
     window.scrollTo(0, 0); 
     const handleScroll = () => {

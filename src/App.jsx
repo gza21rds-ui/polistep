@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import liff from '@line/liff';
 import { BrowserRouter, Routes, Route, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import MapScreen from './components/MapScreen';
 import ActionBottomSheet from './components/ActionBottomSheet';
@@ -64,37 +63,11 @@ function PublicMapApp() {
   const { teamId } = useParams();
   const navigate = useNavigate();
   
-  // LINE Profile State
-  const [lineProfile, setLineProfile] = useState(null);
-
   useEffect(() => {
     if (teamId) {
       localStorage.setItem('polistep_last_team_id', teamId);
     }
-    let isMounted = true;
-    liff.init({ liffId: '2011462282-d9h0l139' }).then(() => {
-      if (!isMounted) return;
-      if (liff.isLoggedIn()) {
-        liff.getProfile().then(profile => {
-          if (isMounted) setLineProfile(profile);
-          
-          // 初回起動時のみLステップ自動タグ付け用のキーワードを送信
-          if (liff.isInClient() && !localStorage.getItem('polistep_line_linked')) {
-            liff.sendMessages([{ type: 'text', text: '【システム用:ボランティア利用開始】' }])
-              .then(() => {
-                localStorage.setItem('polistep_line_linked', 'true');
-                console.log('Lステップ連携用メッセージ送信成功');
-              })
-              .catch(err => console.error('sendMessages error', err));
-          }
-        }).catch(err => console.error('LIFF getProfile error', err));
-      } else if (liff.isInClient()) {
-        // LINEアプリ内で開いている場合は自動ログイン
-        liff.login();
-      }
-    }).catch(err => console.error('LIFF init error', err));
-    return () => { isMounted = false; };
-  }, []);
+  }, [teamId]);
   const [pins, setPins] = useState([]);
   const [actionCount, setActionCount] = useState(0);
   const [ready, setReady] = useState(false);
