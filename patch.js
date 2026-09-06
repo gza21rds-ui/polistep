@@ -1,22 +1,49 @@
 const fs = require('fs');
-let code = fs.readFileSync('src/components/SnsShareGenerator.jsx', 'utf8');
+let code = fs.readFileSync('src/App.jsx', 'utf-8');
 
-// Move early return down
-code = code.replace("  if (!visible) return null;\n\n", "");
+// Add import
+code = code.replace("import React, { useState, useEffect } from 'react';", "import React, { useState, useEffect } from 'react';\nimport liff from '@line/liff';");
 
-// Find `const handleDownload` and insert the early return above it
-code = code.replace("  const handleDownload = () => {", "  if (!visible) return null;\n\n  const handleDownload = () => {");
+// Inside PublicMapApp
+const hookToInsert = `
+  // LINE Profile State
+  const [lineProfile, setLineProfile] = useState(null);
 
-// Add useEffect to dependency array of drawCanvas if it isn't already there?
-// Wait, drawCanvas is declared at line 30, useEffect is at line 9.
-// If we move the early return down, the useEffect is NO LONGER conditionally called!
-// It will be called on EVERY render. Which is CORRECT for hooks!
-// But wait, if drawCanvas is declared after useEffect, it's still a ReferenceError.
-// Let's just swap useEffect and drawCanvas!
-let effectMatch = code.match(/  useEffect\(\(\) => \{[\s\S]*?  \}, \[.*?\]\);\n\n/);
-if (effectMatch) {
-  code = code.replace(effectMatch[0], "");
-  code = code.replace("  const handleDownload = () => {", effectMatch[0] + "  const handleDownload = () => {");
-}
+  useEffect(() => {
+    let isMounted = true;
+    liff.init({ liffId: '2011462282-d9h0l139' }).then(() => {
+      if (!isMounted) return;
+      if (liff.isLoggedIn()) {
+        liff.getProfile().then(profile => {
+          if (isMounted) setLineProfile(profile);
+        }).catch(err => console.error('LIFF getProfile error', err));
+      } else if (liff.isInClient()) {
+        // LINEアプリ内で開いている場合は自動ログイン
+        liff.login();
+      }
+    }).catch(err => console.error('LIFF init error', err));
+    return () => { isMounted = false; };
+  }, []);
+`;
 
-fs.writeFileSync('src/components/SnsShareGenerator.jsx', code);
+code = code.replace("function PublicMapApp() {\n  useNoIndex();\n  const { teamId } = useParams();\n  const navigate = useNavigate();", "function PublicMapApp() {\n  useNoIndex();\n  const { teamId } = useParams();\n  const navigate = useNavigate();\n" + hookToInsert);
+
+// Add to newPin
+const insertReplacement = `    const newPin = {
+      team_id: teamId,
+      lat: newLat,
+      lng: newLng,
+      type: actionType,
+      action_count: initCount,
+      // LINE名があれば記録する
+      created_by: lineProfile ? lineProfile.displayName : 'スタッフ'
+    };`;
+code = code.replace(`    const newPin = {
+      team_id: teamId,
+      lat: newLat,
+      lng: newLng,
+      type: actionType,
+      action_count: initCount
+    };`, insertReplacement);
+
+fs.writeFileSync('src/App.jsx', code);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles, MapPin, X } from 'lucide-react';
+import liff from '@line/liff';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -8,20 +9,32 @@ export default function LandingPage() {
   const [lineGuideModal, setLineGuideModal] = useState(false);
 
   useEffect(() => { 
-    // LINEアプリ内ブラウザ（またはLIFF）でアクセスされた場合
-    const isLine = typeof navigator !== 'undefined' && /Line\//i.test(navigator.userAgent);
-    const lastTeamId = localStorage.getItem('polistep_last_team_id');
+    let isMounted = true;
 
-    if (isLine) {
-      if (lastTeamId) {
-        // 過去に参加したチームマップへ直行！
-        navigate(`/m/${lastTeamId}`, { replace: true });
-        return;
-      } else {
-        // LINE内なのにチーム未設定の場合、案内モーダルを表示
-        setLineGuideModal(true);
+    const checkLineRedirect = async () => {
+      try {
+        await liff.init({ liffId: '2011462282-d9h0l139' });
+        if (!isMounted) return;
+        
+        // LINEアプリ内ブラウザ（またはLIFF）でアクセスされた場合
+        const isLine = liff.isInClient() || /Line\//i.test(navigator.userAgent);
+        const lastTeamId = localStorage.getItem('polistep_last_team_id');
+
+        if (isLine) {
+          if (lastTeamId) {
+            // 過去に参加したチームマップへ直行！
+            navigate(`/m/${lastTeamId}`, { replace: true });
+            return;
+          } else {
+            // LINE内なのにチーム未設定の場合、案内モーダルを表示
+            setLineGuideModal(true);
+          }
+        }
+      } catch (err) {
+        console.error('LIFF init error on Landing:', err);
       }
-    }
+    };
+    checkLineRedirect();
 
     window.scrollTo(0, 0); 
     const handleScroll = () => {
@@ -32,7 +45,10 @@ export default function LandingPage() {
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      isMounted = false;
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [navigate]);
 
   return (
