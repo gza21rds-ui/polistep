@@ -16,6 +16,7 @@ import Onboarding from './components/Onboarding';
 import Terms from './components/Terms';
 import Privacy from './components/Privacy';
 import Legal from './components/Legal';
+import StaffDashboard from './components/StaffDashboard';
 
 import { supabase } from './lib/supabase';
 import useNoIndex from './hooks/useNoIndex';
@@ -614,8 +615,6 @@ function AuthenticatedMapRedirect() {
 
   return <div style={{ padding: '2rem', textAlign: 'center' }}>読み込み中...</div>;
 }
-
-import StaffDashboard from './components/StaffDashboard';
 
 // App コンポーネントはルーティングを担当
 export default function App() {
