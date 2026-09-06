@@ -168,7 +168,10 @@ ${url}`;
 
       <header className="glass-header admin-glass-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <h2 className="logo-text" style={{ fontSize: '1.25rem', letterSpacing: '-0.5px' }}>PoliStep</h2>
+          <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }} title="トップ画面へ戻る">
+            <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '28px', height: '28px', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }} />
+            <h2 className="logo-text" style={{ fontSize: '1.25rem', letterSpacing: '-0.5px', margin: 0 }}>PoliStep</h2>
+          </Link>
           <button
             onClick={() => setTourRun(true)}
             className="btn-header-outline"

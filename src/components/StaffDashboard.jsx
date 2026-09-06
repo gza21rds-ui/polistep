@@ -65,7 +65,10 @@ export default function StaffDashboard() {
   return (
     <div className="page-container" style={{ padding: 0 }}>
       <header className="glass-header">
-        <h2 className="logo-text" style={{ fontSize: '1.25rem' }}>PoliStep Staff</h2>
+        <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }} title="トップ画面へ戻る">
+          <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '28px', height: '28px', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }} />
+          <h2 className="logo-text" style={{ fontSize: '1.25rem', margin: 0 }}>PoliStep Staff</h2>
+        </Link>
         <button onClick={handleLogout} className="btn-outline" style={{ padding: '0.4rem 0.8rem', borderRadius: '9999px', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}>
           <LogOut size={16} /> ログアウト
         </button>

@@ -40,10 +40,10 @@ export default function LandingPage() {
     <div className="page-container" style={{ userSelect: 'none', WebkitUserSelect: 'none', WebkitTouchCallout: 'none', paddingBottom: showFloatingCta ? '70px' : '0' }}>
       {/* ===== Header ===== */}
       <header className="glass-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.875rem 1.25rem' }}>
-        <div className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.25rem', fontWeight: 900 }}>
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.25rem', fontWeight: 900 }} className="logo-text">
           <img src="/polistep_logo_new.jpg" alt="PoliStep Logo" style={{ width: '30px', height: '30px', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.1)' }} />
           PoliStep
-        </div>
+        </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Link to="/auth?mode=login" className="btn-outline tap-scale" style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem', borderRadius: '9999px', whiteSpace: 'nowrap' }}>
             ログイン
