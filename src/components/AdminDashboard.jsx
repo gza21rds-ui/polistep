@@ -87,8 +87,7 @@ export default function AdminDashboard() {
   };
 
   const getShareUrl = () => {
-    const base = window.location.origin;
-    return `${base}/m/${user.team_id}`;
+    return `https://liff.line.me/2011462282-d9h0l139/m/${user.team_id}`;
   };
 
   const handleCopyLink = async () => {
