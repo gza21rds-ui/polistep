@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { ArrowLeft, Mail, Lock, User, Eye, EyeOff, Loader2, Sparkles, CheckCircle2, Users, LogIn, UserPlus } from 'lucide-react';
+import { ArrowLeft, Mail, Lock, User, Eye, EyeOff, Loader2, Sparkles, CheckCircle2, Users, LogIn, UserPlus, Compass, MessageSquare, ChevronDown } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import useNoIndex from '../hooks/useNoIndex';
+
+const REFERRAL_OPTIONS = [
+  { value: '', label: 'どこでPoliStepを知りましたか？（任意）' },
+  { value: 'x', label: 'X（旧Twitter）' },
+  { value: 'sns', label: 'Instagram / Facebook' },
+  { value: 'introduction', label: '知人・議員・秘書からの紹介' },
+  { value: 'search', label: 'Web検索（Google / Yahoo!など）' },
+  { value: 'media', label: 'ニュース・政治系メディア・選挙ドットコム' },
+  { value: 'poliside', label: 'PoliSide / PoliDash（関連サービス）' },
+  { value: 'event', label: 'セミナー・勉強会・イベント' },
+  { value: 'other', label: 'その他' },
+];
 
 export default function AuthScreen() {
   useNoIndex();
@@ -14,6 +26,8 @@ export default function AuthScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [referralCategory, setReferralCategory] = useState('');
+  const [referralDetail, setReferralDetail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -54,21 +68,50 @@ export default function AuthScreen() {
         }
       } else {
         // --- 新規登録処理（管理者のみ） ---
+        let referralSourceText = '';
+        if (referralCategory) {
+          const matched = REFERRAL_OPTIONS.find((o) => o.value === referralCategory);
+          const categoryLabel = matched ? matched.label : referralCategory;
+          if (referralDetail.trim()) {
+            referralSourceText = `${categoryLabel}（${referralDetail.trim()}）`;
+          } else {
+            referralSourceText = categoryLabel;
+          }
+        } else if (referralDetail.trim()) {
+          referralSourceText = referralDetail.trim();
+        }
+
         const { data: authData, error: authError } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              display_name: displayName || '管理者',
+              referral_source: referralSourceText || null,
+            },
+          },
         });
 
         if (authError) throw authError;
 
         if (authData.user) {
           // usersテーブルに情報を登録（team_id = 自分のID）
-          const { error: insertError } = await supabase.from('users').insert({
+          const userPayload = {
             id: authData.user.id,
             role: 'admin',
             display_name: displayName || '管理者',
             team_id: authData.user.id,
-          });
+            referral_source: referralSourceText || null,
+          };
+
+          let { error: insertError } = await supabase.from('users').insert(userPayload);
+
+          // referral_sourceカラムがDBに未追加の場合のフォールバック
+          if (insertError && (insertError.message?.includes('referral_source') || insertError.code === 'PGRST204')) {
+            delete userPayload.referral_source;
+            const retry = await supabase.from('users').insert(userPayload);
+            insertError = retry.error;
+          }
 
           if (insertError) throw insertError;
 
@@ -76,7 +119,8 @@ export default function AuthScreen() {
           if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
             window.gtag('event', 'sign_up', {
               event_category: 'conversion',
-              method: 'email'
+              method: 'email',
+              referral_source: referralSourceText || 'unspecified',
             });
           }
 
@@ -85,7 +129,8 @@ export default function AuthScreen() {
             const payload = {
               email: email,
               displayName: displayName || '管理者',
-              role: 'admin'
+              role: 'admin',
+              referralSource: referralSourceText || '未回答',
             };
             try {
               const res = await fetch('/api/notify-slack', {
@@ -102,7 +147,7 @@ export default function AuthScreen() {
                   mode: 'no-cors',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
-                    text: `🎉 *PoliStepに新しいユーザーが登録されました！*\n・名前: ${displayName || '未設定'}\n・権限: 管理者\n・メールアドレス: ${email}`
+                    text: `🎉 *PoliStepに新しいユーザーが登録されました！*\n・名前: ${displayName || '未設定'}\n・権限: 管理者\n・メールアドレス: ${email}\n・認知経路: ${referralSourceText || '未回答'}`
                   })
                 });
               } catch (directErr) {
@@ -265,20 +310,72 @@ export default function AuthScreen() {
             
             {/* 候補者・代表者名入力（新規登録時のみ） */}
             {!isLogin && (
-              <div className="auth-input-container" style={{ animation: 'popIn 0.25s ease-out' }}>
-                <span className="auth-input-icon">
-                  <User size={18} />
-                </span>
-                <input 
-                  type="text" 
-                  placeholder="代表者・候補者名（例: 山田太郎）" 
-                  className="input-premium has-icon" 
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  autoComplete="name"
-                  required 
-                />
-              </div>
+              <>
+                <div className="auth-input-container" style={{ animation: 'popIn 0.25s ease-out' }}>
+                  <span className="auth-input-icon">
+                    <User size={18} />
+                  </span>
+                  <input 
+                    type="text" 
+                    placeholder="代表者・候補者名（例: 山田太郎）" 
+                    className="input-premium has-icon" 
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    autoComplete="name"
+                    required 
+                  />
+                </div>
+
+                {/* どこで知りましたか？（任意） */}
+                <div className="auth-input-container" style={{ animation: 'popIn 0.3s ease-out', marginBottom: referralCategory ? '0.75rem' : '1.25rem' }}>
+                  <span className="auth-input-icon">
+                    <Compass size={18} />
+                  </span>
+                  <select 
+                    className="input-premium has-icon has-toggle" 
+                    value={referralCategory}
+                    onChange={(e) => setReferralCategory(e.target.value)}
+                    style={{ 
+                      cursor: 'pointer', 
+                      appearance: 'none', 
+                      WebkitAppearance: 'none',
+                      color: referralCategory ? 'var(--text-main)' : 'var(--text-light)',
+                      fontWeight: referralCategory ? 600 : 400
+                    }}
+                  >
+                    {REFERRAL_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value} style={{ color: opt.value ? 'var(--text-main)' : 'var(--text-light)' }}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                  <span style={{ position: 'absolute', right: '1rem', pointerEvents: 'none', color: '#94A3B8', display: 'flex', alignItems: 'center' }}>
+                    <ChevronDown size={18} />
+                  </span>
+                </div>
+
+                {/* 選択に応じた詳細入力欄（任意） */}
+                {referralCategory && (
+                  <div className="auth-input-container" style={{ animation: 'popIn 0.2s ease-out' }}>
+                    <span className="auth-input-icon">
+                      <MessageSquare size={18} />
+                    </span>
+                    <input 
+                      type="text" 
+                      placeholder={
+                        referralCategory === 'introduction'
+                          ? 'ご紹介者のお名前（任意）'
+                          : referralCategory === 'other'
+                          ? '具体的な媒体やきっかけ（任意）'
+                          : 'アカウント名や詳細があれば（任意）'
+                      }
+                      className="input-premium has-icon" 
+                      value={referralDetail}
+                      onChange={(e) => setReferralDetail(e.target.value)}
+                    />
+                  </div>
+                )}
+              </>
             )}
             
             <button 

@@ -13,8 +13,12 @@ CREATE TABLE IF NOT EXISTS public.users (
   target_visits INTEGER,
   target_flyers INTEGER,
   target_actions INTEGER,
+  referral_source TEXT, -- 認知経路（どこでサービスを知ったか）
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
+
+-- 既存DB用 マイグレーション（既にテーブルを作成済みの場合に実行）
+ALTER TABLE public.users ADD COLUMN IF NOT EXISTS referral_source TEXT;
 
 -- 2. pins テーブル
 -- 地図上に打たれたピンの情報を管理するテーブル
