@@ -131,6 +131,7 @@ export default function AuthScreen() {
               displayName: displayName || '管理者',
               role: 'admin',
               referralSource: referralSourceText || '未回答',
+              referral_source: referralSourceText || '未回答',
             };
             try {
               const res = await fetch('/api/notify-slack', {
@@ -155,7 +156,11 @@ export default function AuthScreen() {
               }
             }
           };
-          notifySlack();
+          try {
+            await notifySlack();
+          } catch (e) {
+            console.error('notifySlack error:', e);
+          }
 
           navigate('/onboarding');
         }
