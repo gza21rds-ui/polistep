@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles, MapPin, X } from 'lucide-react';
+import ecosystemArticles from '../data/ecosystemArticles.json';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -382,6 +383,50 @@ export default function LandingPage() {
               <a href="https://poliside.net" target="_blank" rel="noopener noreferrer" className="btn-primary tap-scale" style={{ textAlign: 'center', textDecoration: 'none', fontWeight: 700, padding: '0.75rem', background: '#2563EB' }}>
                 PoliSide 公式サイトを見る →
               </a>
+            </div>
+          </div>
+
+          {/* 姉妹メディア連携：政治活動・選挙準備の最新ノウハウ記事 */}
+          <div style={{ marginTop: '2.5rem', background: 'var(--bg-main)', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-light)' }}>
+              <div>
+                <span style={{ display: 'inline-block', background: '#DBEAFE', color: '#1D4ED8', padding: '0.2rem 0.65rem', borderRadius: '9999px', fontSize: '0.7rem', fontWeight: 800, marginBottom: '0.4rem' }}>
+                  DAILY KNOWLEDGE
+                </span>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-main)', margin: 0 }}>
+                  政治活動・地域回りの実践ノウハウ（新着記事）
+                </h3>
+              </div>
+              <a href="https://poliside.net/insight/" target="_blank" rel="noopener noreferrer" style={{ color: '#2563EB', fontSize: '0.85rem', fontWeight: 800, textDecoration: 'none' }}>
+                すべての記事を見る（PoliSide） ↗
+              </a>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {ecosystemArticles.slice(0, 3).map((article) => (
+                <a
+                  key={article.slug}
+                  href={article.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: 'block', background: '#FFFFFF', border: '1px solid var(--border-light)', borderRadius: '14px', padding: '1.1rem 1.25rem', textDecoration: 'none', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.4rem', fontSize: '0.75rem' }}>
+                    <span style={{ background: '#EFF6FF', color: '#1D4ED8', fontWeight: 800, padding: '0.15rem 0.55rem', borderRadius: '6px' }}>
+                      {article.category}
+                    </span>
+                    <time dateTime={article.published_at} style={{ color: '#64748B', fontWeight: 600 }}>
+                      {article.date_jp}
+                    </time>
+                  </div>
+                  <h4 style={{ fontSize: '0.98rem', fontWeight: 800, color: '#0F172A', margin: '0 0 0.35rem 0', lineHeight: 1.45 }}>
+                    {article.title}
+                  </h4>
+                  <p style={{ fontSize: '0.85rem', color: '#475569', margin: 0, lineHeight: 1.6 }}>
+                    {article.digest}
+                  </p>
+                </a>
+              ))}
             </div>
           </div>
         </div>
