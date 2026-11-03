@@ -66,7 +66,7 @@ export default function LandingPage() {
               孤独なドブ板は、<br/><span className="text-gradient-animated">可視化</span>で終わる。
             </h1>
             <p className="hero-subtitle">
-              終わりの見えないポスター貼りや戸別訪問。<br/>
+              終わりの見えないポスター貼りや地域へのご挨拶回り。<br/>
               タップ一つであなたの活動をマップとグラフに変換し、<br/>
               自身のモチベーション維持と、チームへの日報共有を圧倒的に簡単にします。
             </p>
@@ -365,17 +365,22 @@ export default function LandingPage() {
             <div style={{ background: '#0F172A', color: 'white', borderRadius: 'var(--radius-xl)', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: 'var(--shadow-lg)' }}>
               <div>
                 <div style={{ display: 'inline-block', background: 'rgba(56, 189, 248, 0.2)', color: '#38BDF8', border: '1px solid rgba(56, 189, 248, 0.3)', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 800, marginBottom: '1rem' }}>
-                  PREMIUM CONSULTING
+                  PARTNER SUPPORT
                 </div>
                 <h3 style={{ fontSize: '1.35rem', fontWeight: 900, color: 'white', marginBottom: '0.75rem' }}>
-                  プロの戦略分析「PoliSide」
+                  伴走サポート＆HP構築「PoliSide」
                 </h3>
-                <p style={{ color: '#94A3B8', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '2rem' }}>
-                  PoliStepに蓄積された活動ログから地域ごとの反応率や死角を徹底分析。専門コンサルタントが必勝の戦略立案をご支援します。
+                <p style={{ color: '#94A3B8', fontSize: '0.95rem', lineHeight: 1.7, marginBottom: '1.25rem' }}>
+                  候補者ホームページ作成（初期5万円）から、月1回60分のオンライン個別相談・広報戦略や議会質問の壁打ち（月額5,000円）まで。立候補経験者があなたの隣で伴走します。
                 </p>
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <a href="https://poliside.net/insight/" target="_blank" rel="noopener noreferrer" style={{ color: '#38BDF8', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'underline' }}>
+                    📚 政治活動ノウハウ記事（公式メディア）を読む →
+                  </a>
+                </div>
               </div>
               <a href="https://poliside.net" target="_blank" rel="noopener noreferrer" className="btn-primary tap-scale" style={{ textAlign: 'center', textDecoration: 'none', fontWeight: 700, padding: '0.75rem', background: '#2563EB' }}>
-                専門家に相談する →
+                PoliSide 公式サイトを見る →
               </a>
             </div>
           </div>
@@ -399,6 +404,9 @@ export default function LandingPage() {
             </div>
             
             <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.875rem' }}>
+              <a href="https://poliside.net" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>PoliSide（伴走支援・HP制作）</a>
+              <a href="https://polidash.jp" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>PoliDash（ポスター管理）</a>
+              <a href="https://poliside.net/insight/" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>政治活動ノウハウ記事</a>
               <Link to="/terms" style={{ color: '#94A3B8', textDecoration: 'none' }}>利用規約</Link>
               <Link to="/privacy" style={{ color: '#94A3B8', textDecoration: 'none' }}>プライバシーポリシー</Link>
               <Link to="/legal" style={{ color: '#94A3B8', textDecoration: 'none' }}>特定商取引法に基づく表記</Link>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
@@ -8,8 +8,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>PoliStep - 政治活動DXアプリ | 孤独なドブ板は、可視化で終わる。</title>
-    <meta name="description" content="PoliStep(ポリステップ)は、政治活動（ドブ板活動）をスマホの地図上でリアルタイムに可視化・共有できる政治活動DXアプリです。ポスター貼りや戸別訪問の成果を数値とグラフで明確にし、チームの戦略立案とモチベーション向上をサポートします。" />
-    <meta name="keywords" content="選挙活動, 政治活動DX, ドブ板活動, ポスター貼り, 戸別訪問, 政治活動アプリ, PoliStep, ポリステップ" />
+    <meta name="description" content="PoliStep(ポリステップ)は、日々の政治活動（地域訪問・対話記録・ポスター貼付・街頭演説・ビラ配り等）をスマホの地図上でリアルタイムに可視化・共有できる政治活動DXアプリです。活動の成果を数値とグラフで明確にし、チームの戦略立案とモチベーション維持をサポートします。" />
+    <meta name="keywords" content="政治活動DX, 地域訪問記録, ポスター貼り, 街頭演説, ビラ配り, 後援会活動, 政治活動アプリ, PoliStep, ポリステップ" />
     <link rel="canonical" href="https://polistep.jp/" />
     
     <!-- Google tag (gtag.js) -->
@@ -27,35 +27,65 @@
     
     <!-- OGP (Open Graph Protocol) -->
     <meta property="og:title" content="PoliStep | 孤独なドブ板は、可視化で終わる。" />
-    <meta property="og:description" content="政治活動DXアプリ「PoliStep」。ポスター貼りや戸別訪問の記録をマップとグラフでリアルタイムに共有し、チームの勝利をサポートします。" />
+    <meta property="og:description" content="政治活動DXアプリ「PoliStep」。地域訪問やポスター貼付、街頭演説の記録をマップとグラフでリアルタイムに共有し、チームの政治活動をサポートします。" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://polistep.jp/" />
     <meta property="og:image" content="https://polistep.jp/polistep_ogp_banner.jpg" />
     <meta property="og:site_name" content="PoliStep" />
+    <meta property="og:locale" content="ja_JP" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="PoliStep | 孤独なドブ板は、可視化で終わる。" />
-    <meta name="twitter:description" content="日々のドブ板活動をスマホで可視化・共有。ポスター貼りや訪問の成果をチームのマップで確認しよう。" />
+    <meta name="twitter:description" content="日々の政治活動をスマホで可視化・共有。地域訪問やポスター貼付の成果をチームのマップで確認しよう。" />
     <meta name="twitter:image" content="https://polistep.jp/polistep_ogp_banner.jpg" />
 
     <!-- Structured Data (JSON-LD) for SEO & AIEO -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "PoliStep",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web",
-      "description": "PoliStep(ポリステップ)は、日々のドブ板活動（ポスター貼り、戸別訪問、街頭演説など）をスマホの地図上でリアルタイムに可視化・記録・共有できる政治活動DXアプリです。",
-      "url": "https://polistep.jp/",
-      "image": "https://polistep.jp/polistep_ogp_banner.jpg",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "JPY"
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "PoliStep",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "PoliStep(ポリステップ)は、日々の政治活動（地域訪問・対話記録・ポスター貼付・街頭演説・ビラ配り等）をスマホの地図上でリアルタイムに可視化・記録・共有できる政治活動DXアプリです。",
+        "url": "https://polistep.jp/",
+        "image": "https://polistep.jp/polistep_ogp_banner.jpg",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "JPY",
+          "name": "フルアクセスプラン（2027年統一地方選挙応援キャンペーン無料開放中）"
+        },
+        "isRelatedTo": [
+          {
+            "@type": "Service",
+            "name": "PoliSide（ポリサイド）",
+            "url": "https://poliside.net",
+            "description": "若手候補者・地方議員向けの伴走型サポート＆候補者HP構築サービス"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "PoliDash（ポリダッシュ）",
+            "url": "https://polidash.jp",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "description": "選挙ポスター貼付管理アプリ。住所一括登録・AIルート自動生成・スタッフ共有・リアルタイム進捗管理"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "PoliStep",
+        "url": "https://polistep.jp/",
+        "sameAs": [
+          "https://poliside.net",
+          "https://polidash.jp"
+        ]
       }
-    }
+    ]
     </script>
   </head>
   <body>
