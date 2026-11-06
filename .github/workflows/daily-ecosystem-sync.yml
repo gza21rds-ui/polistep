@@ -1,0 +1,38 @@
+name: Daily Ecosystem Article Sync (PoliStep)
+
+on:
+  schedule:
+    # 毎日 09:15 JST (00:15 UTC) にPoliSideの最新記事フィードを自動同期（Macを閉じていても動作）
+    - cron: '15 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-ecosystem-articles:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Sync latest ecosystem articles from PoliSide
+        run: python3 scripts/sync_ecosystem_articles.py
+
+      - name: Commit and push if updated
+        run: |
+          git config user.name "PoliStep Auto Sync"
+          git config user.email "actions@github.com"
+          git add src/data/ecosystemArticles.json public/llms.txt public/sitemap.xml
+          if ! git diff --staged --quiet; then
+            git commit -m "feat(seo-aeo): auto-sync latest ecosystem article feed via GitHub Actions"
+            git pull --rebase origin main
+            git push origin main
+          else
+            echo "No new changes to commit."
+          fi
