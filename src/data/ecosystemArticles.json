@@ -1,5 +1,15 @@
 [
   {
+    "slug": "local-election-cost-breakdown-deposit-and-public-subsidy",
+    "title": "地方選挙に出るにはいくらかかる？供託金・公費負担（選挙公営）の仕組みと自己資金を抑える予算設計",
+    "category": "考え方",
+    "published_at": "2026-11-12",
+    "date_jp": "2026年11月12日",
+    "url": "https://poliside.net/insight/posts/local-election-cost-breakdown-deposit-and-public-subsidy.html",
+    "primary_product": "PoliStep",
+    "digest": "「選挙には何百万円もかかる？」という疑問に回答。供託金・公費負担の基本と、自己資金を抑えて地方選挙に挑む方法。"
+  },
+  {
     "slug": "turning-citizen-consultations-into-local-policies",
     "title": "地域の「市民相談・困りごと」を具体的な政策・議会質問へ昇華させる3ステップ思考法",
     "category": "政策",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/independent-candidate-without-jiban-kanban-kaban.html",
     "primary_product": "PoliStep",
     "digest": "地盤・知名度のない新人が勝機を掴むには日々の行動量の可視化が不可欠。地域訪問やチラシ配布をスマホ地図で記録・逆算管理する実践法。"
-  },
-  {
-    "slug": "first-general-question-local-council-guide",
-    "title": "新人地方議員のための「一般質問」作成完全ガイド｜テーマ選びから質問通告・答弁調整までの基本ステップ",
-    "category": "議会",
-    "published_at": "2026-11-06",
-    "date_jp": "2026年11月6日",
-    "url": "https://poliside.net/insight/posts/first-general-question-local-council-guide.html",
-    "primary_product": "PoliSide",
-    "digest": "日々の地域回りで伺った住民の声（対話メモ）を、地方議会の「一般質問」や具体的な政策提案へつなげる実践ステップ。"
   }
 ]
