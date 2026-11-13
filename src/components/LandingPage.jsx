@@ -1,12 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles, MapPin, X } from 'lucide-react';
+import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles, MapPin, X } from 'lucide-react';
 import ecosystemArticles from '../data/ecosystemArticles.json';
+
+const STORY_PAGES = [
+  {
+    step: 'STEP 01 · 課題',
+    badgeBg: '#334155',
+    badgeColor: '#F8FAFC',
+    img: '/story1_anxiety.jpg',
+    alt: '夕暮れの住宅街で紙の地図を見て途方に暮れる',
+    title: '「このペースで、本当に間に合うのか…？」',
+    desc: '紙の地図と勘だけが頼りの活動では、ゴールが見えず常に漠然とした不安がつきまといます。自分が今日どれだけ進んだのかも分からず、焦りだけが募る日々。'
+  },
+  {
+    step: 'STEP 02 · 逆算計画',
+    badgeBg: '#2563EB',
+    badgeColor: '#FFFFFF',
+    img: '/story2_clarity.jpg',
+    alt: '夜の街でスマホのPoliStepアプリを操作',
+    title: '目標日からの逆算で、1日のノルマが明確に',
+    desc: 'PoliStepに決戦日と目標支持者数を入力すると、1日に必要な訪問件数やチラシ配布枚数を自動計算。今日やるべき行動量がクリアになり、迷いが自信に変わります。'
+  },
+  {
+    step: 'STEP 03 · 日々の可視化',
+    badgeBg: '#0284C7',
+    badgeColor: '#FFFFFF',
+    img: '/story3_map.jpg',
+    alt: 'スマホの画面を支援者に見せる',
+    title: '歩いた軌跡が「ピン」と「達成率（％）」に',
+    desc: '歩いた場所をタップするだけで、地図が鮮やかなピンで埋まり、ダッシュボードの進捗バーがぐんぐん伸びる。「あと少しで今日クリアだ」と、足が自然と前へ進みます。'
+  },
+  {
+    step: 'STEP 04 · 達成と団結',
+    badgeBg: '#16A34A',
+    badgeColor: '#FFFFFF',
+    img: '/story4_success.jpg',
+    alt: 'チーム全員でスマホを持ち笑顔で歩く',
+    title: '「やり切った！」確信とチームの一体感',
+    desc: '蓄積された活動ログは、自動で美しいSNS・日報画像に変換。毎晩チームのLINEグループで共有することで、陣営全体のモチベーションと結束力が爆発的に高まります。'
+  }
+];
 
 export default function LandingPage() {
   const navigate = useNavigate();
   const [showFloatingCta, setShowFloatingCta] = useState(false);
   const [lineGuideModal, setLineGuideModal] = useState(false);
+  const [storyPage, setStoryPage] = useState(0);
+  const [flipDir, setFlipDir] = useState(null); // 'next' | 'prev' | null
+  const touchStartXRef = useRef(null);
+
+  const changeStoryPage = (nextIndex) => {
+    if (nextIndex === storyPage || flipDir) return;
+    const bounded = Math.max(0, Math.min(STORY_PAGES.length - 1, nextIndex));
+    if (bounded === storyPage) return;
+    const dir = bounded > storyPage ? 'next' : 'prev';
+    setFlipDir(dir);
+    setTimeout(() => {
+      setStoryPage(bounded);
+      setFlipDir(null);
+    }, 320);
+  };
 
   useEffect(() => { 
     // LINEアプリ内ブラウザでアクセスされた場合
@@ -31,28 +85,8 @@ export default function LandingPage() {
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-
-    const panels = document.querySelectorAll('.comic-panel');
-    let observer = null;
-    if (typeof IntersectionObserver !== 'undefined') {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-inview');
-            }
-          });
-        },
-        { threshold: 0.2 }
-      );
-      panels.forEach((p) => observer.observe(p));
-    } else {
-      panels.forEach((p) => p.classList.add('is-inview'));
-    }
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (observer) observer.disconnect();
     };
   }, [navigate]);
 
@@ -125,91 +159,132 @@ export default function LandingPage() {
         </section>
       </div>
 
-      {/* ===== Photo Story (Manga Motion Comic Grid) ===== */}
-      <section className="section story-comic-section" style={{ background: 'var(--bg-main)', padding: '6rem 1.5rem' }}>
-        <div className="section-inner" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 4rem auto' }}>
+      {/* ===== Photo Story (Page-Flip Story Book) ===== */}
+      <section className="section" style={{ background: 'var(--bg-main)', padding: '6rem 1.5rem' }}>
+        <div className="section-inner" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 3rem auto' }}>
           <div className="section-label" style={{ margin: '0 auto 1rem', background: '#DBEAFE', color: '#1D4ED8' }}>Story</div>
           <h2 className="section-title">政治活動の「見えない不安」を打ち破る</h2>
           <p className="section-desc" style={{ margin: '0 auto', fontSize: '1.05rem', color: '#475569' }}>
             果てしないドブ板活動。いつまでに、何をすべきか。<br className="desktop-only" />
-            PoliStepがあなたの活動を可視化し、ゴールへの羅針盤になります。
+            ページをめくるように、PoliStepがもたらす変化をご覧ください。
           </p>
         </div>
 
-        <div className="story-grid comic-grid">
-          {/* Scene 1 */}
-          <div className="story-card comic-panel panel-1">
-            <div className="story-card-img-wrap comic-img-wrap">
-              <img src="/story1_anxiety.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="story-card-img" loading="lazy" decoding="async" />
-              <div className="comic-halftone-overlay"></div>
-              <div className="story-step-badge" style={{ background: '#334155', color: '#F8FAFC' }}>第1話 · 孤独と不安</div>
-              <div className="comic-sfx sfx-gloom">ズーン…</div>
-              <div className="comic-bubble bubble-thought">
-                <span>あと何軒回れば<br/>間に合うんだ…？💧</span>
-              </div>
-            </div>
-            <div className="story-card-body">
-              <h3 className="story-card-title">「このペースで、本当に間に合うのか…？」</h3>
-              <p className="story-card-desc">
-                紙の地図と勘だけが頼りの活動では、ゴールが見えず常に漠然とした不安がつきまといます。自分が今日どれだけ進んだのかも分からず、焦りだけが募る日々。
-              </p>
-            </div>
+        <div className="storybook-container">
+          {/* 上部ステップタブ */}
+          <div className="storybook-tabs" role="tablist" aria-label="ストーリーステップ">
+            {STORY_PAGES.map((p, idx) => (
+              <button
+                key={p.step}
+                type="button"
+                role="tab"
+                aria-selected={storyPage === idx}
+                onClick={() => changeStoryPage(idx)}
+                className={`storybook-tab ${storyPage === idx ? 'active' : ''}`}
+              >
+                <span className="storybook-tab-num">0{idx + 1}</span>
+                <span className="storybook-tab-label">{p.step.split(' · ')[1]}</span>
+              </button>
+            ))}
           </div>
 
-          {/* Scene 2 */}
-          <div className="story-card comic-panel panel-2">
-            <div className="story-card-img-wrap comic-img-wrap">
-              <img src="/story2_clarity.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="story-card-img" loading="lazy" decoding="async" />
-              <div className="comic-halftone-overlay"></div>
-              <div className="story-step-badge" style={{ background: '#2563EB', color: '#FFFFFF' }}>第2話 · 逆算のひらめき</div>
-              <div className="comic-sfx sfx-spark">ピキーン！⚡</div>
-              <div className="comic-bubble bubble-speech">
-                <span>今日やるべき件数が<br/><strong>一目でわかる！</strong></span>
-              </div>
-            </div>
-            <div className="story-card-body">
-              <h3 className="story-card-title">目標日からの逆算で、1日のノルマが明確に</h3>
-              <p className="story-card-desc">
-                PoliStepに決戦日と目標支持者数を入力すると、1日に必要な訪問件数やチラシ配布枚数を自動計算。今日やるべき行動量がクリアになり、迷いが自信に変わります。
-              </p>
-            </div>
-          </div>
+          {/* 3D ページめくりステージ */}
+          <div
+            className="storybook-stage"
+            onTouchStart={(e) => {
+              touchStartXRef.current = e.touches[0].clientX;
+            }}
+            onTouchEnd={(e) => {
+              if (touchStartXRef.current === null) return;
+              const diff = touchStartXRef.current - e.changedTouches[0].clientX;
+              touchStartXRef.current = null;
+              if (diff > 45 && storyPage < STORY_PAGES.length - 1) {
+                changeStoryPage(storyPage + 1);
+              } else if (diff < -45 && storyPage > 0) {
+                changeStoryPage(storyPage - 1);
+              }
+            }}
+          >
+            {/* 背表紙・下敷きのページ厚み表現 */}
+            <div className="storybook-stack-layer layer-1"></div>
+            <div className="storybook-stack-layer layer-2"></div>
 
-          {/* Scene 3 */}
-          <div className="story-card comic-panel panel-3">
-            <div className="story-card-img-wrap comic-img-wrap">
-              <img src="/story3_map.jpg" alt="スマホの画面を支援者に見せる" className="story-card-img" loading="lazy" decoding="async" />
-              <div className="comic-halftone-overlay"></div>
-              <div className="story-step-badge" style={{ background: '#0284C7', color: '#FFFFFF' }}>第3話 · 地図の制覇</div>
-              <div className="comic-sfx sfx-pop">ピコン♪📍</div>
-              <div className="comic-bubble bubble-action">
-                <span>地図がどんどん埋まる！<br/><strong>達成率 80% 突破！🔥</strong></span>
+            {/* めくられるページ本体 */}
+            <div className={`storybook-page ${flipDir === 'next' ? 'is-flipping-next' : ''} ${flipDir === 'prev' ? 'is-flipping-prev' : ''}`}>
+              {/* 左面：写真ビジュアル */}
+              <div
+                className="storybook-page-media"
+                onClick={() => {
+                  if (storyPage < STORY_PAGES.length - 1) changeStoryPage(storyPage + 1);
+                }}
+                title={storyPage < STORY_PAGES.length - 1 ? 'クリックして次のページへ' : ''}
+                style={{ cursor: storyPage < STORY_PAGES.length - 1 ? 'pointer' : 'default' }}
+              >
+                <img
+                  src={STORY_PAGES[storyPage].img}
+                  alt={STORY_PAGES[storyPage].alt}
+                  className="storybook-img"
+                />
+                <div
+                  className="story-step-badge"
+                  style={{
+                    background: STORY_PAGES[storyPage].badgeBg,
+                    color: STORY_PAGES[storyPage].badgeColor
+                  }}
+                >
+                  {STORY_PAGES[storyPage].step}
+                </div>
               </div>
-            </div>
-            <div className="story-card-body">
-              <h3 className="story-card-title">歩いた軌跡が「ピン」と「達成率（％）」に</h3>
-              <p className="story-card-desc">
-                歩いた場所をタップするだけで、地図が鮮やかなピンで埋まり、ダッシュボードの進捗バーがぐんぐん伸びる。「あと少しで今日クリアだ」と、足が自然と前へ進みます。
-              </p>
-            </div>
-          </div>
 
-          {/* Scene 4 */}
-          <div className="story-card story-card-success comic-panel panel-4">
-            <div className="story-card-img-wrap comic-img-wrap">
-              <img src="/story4_success.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="story-card-img" loading="lazy" decoding="async" />
-              <div className="comic-speedlines-overlay"></div>
-              <div className="story-step-badge" style={{ background: '#16A34A', color: '#FFFFFF' }}>最終話 · チームの団結</div>
-              <div className="comic-sfx sfx-boom">ドォォン！✨</div>
-              <div className="comic-bubble bubble-burst">
-                <span>今日もチーム全員で<br/><strong>ノルマ完全達成！！🙌</strong></span>
+              {/* 中央の本の折り目（ノド）シャドウ */}
+              <div className="storybook-spine-shadow"></div>
+
+              {/* 右面：ストーリーテキスト＆めくり操作 */}
+              <div className="storybook-page-content">
+                <div className="storybook-page-counter">
+                  PAGE 0{storyPage + 1} / 0{STORY_PAGES.length}
+                </div>
+                <h3 className="storybook-title">{STORY_PAGES[storyPage].title}</h3>
+                <p className="storybook-desc">{STORY_PAGES[storyPage].desc}</p>
+
+                <div className="storybook-controls">
+                  <button
+                    type="button"
+                    onClick={() => changeStoryPage(storyPage - 1)}
+                    disabled={storyPage === 0}
+                    className="storybook-nav-btn prev"
+                  >
+                    <ChevronLeft size={18} /> 前のページ
+                  </button>
+
+                  {storyPage < STORY_PAGES.length - 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => changeStoryPage(storyPage + 1)}
+                      className="storybook-nav-btn next tap-scale"
+                    >
+                      次のページをめくる <ChevronRight size={18} />
+                    </button>
+                  ) : (
+                    <Link
+                      to="/auth?mode=register"
+                      className="storybook-nav-btn finish tap-scale"
+                    >
+                      無料で始める <ArrowRight size={18} />
+                    </Link>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="story-card-body">
-              <h3 className="story-card-title">「やり切った！」確信とチームの一体感</h3>
-              <p className="story-card-desc">
-                蓄積された活動ログは、自動で美しいSNS・日報画像に変換。毎晩チームのLINEグループで共有することで、陣営全体のモチベーションと結束力が爆発的に高まります。
-              </p>
+
+              {/* 右下隅の「ページめくれ（ドッグイヤー）」表現 */}
+              {storyPage < STORY_PAGES.length - 1 && (
+                <button
+                  type="button"
+                  aria-label="次のページをめくる"
+                  onClick={() => changeStoryPage(storyPage + 1)}
+                  className="storybook-page-curl"
+                ></button>
+              )}
             </div>
           </div>
         </div>
