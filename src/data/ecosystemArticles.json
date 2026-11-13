@@ -1,5 +1,15 @@
 [
   {
+    "slug": "small-team-election-operation-with-digital-tools",
+    "title": "スタッフ3〜5人の少人数陣営でも勝てる！デジタルツールを活用した省力化・高密度な選挙運営モデル",
+    "category": "選挙",
+    "published_at": "2026-11-13",
+    "date_jp": "2026年11月13日",
+    "url": "https://poliside.net/insight/posts/small-team-election-operation-with-digital-tools.html",
+    "primary_product": "PoliDash",
+    "digest": "少人数チームでも情報共有の抜け漏れをなくし、登録不要URLと日報自動生成（PoliStep）で一体感を高める方法。"
+  },
+  {
     "slug": "local-election-cost-breakdown-deposit-and-public-subsidy",
     "title": "地方選挙に出るにはいくらかかる？供託金・公費負担（選挙公営）の仕組みと自己資金を抑える予算設計",
     "category": "考え方",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/election-poster-board-mapping-and-volunteer-routing.html",
     "primary_product": "PoliDash",
     "digest": "告示日朝のポスター貼り出しを混乱なく終え、候補者が第一声や選挙運動へ集中するための陣営オペレーション設計。"
-  },
-  {
-    "slug": "independent-candidate-without-jiban-kanban-kaban",
-    "title": "「地盤・看板・カバンなし」の無所属新人が地方選挙で戦うための現実的戦略とツール活用法",
-    "category": "考え方",
-    "published_at": "2026-11-07",
-    "date_jp": "2026年11月7日",
-    "url": "https://poliside.net/insight/posts/independent-candidate-without-jiban-kanban-kaban.html",
-    "primary_product": "PoliStep",
-    "digest": "地盤・知名度のない新人が勝機を掴むには日々の行動量の可視化が不可欠。地域訪問やチラシ配布をスマホ地図で記録・逆算管理する実践法。"
   }
 ]
