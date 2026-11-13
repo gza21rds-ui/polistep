@@ -31,8 +31,28 @@ export default function LandingPage() {
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
+
+    const panels = document.querySelectorAll('.comic-panel');
+    let observer = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-inview');
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+      panels.forEach((p) => observer.observe(p));
+    } else {
+      panels.forEach((p) => p.classList.add('is-inview'));
+    }
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      if (observer) observer.disconnect();
     };
   }, [navigate]);
 
@@ -105,8 +125,8 @@ export default function LandingPage() {
         </section>
       </div>
 
-      {/* ===== Photo Story (Modern Journey Grid) ===== */}
-      <section className="section" style={{ background: 'var(--bg-main)', padding: '6rem 1.5rem' }}>
+      {/* ===== Photo Story (Manga Motion Comic Grid) ===== */}
+      <section className="section story-comic-section" style={{ background: 'var(--bg-main)', padding: '6rem 1.5rem' }}>
         <div className="section-inner" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 4rem auto' }}>
           <div className="section-label" style={{ margin: '0 auto 1rem', background: '#DBEAFE', color: '#1D4ED8' }}>Story</div>
           <h2 className="section-title">政治活動の「見えない不安」を打ち破る</h2>
@@ -116,12 +136,17 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="story-grid">
+        <div className="story-grid comic-grid">
           {/* Scene 1 */}
-          <div className="story-card story-card-before">
-            <div className="story-card-img-wrap">
+          <div className="story-card comic-panel panel-1">
+            <div className="story-card-img-wrap comic-img-wrap">
               <img src="/story1_anxiety.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="story-card-img" loading="lazy" decoding="async" />
-              <div className="story-step-badge" style={{ background: '#334155', color: '#F8FAFC' }}>STEP 01 · 課題</div>
+              <div className="comic-halftone-overlay"></div>
+              <div className="story-step-badge" style={{ background: '#334155', color: '#F8FAFC' }}>第1話 · 孤独と不安</div>
+              <div className="comic-sfx sfx-gloom">ズーン…</div>
+              <div className="comic-bubble bubble-thought">
+                <span>あと何軒回れば<br/>間に合うんだ…？💧</span>
+              </div>
             </div>
             <div className="story-card-body">
               <h3 className="story-card-title">「このペースで、本当に間に合うのか…？」</h3>
@@ -132,10 +157,15 @@ export default function LandingPage() {
           </div>
 
           {/* Scene 2 */}
-          <div className="story-card">
-            <div className="story-card-img-wrap">
+          <div className="story-card comic-panel panel-2">
+            <div className="story-card-img-wrap comic-img-wrap">
               <img src="/story2_clarity.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="story-card-img" loading="lazy" decoding="async" />
-              <div className="story-step-badge" style={{ background: '#2563EB', color: '#FFFFFF' }}>STEP 02 · 逆算計画</div>
+              <div className="comic-halftone-overlay"></div>
+              <div className="story-step-badge" style={{ background: '#2563EB', color: '#FFFFFF' }}>第2話 · 逆算のひらめき</div>
+              <div className="comic-sfx sfx-spark">ピキーン！⚡</div>
+              <div className="comic-bubble bubble-speech">
+                <span>今日やるべき件数が<br/><strong>一目でわかる！</strong></span>
+              </div>
             </div>
             <div className="story-card-body">
               <h3 className="story-card-title">目標日からの逆算で、1日のノルマが明確に</h3>
@@ -146,10 +176,15 @@ export default function LandingPage() {
           </div>
 
           {/* Scene 3 */}
-          <div className="story-card">
-            <div className="story-card-img-wrap">
+          <div className="story-card comic-panel panel-3">
+            <div className="story-card-img-wrap comic-img-wrap">
               <img src="/story3_map.jpg" alt="スマホの画面を支援者に見せる" className="story-card-img" loading="lazy" decoding="async" />
-              <div className="story-step-badge" style={{ background: '#2563EB', color: '#FFFFFF' }}>STEP 03 · 日々の可視化</div>
+              <div className="comic-halftone-overlay"></div>
+              <div className="story-step-badge" style={{ background: '#0284C7', color: '#FFFFFF' }}>第3話 · 地図の制覇</div>
+              <div className="comic-sfx sfx-pop">ピコン♪📍</div>
+              <div className="comic-bubble bubble-action">
+                <span>地図がどんどん埋まる！<br/><strong>達成率 80% 突破！🔥</strong></span>
+              </div>
             </div>
             <div className="story-card-body">
               <h3 className="story-card-title">歩いた軌跡が「ピン」と「達成率（％）」に</h3>
@@ -160,10 +195,15 @@ export default function LandingPage() {
           </div>
 
           {/* Scene 4 */}
-          <div className="story-card story-card-success">
-            <div className="story-card-img-wrap">
+          <div className="story-card story-card-success comic-panel panel-4">
+            <div className="story-card-img-wrap comic-img-wrap">
               <img src="/story4_success.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="story-card-img" loading="lazy" decoding="async" />
-              <div className="story-step-badge" style={{ background: '#16A34A', color: '#FFFFFF' }}>STEP 04 · 達成と団結</div>
+              <div className="comic-speedlines-overlay"></div>
+              <div className="story-step-badge" style={{ background: '#16A34A', color: '#FFFFFF' }}>最終話 · チームの団結</div>
+              <div className="comic-sfx sfx-boom">ドォォン！✨</div>
+              <div className="comic-bubble bubble-burst">
+                <span>今日もチーム全員で<br/><strong>ノルマ完全達成！！🙌</strong></span>
+              </div>
             </div>
             <div className="story-card-body">
               <h3 className="story-card-title">「やり切った！」確信とチームの一体感</h3>

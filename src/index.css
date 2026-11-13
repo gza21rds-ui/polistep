@@ -475,6 +475,211 @@ body, html {
   flex: 1;
 }
 
+/* ===== MANGA MOTION COMIC EFFECTS ===== */
+.comic-panel {
+  position: relative;
+  border: 2.5px solid #0F172A;
+  box-shadow: 6px 6px 0px #0F172A;
+  opacity: 0;
+  transform: translateY(28px) scale(0.97);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease;
+}
+
+.comic-panel.is-inview {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.comic-panel.panel-2.is-inview { transition-delay: 0.12s; }
+.comic-panel.panel-3.is-inview { transition-delay: 0.08s; }
+.comic-panel.panel-4.is-inview { transition-delay: 0.2s; }
+
+.comic-panel:hover {
+  transform: translate(-3px, -5px) scale(1.01);
+  box-shadow: 10px 10px 0px #2563EB;
+  border-color: #0F172A;
+}
+
+.comic-panel.panel-4:hover {
+  box-shadow: 10px 10px 0px #16A34A;
+}
+
+.comic-img-wrap {
+  height: 255px;
+  clip-path: polygon(0 0, 100% 0, 100% 93%, 0 100%);
+  border-bottom: 3px solid #0F172A;
+}
+
+.panel-2 .comic-img-wrap,
+.panel-4 .comic-img-wrap {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 93%);
+}
+
+.comic-halftone-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.18) 1px, transparent 0);
+  background-size: 6px 6px;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.comic-speedlines-overlay {
+  position: absolute;
+  inset: -50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.12) 0deg 4deg,
+    transparent 4deg 12deg
+  );
+  pointer-events: none;
+  animation: rotateSpeedlines 20s linear infinite;
+}
+
+@keyframes rotateSpeedlines {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.comic-bubble {
+  position: absolute;
+  bottom: 1.15rem;
+  right: 0.85rem;
+  background: #FFFFFF;
+  color: #0F172A;
+  padding: 0.55rem 0.9rem;
+  border-radius: 18px;
+  border: 2.5px solid #0F172A;
+  box-shadow: 3px 4px 0px #0F172A;
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: center;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0.3) translateY(20px) rotate(-4deg);
+  transform-origin: bottom left;
+}
+
+.comic-bubble::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 22px;
+  border-width: 0 8px 10px 8px;
+  border-style: solid;
+  border-color: transparent transparent #0F172A transparent;
+}
+.comic-bubble::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 24px;
+  border-width: 0 6px 8px 6px;
+  border-style: solid;
+  border-color: transparent transparent #FFFFFF transparent;
+  z-index: 1;
+}
+
+.comic-panel.is-inview .comic-bubble {
+  animation: bubblePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.35s;
+}
+
+.bubble-thought {
+  background: #F8FAFC;
+  border-style: dashed;
+}
+.comic-panel.panel-1.is-inview .bubble-thought {
+  animation: bubblePopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s forwards,
+             anxiousTremble 3s ease-in-out 1s infinite;
+}
+
+.bubble-speech strong { color: #2563EB; }
+.bubble-action strong { color: #EA580C; }
+
+.bubble-burst {
+  background: #FEF9C3;
+  border-color: #0F172A;
+  box-shadow: 4px 4px 0px #16A34A;
+}
+.bubble-burst strong { color: #15803D; }
+
+.comic-sfx {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  font-weight: 900;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: 2px solid #0F172A;
+  box-shadow: 2px 3px 0px #0F172A;
+  z-index: 3;
+  opacity: 0;
+  letter-spacing: 0.5px;
+}
+
+.sfx-gloom {
+  background: #475569;
+  color: #E2E8F0;
+  transform: rotate(6deg);
+}
+.sfx-spark {
+  background: #FACC15;
+  color: #0F172A;
+  transform: rotate(-8deg);
+}
+.sfx-pop {
+  background: #38BDF8;
+  color: #0F172A;
+  transform: rotate(6deg);
+}
+.sfx-boom {
+  background: #F97316;
+  color: #FFFFFF;
+  transform: rotate(-6deg);
+}
+
+.comic-panel.is-inview .comic-sfx {
+  animation: sfxAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards,
+             sfxFloat 2.4s ease-in-out 0.8s infinite alternate;
+}
+
+@keyframes bubblePopIn {
+  0% { opacity: 0; transform: scale(0.3) translateY(20px) rotate(-6deg); }
+  70% { opacity: 1; transform: scale(1.06) translateY(-2px) rotate(1deg); }
+  100% { opacity: 1; transform: scale(1) translateY(0) rotate(-2deg); }
+}
+
+@keyframes sfxAppear {
+  0% { opacity: 0; transform: scale(0.2) rotate(-15deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-6deg); }
+}
+
+@keyframes sfxFloat {
+  0% { transform: translateY(0) rotate(-6deg) scale(1); }
+  100% { transform: translateY(-5px) rotate(-3deg) scale(1.05); }
+}
+
+@keyframes anxiousTremble {
+  0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+  25% { transform: translate(-1.5px, 1px) rotate(-3deg); }
+  50% { transform: translate(1.5px, -1px) rotate(-1deg); }
+  75% { transform: translate(-1px, -1px) rotate(-2.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comic-panel, .comic-bubble, .comic-sfx, .comic-speedlines-overlay {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* ==================== FEATURE ROWS ==================== */
 .feature-row {
   display: flex; align-items: center; gap: 4rem; max-width: 1000px; margin: 0 auto 6rem; flex-wrap: wrap;
