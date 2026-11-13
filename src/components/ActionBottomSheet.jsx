@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Users, Pin, Megaphone, FileText, UserCheck, Trash2, X, PlusCircle } from 'lucide-react';
+import { Mail, Users, Pin, Megaphone, FileText, UserCheck, Trash2, X, PlusCircle, CheckCircle2 } from 'lucide-react';
 
 export default function ActionBottomSheet({ onAction, onClose, selectedPin, onDeletePin, isExpanded, onToggleExpand }) {
   if (!isExpanded) {
@@ -61,6 +61,16 @@ export default function ActionBottomSheet({ onAction, onClose, selectedPin, onDe
           <div>
             <div style={{ fontSize: '0.95rem', fontWeight: 800 }}>ポスター貼付</div>
             <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 500 }}>掲示完了箇所</div>
+          </div>
+        </button>
+
+        <button className="action-btn-clean tap-scale" onClick={() => onAction('poster_ok')}>
+          <div className="action-btn-icon-box" style={{ background: '#F0FDF4', color: '#16A34A' }}>
+            <CheckCircle2 size={20} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.95rem', fontWeight: 800 }}>ポスター許可</div>
+            <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 500 }}>貼付OK獲得</div>
           </div>
         </button>
 

@@ -84,27 +84,55 @@
           "https://poliside.net",
           "https://polidash.jp"
         ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ボランティアスタッフもアカウント登録やアプリのインストールが必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ、不要です。候補者や管理者が発行した専用マップURLをLINEやメールで共有するだけで、スタッフはブラウザから即座にマップを開いて活動記録を共有できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "利用料金は本当に無料ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、2027年統一地方選挙応援キャンペーンとして、マップ共有・目標からの自動逆算・対話ログ管理・SNS日報画像生成などすべての基本機能を完全無料でご利用いただけます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "紙の住宅地図やGoogleマイマップと何が違いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PoliStepはリアルタイムでの重複訪問防止、留守・対話・ポスター許可のワンタップ記録、目標日からの1日あたりノルマ自動逆算、ワンタップでのSNS日報画像生成が一体化している点が特徴です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "スマートフォンからでも操作しやすいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、歩きながら片手で操作できるようモバイルファーストで設計されています。GPS連動で現在地を中心に即座にピン留めでき、対話メモや写真もその場で記録できます。"
+            }
+          }
+        ]
       }
     ]
     </script>
   </head>
   <body>
-    <!-- 悪意あるユーザーによるショートカットキーや右クリックによるコピーを全体で抑制 -->
-    <script>
-      document.addEventListener('contextmenu', event => event.preventDefault());
-      document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'x' || e.key === 'p' || e.key === 'u' || e.key === 's')) {
-          e.preventDefault();
-        }
-      });
-      document.addEventListener('dragstart', event => event.preventDefault());
-    </script>
     <script>
       window.addEventListener('error', function(e) {
-        alert("GLOBAL ERROR: " + (e.message || e.error));
+        console.error("GLOBAL ERROR:", e.message || e.error);
       });
       window.addEventListener('unhandledrejection', function(e) {
-        alert("UNHANDLED PROMISE: " + e.reason);
+        console.error("UNHANDLED PROMISE:", e.reason);
       });
     </script>
     <div id="root"></div>

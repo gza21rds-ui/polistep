@@ -94,6 +94,8 @@ function PublicMapApp() {
   const [isSheetExpanded, setIsSheetExpanded] = useState(true);
   
   const [userRole, setUserRole] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const [pinFilter, setPinFilter] = useState('all');
 
   const [searchParams] = useSearchParams();
   const queryLat = searchParams.get('lat');
@@ -120,6 +122,7 @@ function PublicMapApp() {
     // ログイン状態とユーザーの役割（role）をチェック
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
+        setCurrentUserId(session.user.id);
         supabase.from('users').select('role').eq('id', session.user.id).single()
           .then(({ data }) => {
             if (data) setUserRole(data.role); // 'admin' or 'staff'
@@ -289,8 +292,7 @@ function PublicMapApp() {
       lng: newLng,
       type: actionType,
       action_count: initCount,
-      // LINE連携されている場合はLINEの名前を記録
-      created_by: lineProfile ? lineProfile.displayName : 'スタッフ'
+      created_by: currentUserId || null
     };
     
     // Safety check
@@ -439,23 +441,65 @@ function PublicMapApp() {
     unitText = '時間';
   }
 
+  const filteredPins = pins.filter((p) => {
+    if (pinFilter === 'all') return true;
+    const t = p.latest_action_type || p.type;
+    if (pinFilter === 'absent') return t === 'absent';
+    if (pinFilter === 'talked') return t === 'talked';
+    if (pinFilter === 'poster') return t === 'poster' || t === 'poster_ok';
+    if (pinFilter === 'flyer_speech') return ['station_flyer', 'speech', 'tsujidachi', 'flyer'].includes(t);
+    return true;
+  });
+
   return (
     <div className="app-container" style={{ position: 'relative', overflow: 'hidden' }}>
-      {/* 戻るボタン群 */}
-      <div style={{ position: 'absolute', top: 'max(1rem, env(safe-area-inset-top))', left: '1rem', zIndex: 1000, display: 'flex', gap: '0.5rem' }}>
-        <button onClick={() => window.history.back()} style={{ padding: '0.6rem 1rem', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 'bold', color: '#1E293B', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem' }}>
-          <span>←</span> 戻る
-        </button>
+      {/* 上部ナビゲーション＆フィルターピル群 */}
+      <div style={{ position: 'absolute', top: 'max(0.85rem, env(safe-area-inset-top))', left: '0.85rem', right: '0.85rem', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '0.5rem', pointerEvents: 'none' }}>
         {userRole && (
-          <button onClick={() => navigate(userRole === 'admin' ? '/admin' : '/staff')} style={{ padding: '0.6rem 1rem', background: '#1E293B', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', cursor: 'pointer', fontWeight: 'bold', color: 'white', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem' }}>
-            <span>⚙️</span> {userRole === 'admin' ? '管理画面へ' : 'ダッシュボードへ'}
-          </button>
+          <div style={{ display: 'flex', gap: '0.5rem', pointerEvents: 'auto' }}>
+            <button onClick={() => navigate(userRole === 'admin' ? '/admin' : '/staff')} style={{ padding: '0.55rem 1rem', background: '#1E293B', backdropFilter: 'blur(4px)', borderRadius: '9999px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.15)', cursor: 'pointer', fontWeight: 'bold', color: 'white', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}>
+              <span>←</span> {userRole === 'admin' ? '管理画面へ' : 'ダッシュボードへ'}
+            </button>
+          </div>
         )}
+        <div style={{ display: 'flex', gap: '0.4rem', overflowX: 'auto', paddingBottom: '0.25rem', pointerEvents: 'auto', scrollbarWidth: 'none' }}>
+          {[
+            { id: 'all', label: 'すべて' },
+            { id: 'absent', label: '🔵 留守' },
+            { id: 'talked', label: '🟠 対話' },
+            { id: 'poster', label: '🔴 ポスター' },
+            { id: 'flyer_speech', label: '🎤 ビラ・演説' },
+          ].map((item) => {
+            const active = pinFilter === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setPinFilter(item.id)}
+                className="tap-scale"
+                style={{
+                  padding: '0.4rem 0.75rem',
+                  borderRadius: '9999px',
+                  border: active ? '1.5px solid #2563EB' : '1px solid #E2E8F0',
+                  background: active ? '#2563EB' : 'rgba(255,255,255,0.92)',
+                  color: active ? '#FFFFFF' : '#334155',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  whiteSpace: 'nowrap',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(4px)',
+                }}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <PoliDashCrossSellBanner visible={crossSellVisible} onClose={() => setCrossSellVisible(false)} />
         <MapScreen 
-          pins={pins} 
+          pins={filteredPins} 
           selectedLocation={selectedLocation} 
           onMapClick={handleMapClick}
           onMapMove={handleMapMove}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Target, Calendar, ArrowRight, UserPlus, FileText, CheckCircle2, Smartphone, ExternalLink } from 'lucide-react';
+import { Target, Calendar, ArrowRight, ArrowLeft, UserPlus, FileText, CheckCircle2, Smartphone, ExternalLink } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import useNoIndex from '../hooks/useNoIndex';
 
@@ -12,6 +12,7 @@ export default function Onboarding() {
   const [targetVotes, setTargetVotes] = useState('');
   const [targetVisits, setTargetVisits] = useState('');
   const [targetFlyers, setTargetFlyers] = useState('');
+  const [isReconfiguring, setIsReconfiguring] = useState(false);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,6 +26,9 @@ export default function Onboarding() {
           .single()
           .then(({ data }) => {
             if (data) {
+              if (data.election_date && data.target_votes) {
+                setIsReconfiguring(true);
+              }
               if (data.election_date) setElectionDate(data.election_date);
               if (data.target_votes) setTargetVotes(data.target_votes.toString());
               if (data.target_visits) setTargetVisits(data.target_visits.toString());
@@ -74,7 +78,11 @@ export default function Onboarding() {
         .eq('id', session.user.id);
 
       if (error) throw error;
-      setStep(2); // 目標設定が完了したらLINE連携ステップへ
+      if (isReconfiguring) {
+        navigate('/admin');
+      } else {
+        setStep(2); // 初回目標設定が完了したらLINE連携ステップへ
+      }
     } catch (err) {
       console.error(err);
       setError('保存に失敗しました。ネットワークを確認して再試行してください。');
@@ -93,6 +101,18 @@ export default function Onboarding() {
         
         {step === 1 ? (
           <div className="auth-form-wrapper" style={{ padding: 0 }}>
+            {isReconfiguring && (
+              <div style={{ marginBottom: '1rem' }}>
+                <button
+                  type="button"
+                  onClick={() => navigate('/admin')}
+                  className="tap-scale"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: '#F1F5F9', color: '#334155', border: 'none', padding: '0.5rem 1rem', borderRadius: '9999px', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer' }}
+                >
+                  <ArrowLeft size={16} /> 管理画面に戻る
+                </button>
+              </div>
+            )}
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
               <div style={{ background: '#EFF6FF', padding: '1rem', borderRadius: '50%', display: 'inline-flex' }}>
                 <Target size={40} color="#2563EB" />
@@ -203,14 +223,13 @@ export default function Onboarding() {
             <h2 className="auth-title" style={{ fontSize: '2rem', marginBottom: '1rem', color: '#1E293B' }}>スマホ連携して完了！</h2>
             <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.6, marginBottom: '2rem' }}>
               セットアップが完了しました 🎉<br/>
-              外出先からいつでも進捗をチェックできるよう、最後に**PoliSide公式LINE**を友だち追加してください。リッチメニューから一発で管理画面が開けるようになります！
+              外出先からいつでも進捗をチェックできるよう、最後に<strong>PoliSide公式LINE</strong>を友だち追加してください。リッチメニューから一発で管理画面が開けるようになります！
             </p>
 
             <div style={{ background: '#F8FAFC', padding: '2rem', borderRadius: '16px', border: '1px solid #E2E8F0', marginBottom: '2rem' }}>
               <p style={{ fontWeight: 'bold', color: '#1E293B', marginBottom: '1rem' }}>👇 スマホで以下のボタンをタップ</p>
               
-              {/* Lステップ等で発行した「管理者用」の友だち追加URLに後で差し替える */}
-              <a href="https://lin.ee/xxxxx" target="_blank" rel="noopener noreferrer" className="tap-scale" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', background: '#00B900', color: 'white', textDecoration: 'none', padding: '1.25rem 2rem', borderRadius: '9999px', fontWeight: 900, fontSize: '1.25rem', boxShadow: '0 8px 24px rgba(0, 185, 0, 0.3)', width: '100%', maxWidth: '300px' }}>
+              <a href="https://lin.ee/yF63fbf" target="_blank" rel="noopener noreferrer" className="tap-scale" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', background: '#00B900', color: 'white', textDecoration: 'none', padding: '1.25rem 2rem', borderRadius: '9999px', fontWeight: 900, fontSize: '1.25rem', boxShadow: '0 8px 24px rgba(0, 185, 0, 0.3)', width: '100%', maxWidth: '300px' }}>
                 LINEを連携する <ExternalLink size={20} />
               </a>
               

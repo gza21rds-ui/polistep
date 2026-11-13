@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
-  Share2, Map, Activity, Target, LogOut, Copy, Check, Search, HelpCircle,
+  Share2, Map, Activity, Target, LogOut, Copy, Check, Search, HelpCircle, Download,
   Users, FileText, Mail, Pin, CheckCircle2, Megaphone, UserCheck, Calendar, Flame
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -23,6 +23,38 @@ export default function AdminDashboard() {
   const [searchText, setSearchText] = useState('');
   const [tourRun, setTourRun] = useState(false);
   const [selectedImageForModal, setSelectedImageForModal] = useState(null);
+
+  const fetchAndAggregatePins = async (teamId) => {
+    const { data: pinsData } = await supabase.from('pins').select('*').eq('team_id', teamId);
+    if (!pinsData) return;
+
+    setPins(pinsData);
+    const newStats = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 };
+    const newStatsToday = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 };
+
+    const toJstDateStr = (dateInput) => {
+      const d = new Date(dateInput);
+      const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+      return jst.toISOString().split('T')[0];
+    };
+    const todayStr = toJstDateStr(new Date());
+
+    pinsData.forEach(pin => {
+      if (newStats[pin.type] !== undefined) newStats[pin.type]++;
+      if (pin.type === 'station_flyer') {
+        newStats.flyerCount += (pin.action_count || 1);
+      }
+
+      if (pin.created_at && toJstDateStr(pin.created_at) === todayStr) {
+        if (newStatsToday[pin.type] !== undefined) newStatsToday[pin.type]++;
+        if (pin.type === 'station_flyer') {
+          newStatsToday.flyerCount += (pin.action_count || 1);
+        }
+      }
+    });
+    setStats(newStats);
+    setStatsToday(newStatsToday);
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -48,38 +80,23 @@ export default function AdminDashboard() {
             setTimeout(() => setTourRun(true), 800);
           }
           
-          supabase.from('pins').select('*').eq('team_id', data.team_id)
-            .then(({ data: pinsData }) => {
-              if (pinsData) {
-                setPins(pinsData);
-                const newStats = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 };
-                const newStatsToday = { absent: 0, flyer: 0, talked: 0, poster: 0, speech: 0, station_flyer: 0, flyerCount: 0, poster_ok: 0, tsujidachi: 0 };
-                
-                // JSTの今日の日付文字列を取得 (YYYY-MM-DD)
-                const now = new Date();
-                const jstDate = new Date(now.getTime() + (9 * 60 * 60 * 1000));
-                const todayStr = jstDate.toISOString().split('T')[0];
-
-                pinsData.forEach(pin => {
-                  if (newStats[pin.type] !== undefined) newStats[pin.type]++;
-                  if (pin.type === 'station_flyer') {
-                    newStats.flyerCount += (pin.action_count || 1);
-                  }
-
-                  if (pin.created_at && pin.created_at.startsWith(todayStr)) {
-                    if (newStatsToday[pin.type] !== undefined) newStatsToday[pin.type]++;
-                    if (pin.type === 'station_flyer') {
-                      newStatsToday.flyerCount += (pin.action_count || 1);
-                    }
-                  }
-                });
-                setStats(newStats);
-                setStatsToday(newStatsToday);
-              }
-            });
+          fetchAndAggregatePins(data.team_id);
         });
     });
   }, [navigate]);
+
+  useEffect(() => {
+    if (!user?.team_id) return;
+    const channel = supabase.channel(`admin-pins-${user.team_id}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'pins', filter: `team_id=eq.${user.team_id}` }, () => {
+        fetchAndAggregatePins(user.team_id);
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.team_id]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -123,8 +140,8 @@ ${url}`;
 
   if (!user) return <div style={{ padding: '2rem', textAlign: 'center' }}>読み込み中...</div>;
 
-  // 目標計算
-  const totalActions = Object.values(stats).reduce((a, b) => a + b, 0);
+  // 目標計算（flyerCountは枚数なのでアクション回数合算から除外）
+  const totalActions = stats.absent + stats.flyer + stats.talked + stats.poster + stats.poster_ok + stats.speech + stats.station_flyer + stats.tsujidachi;
   const targetActions = user.target_actions || 1000;
   
   let daysLeft = 30; // default
@@ -417,82 +434,35 @@ ${url}`;
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-            {/* 留守（チラシ） */}
-            <div className="metric-card-clean">
-              <div className="metric-icon-bubble" style={{ background: '#EFF6FF', color: '#2563EB' }}>
-                <Mail size={22} />
-              </div>
-              <div className="metric-content-box">
-                <div className="metric-label-clean">留守（投函）</div>
-                <div className="metric-value-clean">{stats.absent.toLocaleString()} <span className="metric-unit-clean">件</span></div>
-              </div>
-            </div>
-
-            {/* ご挨拶できた */}
-            <div className="metric-card-clean">
-              <div className="metric-icon-bubble" style={{ background: '#FFF7ED', color: '#EA580C' }}>
-                <Users size={22} />
-              </div>
-              <div className="metric-content-box">
-                <div className="metric-label-clean">ご挨拶・対話</div>
-                <div className="metric-value-clean">{stats.talked.toLocaleString()} <span className="metric-unit-clean">件</span></div>
-              </div>
-            </div>
-
-            {/* 駅頭ビラ配り */}
-            <div className="metric-card-clean">
-              <div className="metric-icon-bubble" style={{ background: '#F0F9FF', color: '#0284C7' }}>
-                <FileText size={22} />
-              </div>
-              <div className="metric-content-box">
-                <div className="metric-label-clean">駅頭ビラ</div>
-                <div className="metric-value-clean">{stats.station_flyer.toLocaleString()} <span className="metric-unit-clean">回</span></div>
-              </div>
-            </div>
-
-            {/* ポスター貼付 */}
-            <div className="metric-card-clean">
-              <div className="metric-icon-bubble" style={{ background: '#FEF2F2', color: '#DC2626' }}>
-                <Pin size={22} />
-              </div>
-              <div className="metric-content-box">
-                <div className="metric-label-clean">ポスター貼付</div>
-                <div className="metric-value-clean">{stats.poster.toLocaleString()} <span className="metric-unit-clean">箇所</span></div>
-              </div>
-            </div>
-
-            {/* ポスター許可 */}
-            <div className="metric-card-clean">
-              <div className="metric-icon-bubble" style={{ background: '#F0FDF4', color: '#16A34A' }}>
-                <CheckCircle2 size={22} />
-              </div>
-              <div className="metric-content-box">
-                <div className="metric-label-clean">ポスター許可</div>
-                <div className="metric-value-clean">{stats.poster_ok.toLocaleString()} <span className="metric-unit-clean">件</span></div>
-              </div>
-            </div>
-
-            {/* 街頭演説 */}
-            <div className="metric-card-clean">
-              <div className="metric-icon-bubble" style={{ background: '#FAF5FF', color: '#7C3AED' }}>
-                <Megaphone size={22} />
-              </div>
-              <div className="metric-content-box">
-                <div className="metric-label-clean">街頭演説</div>
-                <div className="metric-value-clean">{stats.speech.toLocaleString()} <span className="metric-unit-clean">回</span></div>
-              </div>
-            </div>
-
-            {/* 辻立ち */}
-            <div className="metric-card-clean">
-              <div className="metric-icon-bubble" style={{ background: '#F0FDFA', color: '#0D9488' }}>
-                <UserCheck size={22} />
-              </div>
-              <div className="metric-content-box">
-                <div className="metric-label-clean">辻立ち（交差点等）</div>
-                <div className="metric-value-clean">{stats.tsujidachi.toLocaleString()} <span className="metric-unit-clean">時間</span></div>
-              </div>
-            </div>
+            {[
+              { key: 'absent', label: '留守（投函）', unit: '件', bg: '#EFF6FF', color: '#2563EB', Icon: Mail },
+              { key: 'talked', label: 'ご挨拶・対話', unit: '件', bg: '#FFF7ED', color: '#EA580C', Icon: Users },
+              { key: 'station_flyer', label: '駅頭ビラ', unit: '回', bg: '#F0F9FF', color: '#0284C7', Icon: FileText },
+              { key: 'poster', label: 'ポスター貼付', unit: '箇所', bg: '#FEF2F2', color: '#DC2626', Icon: Pin },
+              { key: 'poster_ok', label: 'ポスター許可', unit: '件', bg: '#F0FDF4', color: '#16A34A', Icon: CheckCircle2 },
+              { key: 'speech', label: '街頭演説', unit: '回', bg: '#FAF5FF', color: '#7C3AED', Icon: Megaphone },
+              { key: 'tsujidachi', label: '辻立ち（交差点等）', unit: '時間', bg: '#F0FDFA', color: '#0D9488', Icon: UserCheck },
+            ].map(({ key, label, unit, bg, color, Icon }) => {
+              const todayCount = statsToday[key] || 0;
+              return (
+                <div key={key} className="metric-card-clean">
+                  <div className="metric-icon-bubble" style={{ background: bg, color }}>
+                    <Icon size={22} />
+                  </div>
+                  <div className="metric-content-box">
+                    <div className="metric-label-clean" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      <span>{label}</span>
+                      {todayCount > 0 && (
+                        <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#047857', background: '#D1FAE5', padding: '0.1rem 0.45rem', borderRadius: '9999px' }}>
+                          本日 +{todayCount}
+                        </span>
+                      )}
+                    </div>
+                    <div className="metric-value-clean">{(stats[key] || 0).toLocaleString()} <span className="metric-unit-clean">{unit}</span></div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
@@ -503,9 +473,42 @@ ${url}`;
                 <Search size={24} color="var(--primary)" />
                 <h3 className="heading-responsive-tight" style={{ fontSize: 'clamp(1.1rem, 3.5vw, 1.35rem)', fontWeight: 800, color: 'var(--text-main)' }}>ご挨拶・対話ログ検索</h3>
               </div>
-              <span style={{ fontSize: '0.85rem', color: '#64748B', background: '#F1F5F9', padding: '0.35rem 0.75rem', borderRadius: '9999px', fontWeight: 600 }}>
-                {talkedLogs.length} 件の対話メモ
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '0.85rem', color: '#64748B', background: '#F1F5F9', padding: '0.35rem 0.75rem', borderRadius: '9999px', fontWeight: 600 }}>
+                  {talkedLogs.length} 件の対話メモ
+                </span>
+                {talkedLogs.length > 0 && (
+                  <button
+                    onClick={() => {
+                      const escapeCsv = (val) => {
+                        const s = String(val ?? '').replace(/"/g, '""');
+                        return `"${s}"`;
+                      };
+                      const header = ['日時', 'ステータス', 'お名前', '対話メモ', '緯度', '経度'];
+                      const rows = talkedLogs.map((l) => [
+                        new Date(l.created_at).toLocaleString('ja-JP'),
+                        l.type,
+                        l.parsedName || '',
+                        l.parsedContent || '',
+                        l.lat,
+                        l.lng,
+                      ]);
+                      const csvContent = '\uFEFF' + [header, ...rows].map(r => r.map(escapeCsv).join(',')).join('\r\n');
+                      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `polistep_talk_logs_${new Date().toISOString().split('T')[0]}.csv`;
+                      a.click();
+                      URL.revokeObjectURL(url);
+                    }}
+                    className="btn-outline tap-scale"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.35rem 0.75rem', fontSize: '0.8rem', fontWeight: 700, borderRadius: '9999px' }}
+                  >
+                    <Download size={14} /> CSV出力
+                  </button>
+                )}
+              </div>
             </div>
             
             <div style={{ marginBottom: '1.5rem', position: 'relative' }}>

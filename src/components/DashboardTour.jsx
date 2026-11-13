@@ -29,7 +29,7 @@ export default function DashboardTour({ run, onFinish }) {
       content: 'チーム全員が立てたピンの広がりがひと目でわかります。どの地域を訪問済みで、どこがまだ未開拓かが直感的に把握できます。',
     },
     {
-      target: '#tour-today-summary',
+      target: '#tour-summary-cards',
       title: '📊 3. チームの活動実績を集計！',
       content: '本日達成された「対話」「ポスター」「ビラ配り」「辻立ち」などの合計数がリアルタイムに集計されます。下のボタンから「活動報告用のSNS画像」も一瞬で作成できます！',
     },

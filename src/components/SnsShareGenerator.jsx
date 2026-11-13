@@ -88,21 +88,30 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     }
 
     // Header Area
+    const now = new Date();
+    const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+    const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} (${weekdays[now.getDay()]})`;
+
     ctx.textAlign = 'center';
     ctx.fillStyle = '#60A5FA'; // Blue-400
     ctx.font = 'bold 45px sans-serif';
     ctx.letterSpacing = '10px';
-    ctx.fillText('POLISTEP REPORT', canvas.width / 2, 200);
+    ctx.fillText('POLISTEP REPORT', canvas.width / 2, 180);
+
+    ctx.fillStyle = '#94A3B8';
+    ctx.font = 'bold 38px sans-serif';
+    ctx.letterSpacing = '2px';
+    ctx.fillText(dateStr, canvas.width / 2, 240);
     
     ctx.fillStyle = '#FFFFFF';
     ctx.font = '900 95px sans-serif';
     ctx.letterSpacing = '0px';
-    ctx.fillText('本日の活動レポート', canvas.width / 2, 330);
+    ctx.fillText('本日の活動レポート', canvas.width / 2, 350);
 
     if (regionName) {
       ctx.fillStyle = '#94A3B8';
       ctx.font = 'bold 50px sans-serif';
-      ctx.fillText(`📍 ${regionName}周辺`, canvas.width / 2, 450);
+      ctx.fillText(`📍 ${regionName}周辺`, canvas.width / 2, 460);
     }
 
     // Safe round rect helper for older browsers (e.g. iOS 15)

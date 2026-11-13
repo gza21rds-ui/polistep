@@ -64,10 +64,11 @@ DROP POLICY IF EXISTS "Anyone can insert pins" ON public.pins;
 CREATE POLICY "Anyone can insert pins" ON public.pins
   FOR INSERT WITH CHECK (true);
 
--- ピンの削除は誰でも可能（直近の取り消し操作用）
+-- ピンの削除はチーム管理者（オーナー）のみ許可（未認証ユーザーによる全ピン削除を防止）
 DROP POLICY IF EXISTS "Anyone can delete pins" ON public.pins;
-CREATE POLICY "Anyone can delete pins" ON public.pins
-  FOR DELETE USING (true);
+DROP POLICY IF EXISTS "Team owner can delete pins" ON public.pins;
+CREATE POLICY "Team owner can delete pins" ON public.pins
+  FOR DELETE USING (auth.uid() = team_id);
 
 -- ピンの更新は誰でも可能（メモ機能用）
 DROP POLICY IF EXISTS "Anyone can update pins" ON public.pins;

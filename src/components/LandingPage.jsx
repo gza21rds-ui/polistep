@@ -120,7 +120,7 @@ export default function LandingPage() {
           {/* Scene 1 */}
           <div className="story-card story-card-before">
             <div className="story-card-img-wrap">
-              <img src="/story1_anxiety.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="story-card-img" />
+              <img src="/story1_anxiety.jpg" alt="夕暮れの住宅街で紙の地図を見て途方に暮れる" className="story-card-img" loading="lazy" decoding="async" />
               <div className="story-step-badge" style={{ background: '#334155', color: '#F8FAFC' }}>STEP 01 · 課題</div>
             </div>
             <div className="story-card-body">
@@ -134,7 +134,7 @@ export default function LandingPage() {
           {/* Scene 2 */}
           <div className="story-card">
             <div className="story-card-img-wrap">
-              <img src="/story2_clarity.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="story-card-img" />
+              <img src="/story2_clarity.jpg" alt="夜の街でスマホのPoliStepアプリを操作" className="story-card-img" loading="lazy" decoding="async" />
               <div className="story-step-badge" style={{ background: '#2563EB', color: '#FFFFFF' }}>STEP 02 · 逆算計画</div>
             </div>
             <div className="story-card-body">
@@ -148,7 +148,7 @@ export default function LandingPage() {
           {/* Scene 3 */}
           <div className="story-card">
             <div className="story-card-img-wrap">
-              <img src="/story3_map.jpg" alt="スマホの画面を支援者に見せる" className="story-card-img" />
+              <img src="/story3_map.jpg" alt="スマホの画面を支援者に見せる" className="story-card-img" loading="lazy" decoding="async" />
               <div className="story-step-badge" style={{ background: '#2563EB', color: '#FFFFFF' }}>STEP 03 · 日々の可視化</div>
             </div>
             <div className="story-card-body">
@@ -162,7 +162,7 @@ export default function LandingPage() {
           {/* Scene 4 */}
           <div className="story-card story-card-success">
             <div className="story-card-img-wrap">
-              <img src="/story4_success.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="story-card-img" />
+              <img src="/story4_success.jpg" alt="チーム全員でスマホを持ち笑顔で歩く" className="story-card-img" loading="lazy" decoding="async" />
               <div className="story-step-badge" style={{ background: '#16A34A', color: '#FFFFFF' }}>STEP 04 · 達成と団結</div>
             </div>
             <div className="story-card-body">
@@ -198,7 +198,7 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="bento-card-visual">
-              <img src="/feature_map_blue.jpg" alt="PoliStepのマップ画面" />
+              <img src="/feature_map_blue.jpg" alt="PoliStepのマップ画面" loading="lazy" decoding="async" />
             </div>
           </div>
 
@@ -228,7 +228,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="bento-card-visual">
-              <img src="/feature_dashboard_jp.jpg" alt="PoliStepのダッシュボード画面" />
+              <img src="/feature_dashboard_jp.jpg" alt="PoliStepのダッシュボード画面" loading="lazy" decoding="async" />
             </div>
           </div>
 
@@ -258,7 +258,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="bento-card-visual">
-              <img src="/feature_sns_blue.jpg" alt="SNSシェアジェネレーター画面" />
+              <img src="/feature_sns_blue.jpg" alt="SNSシェアジェネレーター画面" loading="lazy" decoding="async" />
             </div>
           </div>
 
@@ -274,7 +274,7 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="bento-card-visual">
-              <img src="/feature_team_blue.jpg" alt="リアルタイムな共有イメージ" />
+              <img src="/feature_team_blue.jpg" alt="リアルタイムな共有イメージ" loading="lazy" decoding="async" />
             </div>
           </div>
         </div>
@@ -428,6 +428,50 @@ export default function LandingPage() {
                 </a>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FAQ Section (SEO & AEO) ===== */}
+      <section className="section" style={{ background: 'var(--bg-main)', padding: '5.5rem 2rem', borderTop: '1px solid var(--border-light)' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <div className="section-label" style={{ margin: '0 auto 1rem' }}>FAQ</div>
+            <h2 className="section-title">よくあるご質問</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1rem' }}>
+              導入前によくいただくご質問をまとめました。
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {[
+              {
+                q: 'ボランティアスタッフもアカウント登録やアプリのインストールが必要ですか？',
+                a: 'いいえ、不要です。候補者や管理者が発行した専用マップURLをLINEやメールで共有するだけで、スタッフはブラウザから即座にマップを開いて活動記録を共有できます。'
+              },
+              {
+                q: '利用料金は本当に無料ですか？',
+                a: 'はい、2027年統一地方選挙応援キャンペーンとして、マップ共有・目標からの自動逆算・対話ログ管理・SNS日報画像生成などすべての基本機能を完全無料でご利用いただけます。'
+              },
+              {
+                q: '紙の住宅地図やGoogleマイマップと何が違いますか？',
+                a: 'PoliStepはリアルタイムでの重複訪問防止、留守・対話・ポスター許可のワンタップ記録、目標日からの1日あたりノルマ自動逆算、ワンタップでのSNS日報画像生成が一体化している点が特徴です。'
+              },
+              {
+                q: 'スマートフォンからでも操作しやすいですか？',
+                a: 'はい、歩きながら片手で操作できるようモバイルファーストで設計されています。GPS連動で現在地を中心に即座にピン留めでき、対話メモや写真もその場で記録できます。'
+              }
+            ].map((item, idx) => (
+              <div key={idx} style={{ background: '#FFFFFF', border: '1px solid var(--border-light)', borderRadius: '16px', padding: '1.5rem 1.75rem', boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)' }}>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0F172A', margin: '0 0 0.65rem 0', display: 'flex', alignItems: 'flex-start', gap: '0.6rem', lineHeight: 1.5 }}>
+                  <span style={{ color: '#2563EB', fontWeight: 900, flexShrink: 0 }}>Q.</span>
+                  <span>{item.q}</span>
+                </h3>
+                <p style={{ fontSize: '0.94rem', color: '#475569', margin: 0, lineHeight: 1.7, paddingLeft: '1.65rem' }}>
+                  {item.a}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
