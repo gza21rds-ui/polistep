@@ -533,8 +533,13 @@ body, html {
 
 .storybook-stage {
   position: relative;
-  perspective: 1800px;
+  perspective: 2200px;
   padding-bottom: 16px;
+}
+
+.storybook-book-wrap {
+  position: relative;
+  transform-style: preserve-3d;
 }
 
 /* 本のページの重なり・厚み表現 */
@@ -566,23 +571,77 @@ body, html {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.12), 0 4px 12px rgba(15, 23, 42, 0.04);
-  transform-origin: left center;
-  transform-style: preserve-3d;
-  transition: transform 0.34s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease;
   z-index: 2;
 }
 
-/* ページをめくる3Dアニメーション */
-.storybook-page.is-flipping-next {
-  transform: rotateY(-18deg) translateX(-16px) scale(0.98);
-  opacity: 0.45;
-  box-shadow: 24px 18px 40px -10px rgba(15, 23, 42, 0.18);
+/* めくれ上がるページシート（左端＝背表紙を軸に -180deg 回転） */
+.storybook-flipper {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  z-index: 10;
+  pointer-events: none;
+  transition: transform 0.62s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.storybook-page.is-flipping-prev {
-  transform: rotateY(18deg) translateX(16px) scale(0.98);
-  opacity: 0.45;
-  box-shadow: -24px 18px 40px -10px rgba(15, 23, 42, 0.18);
+.storybook-flipper.dir-next {
+  transform: rotateY(0deg);
+}
+.storybook-flipper.dir-next.is-flipped {
+  transform: rotateY(-180deg);
+}
+
+.storybook-flipper.dir-prev {
+  transform: rotateY(-180deg);
+}
+.storybook-flipper.dir-prev.is-flipped {
+  transform: rotateY(0deg);
+}
+
+.storybook-flipper-front,
+.storybook-flipper-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.storybook-flipper-front {
+  z-index: 2;
+}
+
+.storybook-flipper-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%);
+  border: 1px solid #CBD5E1;
+  box-shadow: inset 18px 0 36px rgba(15, 23, 42, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storybook-back-paper {
+  width: 92%;
+  height: 88%;
+  border-radius: 12px;
+  border: 1px dashed rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.storybook-flip-cast-shadow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, rgba(15, 23, 42, 0.14), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.storybook-flipper.is-flipped .storybook-flip-cast-shadow {
+  opacity: 1;
 }
 
 .storybook-page-media {

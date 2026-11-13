@@ -47,19 +47,27 @@ export default function LandingPage() {
   const [showFloatingCta, setShowFloatingCta] = useState(false);
   const [lineGuideModal, setLineGuideModal] = useState(false);
   const [storyPage, setStoryPage] = useState(0);
-  const [flipDir, setFlipDir] = useState(null); // 'next' | 'prev' | null
+  const [flipping, setFlipping] = useState(null); // { from, to, dir: 'next' | 'prev' } | null
+  const [flipActive, setFlipActive] = useState(false);
   const touchStartXRef = useRef(null);
 
   const changeStoryPage = (nextIndex) => {
-    if (nextIndex === storyPage || flipDir) return;
+    if (nextIndex === storyPage || flipping) return;
     const bounded = Math.max(0, Math.min(STORY_PAGES.length - 1, nextIndex));
     if (bounded === storyPage) return;
     const dir = bounded > storyPage ? 'next' : 'prev';
-    setFlipDir(dir);
+    setFlipping({ from: storyPage, to: bounded, dir });
+    setFlipActive(false);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setFlipActive(true);
+      });
+    });
     setTimeout(() => {
       setStoryPage(bounded);
-      setFlipDir(null);
-    }, 320);
+      setFlipping(null);
+      setFlipActive(false);
+    }, 620);
   };
 
   useEffect(() => { 
@@ -209,83 +217,100 @@ export default function LandingPage() {
             <div className="storybook-stack-layer layer-1"></div>
             <div className="storybook-stack-layer layer-2"></div>
 
-            {/* めくられるページ本体 */}
-            <div className={`storybook-page ${flipDir === 'next' ? 'is-flipping-next' : ''} ${flipDir === 'prev' ? 'is-flipping-prev' : ''}`}>
-              {/* 左面：写真ビジュアル */}
-              <div
-                className="storybook-page-media"
-                onClick={() => {
-                  if (storyPage < STORY_PAGES.length - 1) changeStoryPage(storyPage + 1);
-                }}
-                title={storyPage < STORY_PAGES.length - 1 ? 'クリックして次のページへ' : ''}
-                style={{ cursor: storyPage < STORY_PAGES.length - 1 ? 'pointer' : 'default' }}
-              >
-                <img
-                  src={STORY_PAGES[storyPage].img}
-                  alt={STORY_PAGES[storyPage].alt}
-                  className="storybook-img"
-                />
-                <div
-                  className="story-step-badge"
-                  style={{
-                    background: STORY_PAGES[storyPage].badgeBg,
-                    color: STORY_PAGES[storyPage].badgeColor
-                  }}
-                >
-                  {STORY_PAGES[storyPage].step}
-                </div>
-              </div>
-
-              {/* 中央の本の折り目（ノド）シャドウ */}
-              <div className="storybook-spine-shadow"></div>
-
-              {/* 右面：ストーリーテキスト＆めくり操作 */}
-              <div className="storybook-page-content">
-                <div className="storybook-page-counter">
-                  PAGE 0{storyPage + 1} / 0{STORY_PAGES.length}
-                </div>
-                <h3 className="storybook-title">{STORY_PAGES[storyPage].title}</h3>
-                <p className="storybook-desc">{STORY_PAGES[storyPage].desc}</p>
-
-                <div className="storybook-controls">
-                  <button
-                    type="button"
-                    onClick={() => changeStoryPage(storyPage - 1)}
-                    disabled={storyPage === 0}
-                    className="storybook-nav-btn prev"
-                  >
-                    <ChevronLeft size={18} /> 前のページ
-                  </button>
-
-                  {storyPage < STORY_PAGES.length - 1 ? (
-                    <button
-                      type="button"
-                      onClick={() => changeStoryPage(storyPage + 1)}
-                      className="storybook-nav-btn next tap-scale"
+            {/* ページレンダリング用ヘルパー */}
+            {(() => {
+              const renderPageInner = (idx, isStatic = true) => {
+                const page = STORY_PAGES[idx];
+                return (
+                  <>
+                    <div
+                      className="storybook-page-media"
+                      onClick={() => {
+                        if (isStatic && idx < STORY_PAGES.length - 1) changeStoryPage(idx + 1);
+                      }}
+                      title={isStatic && idx < STORY_PAGES.length - 1 ? 'クリックして次のページへ' : ''}
+                      style={{ cursor: isStatic && idx < STORY_PAGES.length - 1 ? 'pointer' : 'default' }}
                     >
-                      次のページをめくる <ChevronRight size={18} />
-                    </button>
-                  ) : (
-                    <Link
-                      to="/auth?mode=register"
-                      className="storybook-nav-btn finish tap-scale"
+                      <img src={page.img} alt={page.alt} className="storybook-img" />
+                      <div className="story-step-badge" style={{ background: page.badgeBg, color: page.badgeColor }}>
+                        {page.step}
+                      </div>
+                    </div>
+
+                    <div className="storybook-spine-shadow"></div>
+
+                    <div className="storybook-page-content">
+                      <div className="storybook-page-counter">
+                        PAGE 0{idx + 1} / 0{STORY_PAGES.length}
+                      </div>
+                      <h3 className="storybook-title">{page.title}</h3>
+                      <p className="storybook-desc">{page.desc}</p>
+
+                      <div className="storybook-controls">
+                        <button
+                          type="button"
+                          onClick={() => isStatic && changeStoryPage(idx - 1)}
+                          disabled={idx === 0}
+                          className="storybook-nav-btn prev"
+                        >
+                          <ChevronLeft size={18} /> 前のページ
+                        </button>
+
+                        {idx < STORY_PAGES.length - 1 ? (
+                          <button
+                            type="button"
+                            onClick={() => isStatic && changeStoryPage(idx + 1)}
+                            className="storybook-nav-btn next tap-scale"
+                          >
+                            次のページをめくる <ChevronRight size={18} />
+                          </button>
+                        ) : (
+                          <Link to="/auth?mode=register" className="storybook-nav-btn finish tap-scale">
+                            無料で始める <ArrowRight size={18} />
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+
+                    {idx < STORY_PAGES.length - 1 && (
+                      <button
+                        type="button"
+                        aria-label="次のページをめくる"
+                        onClick={() => isStatic && changeStoryPage(idx + 1)}
+                        className="storybook-page-curl"
+                      ></button>
+                    )}
+                  </>
+                );
+              };
+
+              const basePageIndex = flipping ? (flipping.dir === 'next' ? flipping.to : flipping.from) : storyPage;
+              const flipSheetIndex = flipping ? (flipping.dir === 'next' ? flipping.from : flipping.to) : null;
+
+              return (
+                <div className="storybook-book-wrap">
+                  {/* 下層ページ（常時表示・次ページが下に控えている） */}
+                  <div className="storybook-page storybook-base-page">
+                    {renderPageInner(basePageIndex, !flipping)}
+                  </div>
+
+                  {/* めくれ上がるページシート（3D回転） */}
+                  {flipping && (
+                    <div
+                      className={`storybook-flipper ${flipping.dir === 'next' ? 'dir-next' : 'dir-prev'} ${flipActive ? 'is-flipped' : ''}`}
                     >
-                      無料で始める <ArrowRight size={18} />
-                    </Link>
+                      <div className="storybook-flipper-front storybook-page">
+                        {renderPageInner(flipSheetIndex, false)}
+                        <div className="storybook-flip-cast-shadow"></div>
+                      </div>
+                      <div className="storybook-flipper-back">
+                        <div className="storybook-back-paper"></div>
+                      </div>
+                    </div>
                   )}
                 </div>
-              </div>
-
-              {/* 右下隅の「ページめくれ（ドッグイヤー）」表現 */}
-              {storyPage < STORY_PAGES.length - 1 && (
-                <button
-                  type="button"
-                  aria-label="次のページをめくる"
-                  onClick={() => changeStoryPage(storyPage + 1)}
-                  className="storybook-page-curl"
-                ></button>
-              )}
-            </div>
+              );
+            })()}
           </div>
         </div>
       </section>
