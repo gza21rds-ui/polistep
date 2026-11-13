@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Users, Pin, Megaphone, FileText, UserCheck, Trash2, X, PlusCircle, CheckCircle2 } from 'lucide-react';
+import { Mail, Users, Pin, Megaphone, FileText, UserCheck, Trash2, X, PlusCircle, CheckCircle2, Building2 } from 'lucide-react';
 
 export default function ActionBottomSheet({ onAction, onClose, selectedPin, onDeletePin, isExpanded, onToggleExpand }) {
   if (!isExpanded) {
@@ -51,6 +51,16 @@ export default function ActionBottomSheet({ onAction, onClose, selectedPin, onDe
           <div>
             <div style={{ fontSize: '0.95rem', fontWeight: 800 }}>対話・ご挨拶</div>
             <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 500 }}>有権者と会話</div>
+          </div>
+        </button>
+
+        <button className="action-btn-clean tap-scale" onClick={() => onAction('apartment')}>
+          <div className="action-btn-icon-box" style={{ background: '#EEF2FF', color: '#4F46E5' }}>
+            <Building2 size={20} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.95rem', fontWeight: 800 }}>マンション・集合住宅</div>
+            <div style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 500 }}>複数戸の訪問・部屋メモ</div>
           </div>
         </button>
 

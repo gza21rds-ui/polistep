@@ -10,6 +10,7 @@ const getIcon = (pin) => {
     absent: '#1D4ED8',        // 留守
     flyer: '#F59E0B',         // チラシ
     talked: '#EA580C',        // ご挨拶
+    apartment: '#4F46E5',     // マンション・集合住宅
     poster: '#DC2626',        // ポスター貼付
     poster_ok: '#166534',     // ポスター許可
     speech: '#7C3AED',        // 街頭演説
@@ -30,6 +31,22 @@ const getIcon = (pin) => {
   } else if (actionType === 'speech') {
     const count = pin.action_count || 1;
     label = `🎤 ${count}回`;
+  } else if (actionType === 'apartment') {
+    let talkedCount = 0;
+    let absentCount = 0;
+    if (pin.memo && typeof pin.memo === 'string' && pin.memo.startsWith('{')) {
+      try {
+        const obj = JSON.parse(pin.memo);
+        talkedCount = Number(obj.talkedCount) || 0;
+        absentCount = Number(obj.absentCount) || 0;
+      } catch (e) {}
+    }
+    const total = (talkedCount + absentCount) || pin.action_count || 0;
+    if (total > 0) {
+      label = talkedCount > 0 ? `🏢 ${total}戸 (対話${talkedCount})` : `🏢 ${total}戸`;
+    } else {
+      label = '🏢 マンション';
+    }
   }
 
   if (label) {

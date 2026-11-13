@@ -97,6 +97,49 @@ function PublicMapApp() {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [pinFilter, setPinFilter] = useState('all');
 
+  // Apartment (マンション・集合住宅) Modal State
+  const [aptModalVisible, setAptModalVisible] = useState(false);
+  const [aptPinId, setAptPinId] = useState(null);
+  const [aptIsNew, setAptIsNew] = useState(false);
+  const [aptBuildingName, setAptBuildingName] = useState('');
+  const [aptTalkedCount, setAptTalkedCount] = useState(0);
+  const [aptAbsentCount, setAptAbsentCount] = useState(0);
+  const [aptRooms, setAptRooms] = useState([]);
+  const [aptRoomInput, setAptRoomInput] = useState('');
+  const [aptRoomNameInput, setAptRoomNameInput] = useState('');
+  const [aptRoomContentInput, setAptRoomContentInput] = useState('');
+  const [aptSaving, setAptSaving] = useState(false);
+
+  const parseApartmentMemo = (memoStr) => {
+    const defaultObj = { buildingName: '', talkedCount: 0, absentCount: 0, rooms: [] };
+    if (!memoStr || typeof memoStr !== 'string' || !memoStr.startsWith('{')) return defaultObj;
+    try {
+      const obj = JSON.parse(memoStr);
+      return {
+        buildingName: obj.buildingName || '',
+        talkedCount: Number(obj.talkedCount) || 0,
+        absentCount: Number(obj.absentCount) || 0,
+        rooms: Array.isArray(obj.rooms) ? obj.rooms : [],
+      };
+    } catch {
+      return defaultObj;
+    }
+  };
+
+  const openApartmentModal = (pin, isNew = false) => {
+    const parsed = parseApartmentMemo(pin.memo);
+    setAptPinId(pin.id);
+    setAptIsNew(isNew);
+    setAptBuildingName(parsed.buildingName);
+    setAptTalkedCount(parsed.talkedCount);
+    setAptAbsentCount(parsed.absentCount);
+    setAptRooms(parsed.rooms);
+    setAptRoomInput('');
+    setAptRoomNameInput('');
+    setAptRoomContentInput('');
+    setAptModalVisible(true);
+  };
+
   const [searchParams] = useSearchParams();
   const queryLat = searchParams.get('lat');
   const queryLng = searchParams.get('lng');
@@ -161,6 +204,12 @@ function PublicMapApp() {
 
     if (pin) {
       const type = pin.latest_action_type || pin.type;
+      if (type === 'apartment') {
+        setSelectedLocation(null);
+        setSelectedPin(null);
+        openApartmentModal(pin, false);
+        return;
+      }
       if (['speech', 'station_flyer', 'tsujidachi'].includes(type)) {
         // 絵文字ピンの場合はメニューを挟まずに即座に実行
         handleAction(type, latlng, pin);
@@ -190,6 +239,7 @@ function PublicMapApp() {
     if (pinFilter === 'all') return;
     if (pinFilter === 'absent' && actionType === 'absent') return;
     if (pinFilter === 'talked' && actionType === 'talked') return;
+    if (pinFilter === 'apartment' && actionType === 'apartment') return;
     if (pinFilter === 'poster' && (actionType === 'poster' || actionType === 'poster_ok')) return;
     if (pinFilter === 'flyer_speech' && ['station_flyer', 'speech', 'tsujidachi', 'flyer'].includes(actionType)) return;
     setPinFilter('all');
@@ -210,6 +260,13 @@ function PublicMapApp() {
     const isStateAction = ['absent', 'talked', 'poster', 'poster_ok'].includes(actionType);
     const existingType = existingPin ? (existingPin.latest_action_type || existingPin.type) : null;
     const canOverwrite = existingPin ? ['absent', 'talked', 'flyer'].includes(existingType) : false;
+
+    if (existingPin && existingType === 'apartment' && actionType === 'apartment') {
+      setSelectedLocation(null);
+      setSelectedPin(null);
+      openApartmentModal(existingPin, false);
+      return;
+    }
 
     if (existingPin) {
       if (existingType === actionType) {
@@ -286,7 +343,7 @@ function PublicMapApp() {
     }
 
     // New pin
-    const initCount = ['station_flyer', 'tsujidachi'].includes(actionType) ? 0 : 1;
+    const initCount = ['station_flyer', 'tsujidachi', 'apartment'].includes(actionType) ? 0 : 1;
     let newLat = loc ? loc.lat : (existingPin ? existingPin.lat : 0);
     let newLng = loc ? loc.lng : (existingPin ? existingPin.lng : 0);
     
@@ -302,7 +359,8 @@ function PublicMapApp() {
       lng: newLng,
       type: actionType,
       action_count: initCount,
-      created_by: currentUserId || null
+      created_by: currentUserId || null,
+      ...(actionType === 'apartment' ? { memo: JSON.stringify({ buildingName: '', talkedCount: 0, absentCount: 0, rooms: [] }) } : {})
     };
     
     // Safety check
@@ -322,7 +380,7 @@ function PublicMapApp() {
       return;
     }
 
-    setPins(prev => [...prev, { id: data.id, lat: data.lat, lng: data.lng, latest_action_type: data.type, action_count: initCount }]);
+    setPins(prev => [...prev, { id: data.id, lat: data.lat, lng: data.lng, latest_action_type: data.type, memo: data.memo || null, action_count: initCount }]);
     ensureFilterVisible(actionType);
     setActionCount(prev => prev + 1);
 
@@ -330,7 +388,9 @@ function PublicMapApp() {
     setSelectedLocation(null);
     setSelectedPin(null);
 
-    if (['talked', 'station_flyer', 'tsujidachi'].includes(actionType)) {
+    if (actionType === 'apartment') {
+      openApartmentModal(data, true);
+    } else if (['talked', 'station_flyer', 'tsujidachi'].includes(actionType)) {
       setActivePinIdForMemo(data.id);
       setActiveActionTypeForMemo(actionType);
       setMemoName('');
@@ -468,11 +528,108 @@ function PublicMapApp() {
     unitText = '時間';
   }
 
+  const handleAddAptRoom = () => {
+    if (!aptRoomInput.trim() && !aptRoomNameInput.trim() && !aptRoomContentInput.trim()) return;
+    const newRoom = {
+      id: `r_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      room: aptRoomInput.trim(),
+      name: aptRoomNameInput.trim(),
+      content: aptRoomContentInput.trim(),
+      createdAt: new Date().toISOString()
+    };
+    setAptRooms(prev => [newRoom, ...prev]);
+    setAptTalkedCount(prev => prev + 1);
+    setAptRoomInput('');
+    setAptRoomNameInput('');
+    setAptRoomContentInput('');
+  };
+
+  const handleDeleteAptRoom = (roomId) => {
+    setAptRooms(prev => prev.filter(r => r.id !== roomId));
+  };
+
+  const handleSaveApartment = async () => {
+    if (!aptPinId) return;
+    setAptSaving(true);
+    try {
+      // 未確定の部屋入力があれば自動で取り込んでから保存
+      let finalRooms = [...aptRooms];
+      let finalTalked = aptTalkedCount;
+      if (aptRoomInput.trim() || aptRoomNameInput.trim() || aptRoomContentInput.trim()) {
+        finalRooms.unshift({
+          id: `r_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          room: aptRoomInput.trim(),
+          name: aptRoomNameInput.trim(),
+          content: aptRoomContentInput.trim(),
+          createdAt: new Date().toISOString()
+        });
+        finalTalked += 1;
+      }
+
+      const isCompletelyEmpty = !aptBuildingName.trim() && finalTalked === 0 && aptAbsentCount === 0 && finalRooms.length === 0;
+      if (isCompletelyEmpty && aptIsNew) {
+        await supabase.from('pins').delete().eq('id', aptPinId);
+        setPins(prev => prev.filter(p => p.id !== aptPinId));
+        setActionCount(prev => Math.max(0, prev - 1));
+        setAptModalVisible(false);
+        setAptPinId(null);
+        return;
+      }
+
+      const payloadObj = {
+        buildingName: aptBuildingName.trim(),
+        talkedCount: finalTalked,
+        absentCount: aptAbsentCount,
+        rooms: finalRooms
+      };
+      const memoJson = JSON.stringify(payloadObj);
+      const totalCount = finalTalked + aptAbsentCount;
+
+      const { error } = await supabase.from('pins').update({
+        memo: memoJson,
+        action_count: totalCount
+      }).eq('id', aptPinId);
+
+      if (error) {
+        console.error('Update apartment error:', error);
+        alert(`保存に失敗しました。(${error.message || '通信エラー'})`);
+        return;
+      }
+
+      setPins(prev => prev.map(p => p.id === aptPinId ? { ...p, memo: memoJson, action_count: totalCount } : p));
+      setAptModalVisible(false);
+      setAptPinId(null);
+      setUndoVisible(false);
+    } finally {
+      setAptSaving(false);
+    }
+  };
+
+  const handleCloseApartment = async () => {
+    const isCompletelyEmpty = !aptBuildingName.trim() && aptTalkedCount === 0 && aptAbsentCount === 0 && aptRooms.length === 0;
+    if (aptIsNew && isCompletelyEmpty && aptPinId) {
+      await supabase.from('pins').delete().eq('id', aptPinId);
+      setPins(prev => prev.filter(p => p.id !== aptPinId));
+      setActionCount(prev => Math.max(0, prev - 1));
+    }
+    setAptModalVisible(false);
+    setAptPinId(null);
+  };
+
   const filteredPins = pins.filter((p) => {
     if (pinFilter === 'all') return true;
     const t = p.latest_action_type || p.type;
-    if (pinFilter === 'absent') return t === 'absent';
-    if (pinFilter === 'talked') return t === 'talked';
+    if (pinFilter === 'apartment') return t === 'apartment';
+    if (pinFilter === 'absent') {
+      if (t === 'absent') return true;
+      if (t === 'apartment') return parseApartmentMemo(p.memo).absentCount > 0;
+      return false;
+    }
+    if (pinFilter === 'talked') {
+      if (t === 'talked') return true;
+      if (t === 'apartment') return parseApartmentMemo(p.memo).talkedCount > 0;
+      return false;
+    }
     if (pinFilter === 'poster') return t === 'poster' || t === 'poster_ok';
     if (pinFilter === 'flyer_speech') return ['station_flyer', 'speech', 'tsujidachi', 'flyer'].includes(t);
     return true;
@@ -494,6 +651,7 @@ function PublicMapApp() {
             { id: 'all', label: 'すべて' },
             { id: 'absent', label: '🔵 留守' },
             { id: 'talked', label: '🟠 対話' },
+            { id: 'apartment', label: '🏢 マンション' },
             { id: 'poster', label: '🔴 ポスター' },
             { id: 'flyer_speech', label: '🎤 ビラ・演説' },
           ].map((item) => {
@@ -533,7 +691,142 @@ function PublicMapApp() {
           initialCenter={initialCenter}
         />
       
-      {memoVisible ? (
+      {aptModalVisible ? (
+        <div className="bottom-sheet" style={{ zIndex: 2000, boxShadow: '0 -10px 30px rgba(0,0,0,0.2)', maxHeight: '88vh', overflowY: 'auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1.15rem', color: '#1E293B', fontWeight: 900, margin: 0 }}>🏢 マンション・集合住宅の記録</h3>
+              <p style={{ fontSize: '0.78rem', color: '#64748B', margin: '0.2rem 0 0 0' }}>同じ建物の戸数・部屋ごとの対話メモをまとめて追記できます</p>
+            </div>
+            <button onClick={handleCloseApartment} style={{ background: '#F1F5F9', border: 'none', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748B', fontWeight: 'bold', flexShrink: 0 }}>
+              ✕
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {/* 建物名 */}
+            <input
+              type="text"
+              placeholder="マンション・アパート名（任意）"
+              value={aptBuildingName}
+              onChange={(e) => setAptBuildingName(e.target.value)}
+              style={{ width: '100%', padding: '0.75rem 1rem', borderRadius: '12px', border: '1.5px solid #E2E8F0', fontSize: '0.95rem', fontWeight: 600 }}
+            />
+
+            {/* 戸数カウンター */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '0.75rem', background: '#F8FAFC', padding: '0.9rem', borderRadius: '14px', border: '1px solid #E2E8F0' }}>
+              {/* 対話戸数 */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                <div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#EA580C' }}>🤝 対話・ご挨拶</div>
+                  <div style={{ fontSize: '0.72rem', color: '#64748B' }}>ピンポンで会話できた戸数</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <button type="button" onClick={() => setAptTalkedCount(c => Math.max(0, c - 1))} style={{ width: '34px', height: '34px', borderRadius: '10px', border: '1px solid #CBD5E1', background: '#FFF', fontWeight: 800, cursor: 'pointer' }}>-</button>
+                  <span style={{ minWidth: '42px', textAlign: 'center', fontWeight: 900, fontSize: '1.1rem', color: '#1E293B' }}>{aptTalkedCount}<span style={{ fontSize: '0.75rem', marginLeft: '2px' }}>戸</span></span>
+                  <button type="button" onClick={() => setAptTalkedCount(c => c + 1)} style={{ width: '34px', height: '34px', borderRadius: '10px', border: 'none', background: '#EA580C', color: '#FFF', fontWeight: 800, cursor: 'pointer' }}>+1</button>
+                </div>
+              </div>
+
+              {/* 留守・投函戸数 */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', paddingTop: '0.65rem', borderTop: '1px solid #E2E8F0', flexWrap: 'wrap' }}>
+                <div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#2563EB' }}>📩 留守・チラシ投函</div>
+                  <div style={{ fontSize: '0.72rem', color: '#64748B' }}>集合ポスト含む投函戸数</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                  <button type="button" onClick={() => setAptAbsentCount(c => Math.max(0, c - 1))} style={{ width: '32px', height: '34px', borderRadius: '10px', border: '1px solid #CBD5E1', background: '#FFF', fontWeight: 800, cursor: 'pointer' }}>-</button>
+                  <span style={{ minWidth: '42px', textAlign: 'center', fontWeight: 900, fontSize: '1.1rem', color: '#1E293B' }}>{aptAbsentCount}<span style={{ fontSize: '0.75rem', marginLeft: '2px' }}>戸</span></span>
+                  <button type="button" onClick={() => setAptAbsentCount(c => c + 1)} style={{ padding: '0 0.6rem', height: '34px', borderRadius: '10px', border: 'none', background: '#2563EB', color: '#FFF', fontWeight: 800, fontSize: '0.82rem', cursor: 'pointer' }}>+1</button>
+                  <button type="button" onClick={() => setAptAbsentCount(c => c + 5)} style={{ padding: '0 0.55rem', height: '34px', borderRadius: '10px', border: '1px solid #BFDBFE', background: '#EFF6FF', color: '#1D4ED8', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer' }}>+5</button>
+                  <button type="button" onClick={() => setAptAbsentCount(c => c + 10)} style={{ padding: '0 0.55rem', height: '34px', borderRadius: '10px', border: '1px solid #BFDBFE', background: '#EFF6FF', color: '#1D4ED8', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer' }}>+10</button>
+                </div>
+              </div>
+            </div>
+
+            {/* 部屋ごとの対話メモ追加フォーム */}
+            <div style={{ background: '#FFF7ED', padding: '0.9rem', borderRadius: '14px', border: '1px solid #FED7AA' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#9A3412', marginBottom: '0.55rem' }}>
+                🚪 部屋ごとの対話メモを追加（自動で対話+1）
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.2fr', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <input
+                  type="text"
+                  placeholder="部屋番号 (例: 302)"
+                  value={aptRoomInput}
+                  onChange={(e) => setAptRoomInput(e.target.value)}
+                  style={{ width: '100%', padding: '0.6rem 0.75rem', borderRadius: '10px', border: '1px solid #FDBA74', fontSize: '0.88rem', background: '#FFF' }}
+                />
+                <input
+                  type="text"
+                  placeholder="お名前（任意）"
+                  value={aptRoomNameInput}
+                  onChange={(e) => setAptRoomNameInput(e.target.value)}
+                  style={{ width: '100%', padding: '0.6rem 0.75rem', borderRadius: '10px', border: '1px solid #FDBA74', fontSize: '0.88rem', background: '#FFF' }}
+                />
+              </div>
+              <textarea
+                placeholder="会話内容・ご要望メモ..."
+                value={aptRoomContentInput}
+                onChange={(e) => setAptRoomContentInput(e.target.value)}
+                style={{ width: '100%', minHeight: '60px', padding: '0.6rem 0.75rem', borderRadius: '10px', border: '1px solid #FDBA74', fontSize: '0.88rem', background: '#FFF', resize: 'vertical', marginBottom: '0.5rem' }}
+              />
+              <button
+                type="button"
+                onClick={handleAddAptRoom}
+                className="tap-scale"
+                style={{ width: '100%', padding: '0.6rem', background: '#EA580C', color: '#FFF', border: 'none', borderRadius: '10px', fontWeight: 800, fontSize: '0.88rem', cursor: 'pointer' }}
+              >
+                ＋ この部屋のメモを追加する
+              </button>
+            </div>
+
+            {/* 登録済み部屋メモ一覧 */}
+            {aptRooms.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', maxHeight: '160px', overflowY: 'auto' }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#64748B' }}>記録済みの部屋メモ（{aptRooms.length}件）</div>
+                {aptRooms.map((r) => (
+                  <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem', background: '#F8FAFC', padding: '0.6rem 0.75rem', borderRadius: '10px', border: '1px solid #E2E8F0', fontSize: '0.85rem' }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 800, color: '#1E293B' }}>
+                        {r.room ? `${r.room}号室 ` : ''}{r.name || 'お名前なし'}
+                      </div>
+                      {r.content && <div style={{ color: '#475569', marginTop: '0.2rem', whiteSpace: 'pre-wrap' }}>{r.content}</div>}
+                    </div>
+                    <button type="button" onClick={() => handleDeleteAptRoom(r.id)} style={{ background: 'none', border: 'none', color: '#94A3B8', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', padding: '0 0.25rem' }} title="削除">×</button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 保存・削除ボタン */}
+            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.25rem' }}>
+              <button type="button" onClick={handleCloseApartment} style={{ flex: 0.7, padding: '0.9rem', background: '#F1F5F9', color: '#475569', borderRadius: '9999px', border: 'none', fontWeight: 'bold', fontSize: '0.95rem', cursor: 'pointer' }}>
+                閉じる
+              </button>
+              <button type="button" onClick={handleSaveApartment} disabled={aptSaving} style={{ flex: 1.3, padding: '0.9rem', background: '#4F46E5', color: 'white', borderRadius: '9999px', border: 'none', fontWeight: 'bold', fontSize: '0.95rem', cursor: 'pointer' }}>
+                {aptSaving ? '保存中...' : '保存して完了'}
+              </button>
+            </div>
+
+            {!aptIsNew && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (window.confirm('このマンションの記録を削除しますか？')) {
+                    handleDeletePin(aptPinId);
+                    setAptModalVisible(false);
+                    setAptPinId(null);
+                  }
+                }}
+                style={{ width: '100%', padding: '0.65rem', background: '#FEE2E2', color: '#DC2626', borderRadius: '12px', border: '1px solid #FCA5A5', fontWeight: 'bold', fontSize: '0.88rem', cursor: 'pointer' }}
+              >
+                🗑️ このマンション記録を削除
+              </button>
+            )}
+          </div>
+        </div>
+      ) : memoVisible ? (
         <div className="bottom-sheet" style={{ zIndex: 2000, boxShadow: '0 -10px 30px rgba(0,0,0,0.2)', maxHeight: '85vh', overflowY: 'auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h3 style={{ fontSize: '1.25rem', color: '#1E293B', fontWeight: 800 }}>{memoTitle}</h3>

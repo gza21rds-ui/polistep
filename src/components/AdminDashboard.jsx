@@ -40,12 +40,33 @@ export default function AdminDashboard() {
     const todayStr = toJstDateStr(new Date());
 
     pinsData.forEach(pin => {
+      const isToday = pin.created_at && toJstDateStr(pin.created_at) === todayStr;
+
+      if (pin.type === 'apartment') {
+        let aptTalked = 0;
+        let aptAbsent = 0;
+        if (pin.memo && pin.memo.startsWith('{')) {
+          try {
+            const obj = JSON.parse(pin.memo);
+            aptTalked = Number(obj.talkedCount) || 0;
+            aptAbsent = Number(obj.absentCount) || 0;
+          } catch(e) {}
+        }
+        newStats.talked += aptTalked;
+        newStats.absent += aptAbsent;
+        if (isToday) {
+          newStatsToday.talked += aptTalked;
+          newStatsToday.absent += aptAbsent;
+        }
+        return;
+      }
+
       if (newStats[pin.type] !== undefined) newStats[pin.type]++;
       if (pin.type === 'station_flyer') {
         newStats.flyerCount += (pin.action_count || 1);
       }
 
-      if (pin.created_at && toJstDateStr(pin.created_at) === todayStr) {
+      if (isToday) {
         if (newStatsToday[pin.type] !== undefined) newStatsToday[pin.type]++;
         if (pin.type === 'station_flyer') {
           newStatsToday.flyerCount += (pin.action_count || 1);
@@ -155,20 +176,46 @@ ${url}`;
   if (dailyTarget < 0) dailyTarget = 0;
 
   const talkedLogs = pins
-    .filter(pin => pin.type === 'talked' && pin.memo)
-    .map(pin => {
-      let name = '';
-      let content = pin.memo;
-      let imageUrl = null;
-      if (pin.memo.startsWith('{')) {
+    .flatMap(pin => {
+      if (pin.type === 'talked' && pin.memo) {
+        let name = '';
+        let content = pin.memo;
+        let imageUrl = null;
+        if (pin.memo.startsWith('{')) {
+          try {
+            const obj = JSON.parse(pin.memo);
+            if (obj.name !== undefined) name = obj.name;
+            if (obj.content !== undefined) content = obj.content;
+            if (obj.imageUrl !== undefined) imageUrl = obj.imageUrl;
+          } catch(e) {}
+        }
+        return [{ ...pin, parsedName: name, parsedContent: content, parsedImageUrl: imageUrl }];
+      }
+
+      if (pin.type === 'apartment' && pin.memo && pin.memo.startsWith('{')) {
         try {
           const obj = JSON.parse(pin.memo);
-          if (obj.name !== undefined) name = obj.name;
-          if (obj.content !== undefined) content = obj.content;
-          if (obj.imageUrl !== undefined) imageUrl = obj.imageUrl;
-        } catch(e) {}
+          const buildingName = obj.buildingName || '';
+          const rooms = Array.isArray(obj.rooms) ? obj.rooms : [];
+          return rooms.map((r, idx) => {
+            const prefix = buildingName
+              ? `【${buildingName}${r.room ? ` ${r.room}号室` : ''}】`
+              : (r.room ? `【${r.room}号室】` : '');
+            return {
+              ...pin,
+              id: `${pin.id}_${r.id || idx}`,
+              created_at: r.createdAt || pin.created_at,
+              parsedName: `${prefix}${r.name || (prefix ? '' : 'お名前なし')}`,
+              parsedContent: r.content || '',
+              parsedImageUrl: null,
+            };
+          });
+        } catch(e) {
+          return [];
+        }
       }
-      return { ...pin, parsedName: name, parsedContent: content, parsedImageUrl: imageUrl };
+
+      return [];
     })
     .filter(pin => {
       if (!searchText.trim()) return true;
