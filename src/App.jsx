@@ -186,6 +186,15 @@ function PublicMapApp() {
     setUndoVisible(false);
   };
 
+  const ensureFilterVisible = (actionType) => {
+    if (pinFilter === 'all') return;
+    if (pinFilter === 'absent' && actionType === 'absent') return;
+    if (pinFilter === 'talked' && actionType === 'talked') return;
+    if (pinFilter === 'poster' && (actionType === 'poster' || actionType === 'poster_ok')) return;
+    if (pinFilter === 'flyer_speech' && ['station_flyer', 'speech', 'tsujidachi', 'flyer'].includes(actionType)) return;
+    setPinFilter('all');
+  };
+
   const handleAction = async (actionType, specificLocation = null, specificPin = null) => {
     // もし specificLocation や selectedLocation が無くても、mapCenter があればそれを使う
     const loc = specificLocation || selectedLocation || mapCenter;
@@ -256,6 +265,7 @@ function PublicMapApp() {
         if (error) { alert('更新に失敗しました。'); return; }
         
         setPins(prev => prev.map(p => p.id === existingPin.id ? { ...p, latest_action_type: actionType, action_count: 1, memo: null } : p));
+        ensureFilterVisible(actionType);
         setLastAction({ id: existingPin.id, lat: existingPin.lat, lng: existingPin.lng, isUpdate: true, previousType: existingType, previousMemo: existingPin.memo });
         setSelectedLocation(null);
         setSelectedPin(null);
@@ -298,10 +308,22 @@ function PublicMapApp() {
     // Safety check
     if (!newPin.lat || !newPin.lng) return;
 
-    const { data, error } = await supabase.from('pins').insert(newPin).select().single();
-    if (error) { alert('記録に失敗しました。'); return; }
+    let { data, error } = await supabase.from('pins').insert(newPin).select().single();
+    if (error && newPin.created_by) {
+      // created_by の外部キー制約等で弾かれた場合は匿名(null)として再試行
+      console.warn('Pin insert retry without created_by:', error);
+      const retryRes = await supabase.from('pins').insert({ ...newPin, created_by: null }).select().single();
+      data = retryRes.data;
+      error = retryRes.error;
+    }
+    if (error) {
+      console.error('Insert pin error:', error);
+      alert(`記録に失敗しました。(${error.message || '通信エラー'})`);
+      return;
+    }
 
     setPins(prev => [...prev, { id: data.id, lat: data.lat, lng: data.lng, latest_action_type: data.type, action_count: initCount }]);
+    ensureFilterVisible(actionType);
     setActionCount(prev => prev + 1);
 
     setLastAction({ id: data.id, lat: data.lat, lng: data.lng, isUpdate: false });
@@ -366,7 +388,12 @@ function PublicMapApp() {
         updatePayload = { memo: finalMemo, action_count: newTotal };
       }
       
-      await supabase.from('pins').update(updatePayload).eq('id', activePinIdForMemo);
+      const { error } = await supabase.from('pins').update(updatePayload).eq('id', activePinIdForMemo);
+      if (error) {
+        console.error('Update memo error:', error);
+        alert(`メモの保存に失敗しました。(${error.message || '通信エラー'})`);
+        return;
+      }
       setPins(prev => prev.map(p => p.id === activePinIdForMemo ? { ...p, memo: finalMemo, action_count: updatePayload.action_count || p.action_count } : p));
       setUndoVisible(true);
     } else if (activePinIdForMemo && lastAction && lastAction.isUpdate) {

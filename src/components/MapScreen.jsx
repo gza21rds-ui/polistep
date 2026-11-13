@@ -52,9 +52,12 @@ const getIcon = (pin) => {
 const getSelectedIcon = () => {
   return L.divIcon({
     className: 'selected-marker',
-    html: `<div style="background-color: #3B82F6; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 12px rgba(59,130,246,0.9); animation: popIn 0.3s ease-out;"></div>`,
-    iconSize: [20, 20],
-    iconAnchor: [10, 10]
+    html: `<div style="position: relative; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;">
+      <div style="position: absolute; inset: 0; border-radius: 50%; background: rgba(239, 68, 68, 0.25); animation: popIn 0.3s ease-out;"></div>
+      <div style="background-color: #EF4444; width: 18px; height: 18px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.6);"></div>
+    </div>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14]
   });
 };
 
@@ -144,7 +147,7 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMov
 
   return (
     <div className="map-section" style={{ position: 'relative' }}>
-      {/* 画面中央のクロスヘア（照準） */}
+      {/* 画面中央の登録ターゲットピン（ここが登録される場所） */}
       <div style={{
         position: 'absolute',
         top: '50%',
@@ -153,26 +156,20 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMov
         zIndex: 1000,
         pointerEvents: 'none',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <div style={{ position: 'relative', width: '36px', height: '36px', filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.25))' }}>
+        {/* 中心点の小さな照準リング */}
+        <div style={{ position: 'relative', width: '40px', height: '40px', filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.28))' }}>
           <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', fill: 'none' }}>
-            {/* ホワイト・アウトライン（下敷き：どんな背景でもクッキリ視認） */}
-            <circle cx="50" cy="50" r="16" stroke="#FFFFFF" strokeWidth="10px" />
-            <line x1="50" y1="0" x2="50" y2="24" stroke="#FFFFFF" strokeWidth="10px" strokeLinecap="round" />
-            <line x1="50" y1="76" x2="50" y2="100" stroke="#FFFFFF" strokeWidth="10px" strokeLinecap="round" />
-            <line x1="0" y1="50" x2="24" y2="50" stroke="#FFFFFF" strokeWidth="10px" strokeLinecap="round" />
-            <line x1="76" y1="50" x2="100" y2="50" stroke="#FFFFFF" strokeWidth="10px" strokeLinecap="round" />
-            <circle cx="50" cy="50" r="6" fill="#FFFFFF" />
-
-            {/* コア・ブルーライン（メインストローク） */}
-            <circle cx="50" cy="50" r="16" stroke="#2563EB" strokeWidth="5px" />
-            <line x1="50" y1="2" x2="50" y2="24" stroke="#2563EB" strokeWidth="5px" strokeLinecap="round" />
-            <line x1="50" y1="76" x2="50" y2="98" stroke="#2563EB" strokeWidth="5px" strokeLinecap="round" />
-            <line x1="2" y1="50" x2="24" y2="50" stroke="#2563EB" strokeWidth="5px" strokeLinecap="round" />
-            <line x1="76" y1="50" x2="98" y2="50" stroke="#2563EB" strokeWidth="5px" strokeLinecap="round" />
-            <circle cx="50" cy="50" r="3.5" fill="#2563EB" />
+            {/* 地面の正確な記録位置を示す中心点 */}
+            <circle cx="50" cy="50" r="14" stroke="#FFFFFF" strokeWidth="8px" />
+            <circle cx="50" cy="50" r="14" stroke="#EF4444" strokeWidth="4px" />
+            <circle cx="50" cy="50" r="4" fill="#EF4444" />
+            {/* 中心の少し上に浮いた登録ピンシルエット */}
+            <path d="M50 4 C37 4 27 14 27 27 C27 42 50 54 50 54 C50 54 73 42 73 27 C73 14 63 4 50 4 Z" fill="#EF4444" stroke="#FFFFFF" strokeWidth="5" strokeLinejoin="round" />
+            <circle cx="50" cy="26" r="8" fill="#FFFFFF" />
           </svg>
         </div>
       </div>
