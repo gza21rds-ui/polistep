@@ -1081,25 +1081,34 @@ body, html {
 /* UI BUTTONS */
 .btn-gps {
   position: absolute;
-  bottom: 80px;
-  right: 16px;
-  z-index: 999;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: white;
-  color: #1E293B;
-  border: 1px solid #CBD5E1;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  top: max(6.2rem, calc(env(safe-area-inset-top) + 5.4rem));
+  right: 14px;
+  z-index: 1001;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  background: #2563EB;
+  color: #FFFFFF;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.38);
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.15s ease, background 0.2s ease, opacity 0.2s ease;
 }
-.btn-gps:active {
-  transform: scale(0.92);
-  background: #F1F5F9;
+.btn-gps:hover:not(:disabled) {
+  background: #1D4ED8;
+}
+.btn-gps:active:not(:disabled) {
+  transform: scale(0.94);
+}
+.btn-gps:disabled {
+  opacity: 0.75;
+  cursor: wait;
 }
 
 @keyframes locationPulse {

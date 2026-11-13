@@ -96,9 +96,17 @@ function MapPanHandler({ center }) {
 }
 
 // 初回およびボタンタップ時に現在地へパンするコントローラー
-function GeolocationController({ initialCenter, onLocationFound, triggerLocate }) {
+function GeolocationController({ initialCenter, onLocationFound, triggerLocate, onLocatingChange }) {
   const map = useMap();
   const hasInitialized = useRef(false);
+  const lastTriggerRef = useRef(0);
+  const onLocationFoundRef = useRef(onLocationFound);
+  const onLocatingChangeRef = useRef(onLocatingChange);
+
+  useEffect(() => {
+    onLocationFoundRef.current = onLocationFound;
+    onLocatingChangeRef.current = onLocatingChange;
+  }, [onLocationFound, onLocatingChange]);
 
   // 初回マウント時：URL指定がなければ現在地へ移動
   useEffect(() => {
@@ -110,7 +118,7 @@ function GeolocationController({ initialCenter, onLocationFound, triggerLocate }
         (pos) => {
           const coords = [pos.coords.latitude, pos.coords.longitude];
           map.setView(coords, 17);
-          if (onLocationFound) onLocationFound(coords);
+          if (onLocationFoundRef.current) onLocationFoundRef.current(coords);
         },
         (err) => {
           console.warn('Geolocation failed or denied:', err);
@@ -118,24 +126,35 @@ function GeolocationController({ initialCenter, onLocationFound, triggerLocate }
         { enableHighAccuracy: true, timeout: 8000 }
       );
     }
-  }, [initialCenter, map, onLocationFound]);
+  }, [initialCenter, map]);
 
-  // 手動で現在地ボタンを押した時
+  // 手動で現在地ボタンを押した時（1回のクリックにつき1回だけ実行）
   useEffect(() => {
-    if (triggerLocate && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const coords = [pos.coords.latitude, pos.coords.longitude];
-          map.flyTo(coords, 17, { duration: 1.2 });
-          if (onLocationFound) onLocationFound(coords);
-        },
-        (err) => {
-          alert('現在地を取得できませんでした。端末の位置情報設定をご確認ください。');
-        },
-        { enableHighAccuracy: true, timeout: 8000 }
-      );
+    if (!triggerLocate || triggerLocate === lastTriggerRef.current) return;
+    lastTriggerRef.current = triggerLocate;
+
+    if (!navigator.geolocation) {
+      alert('お使いの端末・ブラウザは位置情報に対応していません。');
+      return;
     }
-  }, [triggerLocate, map, onLocationFound]);
+
+    if (onLocatingChangeRef.current) onLocatingChangeRef.current(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const coords = [pos.coords.latitude, pos.coords.longitude];
+        const targetZoom = Math.max(map.getZoom(), 17);
+        map.stop();
+        map.setView(coords, targetZoom, { animate: true, duration: 0.5 });
+        if (onLocationFoundRef.current) onLocationFoundRef.current(coords);
+        if (onLocatingChangeRef.current) onLocatingChangeRef.current(false);
+      },
+      () => {
+        if (onLocatingChangeRef.current) onLocatingChangeRef.current(false);
+        alert('現在地を取得できませんでした。端末の位置情報設定をご確認ください。');
+      },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 5000 }
+    );
+  }, [triggerLocate, map]);
 
   return null;
 }
@@ -144,6 +163,7 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMov
   const center = initialCenter || [35.6895, 139.6917];
   const [currentCoords, setCurrentCoords] = useState(null);
   const [locateTrigger, setLocateTrigger] = useState(0);
+  const [isLocating, setIsLocating] = useState(false);
 
   return (
     <div className="map-section" style={{ position: 'relative' }}>
@@ -178,9 +198,12 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMov
       <button 
         className="btn-gps tap-scale" 
         onClick={() => setLocateTrigger(prev => prev + 1)}
+        disabled={isLocating}
         title="現在地へ移動"
+        aria-label="現在地へ移動"
       >
-        <Navigation size={22} color="#2563EB" />
+        <Navigation size={16} color="#FFFFFF" fill="#FFFFFF" />
+        <span>{isLocating ? '測位中...' : '現在地'}</span>
       </button>
 
       <MapContainer center={center} zoom={16} zoomControl={false} style={{ height: '100%', width: '100%' }}>
@@ -191,8 +214,9 @@ export default function MapScreen({ pins, selectedLocation, onMapClick, onMapMov
         <MapPanHandler center={initialCenter} />
         <GeolocationController 
           initialCenter={initialCenter} 
-          onLocationFound={(coords) => setCurrentCoords(coords)}
+          onLocationFound={setCurrentCoords}
           triggerLocate={locateTrigger}
+          onLocatingChange={setIsLocating}
         />
         <MapEventHandler onMapClick={onMapClick} onMapMove={onMapMove} />
         
