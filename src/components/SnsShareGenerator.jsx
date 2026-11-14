@@ -48,6 +48,7 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     // Canvas size: 1080x1920 (9:16 vertical - standard for Stories/Reels)
     canvas.width = 1080;
     canvas.height = 1920;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     if (bgImage) {
       // Draw custom background image with object-fit: cover logic
@@ -148,36 +149,74 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     ctx.font = 'bold 50px sans-serif';
     ctx.fillText('🤝 訪問・ご挨拶', 150, 650);
 
-    // 3 Numbers Layout (Today, Total, Target)
+    // 3 Numbers Layout (Today, Total, Target) with auto-fitting font size so large numbers never overlap
     const drawStatBox = (x, y, label, value, unit, isHighlight = false) => {
+      const maxColWidth = 250;
       ctx.textAlign = 'center';
       ctx.fillStyle = '#94A3B8';
-      ctx.font = 'bold 35px sans-serif';
+      ctx.font = 'bold 34px sans-serif';
       ctx.fillText(label, x, y);
-      
-      ctx.fillStyle = isHighlight ? '#FCD34D' : '#FFFFFF';
-      ctx.font = '900 85px sans-serif';
-      ctx.fillText(value, x, y + 100);
-      
-      const valWidth = ctx.measureText(value).width;
-      ctx.fillStyle = '#CBD5E1';
-      ctx.font = 'bold 30px sans-serif';
+
+      let numSize = 76;
+      let unitSize = 28;
+      const gap = 8;
+      let valWidth = 0;
+      let unitWidth = 0;
+
+      while (numSize >= 28) {
+        unitSize = Math.max(18, Math.round(numSize * 0.38));
+        ctx.font = `900 ${numSize}px sans-serif`;
+        valWidth = ctx.measureText(value).width;
+        ctx.font = `bold ${unitSize}px sans-serif`;
+        unitWidth = ctx.measureText(unit).width;
+        if (valWidth + gap + unitWidth <= maxColWidth) {
+          break;
+        }
+        numSize -= 4;
+      }
+
+      const totalWidth = valWidth + gap + unitWidth;
+      const startX = x - totalWidth / 2;
+      const baselineY = y + 96;
+
       ctx.textAlign = 'left';
-      ctx.fillText(unit, x + (valWidth / 2) + 15, y + 95);
+      ctx.fillStyle = isHighlight ? '#FCD34D' : '#FFFFFF';
+      ctx.font = `900 ${numSize}px sans-serif`;
+      ctx.fillText(value, startX, baselineY);
+
+      ctx.fillStyle = '#CBD5E1';
+      ctx.font = `bold ${unitSize}px sans-serif`;
+      ctx.fillText(unit, startX + valWidth + gap, baselineY - 4);
     };
 
-    // Columns: X = 270 (Left), 540 (Center), 810 (Right)
-    drawStatBox(270, 780, '本日の実績', talkedToday.toLocaleString(), '件', true);
+    const drawColumnDividers = (topY, bottomY) => {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+      ctx.lineWidth = 2;
+      [397, 682].forEach((divX) => {
+        ctx.beginPath();
+        ctx.moveTo(divX, topY);
+        ctx.lineTo(divX, bottomY);
+        ctx.stroke();
+      });
+      ctx.restore();
+    };
+
+    // Columns: X = 255 (Left), 540 (Center), 825 (Right)
+    drawColumnDividers(745, 895);
+    drawStatBox(255, 780, '本日の実績', talkedToday.toLocaleString(), '件', true);
     drawStatBox(540, 780, '累計実績', talkedTotal.toLocaleString(), '件', false);
-    drawStatBox(810, 780, '目標設定', talkedTarget ? talkedTarget.toLocaleString() : '---', '件', false);
+    drawStatBox(825, 780, '目標設定', talkedTarget ? talkedTarget.toLocaleString() : '---', '件', false);
 
     // Progress Bar
     const progressW = 780;
-    const p1 = Math.min(1, talkedTotal / (talkedTarget || 1));
+    const p1 = talkedTarget > 0 ? Math.min(1, talkedTotal / talkedTarget) : 0;
     ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     safeRoundRect(150, 940, progressW, 30, 15); ctx.fill();
-    ctx.fillStyle = '#3B82F6';
-    safeRoundRect(150, 940, progressW * p1, 30, 15); ctx.fill();
+    if (p1 > 0) {
+      ctx.fillStyle = '#3B82F6';
+      safeRoundRect(150, 940, Math.max(30, progressW * p1), 30, 15); ctx.fill();
+    }
 
 
     // Card 2: ビラ・チラシ配布
@@ -188,15 +227,18 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
     ctx.font = 'bold 50px sans-serif';
     ctx.fillText('📄 ビラ・チラシ配布', 150, 1180);
 
-    drawStatBox(270, 1310, '本日の実績', flyersToday.toLocaleString(), '枚', true);
+    drawColumnDividers(1275, 1425);
+    drawStatBox(255, 1310, '本日の実績', flyersToday.toLocaleString(), '枚', true);
     drawStatBox(540, 1310, '累計実績', flyersTotal.toLocaleString(), '枚', false);
-    drawStatBox(810, 1310, '目標設定', flyersTarget ? flyersTarget.toLocaleString() : '---', '枚', false);
+    drawStatBox(825, 1310, '目標設定', flyersTarget ? flyersTarget.toLocaleString() : '---', '枚', false);
 
-    const p2 = Math.min(1, flyersTotal / (flyersTarget || 1));
+    const p2 = flyersTarget > 0 ? Math.min(1, flyersTotal / flyersTarget) : 0;
     ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
     safeRoundRect(150, 1470, progressW, 30, 15); ctx.fill();
-    ctx.fillStyle = '#F59E0B';
-    safeRoundRect(150, 1470, progressW * p2, 30, 15); ctx.fill();
+    if (p2 > 0) {
+      ctx.fillStyle = '#F59E0B';
+      safeRoundRect(150, 1470, Math.max(30, progressW * p2), 30, 15); ctx.fill();
+    }
 
     // Footer Message
     ctx.textAlign = 'center';
@@ -229,10 +271,11 @@ export default function SnsShareGenerator({ visible, onClose, stats, statsToday 
 
   useEffect(() => {
     if (visible) {
-      setTimeout(drawCanvas, 100);
+      const timer = setTimeout(drawCanvas, 100);
+      return () => clearTimeout(timer);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, regionName, stats, bgImage]);
+  }, [visible, regionName, stats, statsToday, user, bgImage]);
 
   if (!visible) return null;
 
