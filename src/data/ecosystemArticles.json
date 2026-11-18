@@ -1,5 +1,15 @@
 [
   {
+    "slug": "supporter-list-management-and-privacy-security",
+    "title": "【脱・後援会組織】無所属新人に形式的な後援会は不要！手続きゼロで始める有志サポーター・公式LINEでの身軽な支援者管理術",
+    "category": "選挙",
+    "published_at": "2026-11-18",
+    "date_jp": "2026年11月18日",
+    "url": "https://poliside.net/insight/posts/supporter-list-management-and-privacy-security.html",
+    "primary_product": "PoliDash",
+    "digest": "後援会名簿の個人情報保護ルールと、フィールド活動記録（PoliStep）を安全に分離・運用するセキュリティの鉄則。"
+  },
+  {
     "slug": "election-filing-documents-pre-examination-checklist",
     "title": "立候補届出書類と「事前審査」でつまずかないための準備ガイド｜選挙管理委員会とのやり取りの要点",
     "category": "選挙",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/small-team-election-operation-with-digital-tools.html",
     "primary_product": "PoliDash",
     "digest": "少人数チームでも情報共有の抜け漏れをなくし、登録不要URLと日報自動生成（PoliStep）で一体感を高める方法。"
-  },
-  {
-    "slug": "local-election-cost-breakdown-deposit-and-public-subsidy",
-    "title": "地方選挙に出るにはいくらかかる？供託金・公費負担（選挙公営）の仕組みと自己資金を抑える予算設計",
-    "category": "考え方",
-    "published_at": "2026-11-12",
-    "date_jp": "2026年11月12日",
-    "url": "https://poliside.net/insight/posts/local-election-cost-breakdown-deposit-and-public-subsidy.html",
-    "primary_product": "PoliStep",
-    "digest": "「選挙には何百万円もかかる？」という疑問に回答。供託金・公費負担の基本と、自己資金を抑えて地方選挙に挑む方法。"
   }
 ]
