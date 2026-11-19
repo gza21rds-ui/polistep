@@ -1,5 +1,15 @@
 [
   {
+    "slug": "sns-x-instagram-line-strategy-for-local-politicians",
+    "title": "地方議員・候補者のためのSNS使い分け戦略（X・Instagram・公式LINE・HP）｜認知獲得からファン化までの導線設計",
+    "category": "発信",
+    "published_at": "2026-11-19",
+    "date_jp": "2026年11月19日",
+    "url": "https://poliside.net/insight/posts/sns-x-instagram-line-strategy-for-local-politicians.html",
+    "primary_product": "PoliSide",
+    "digest": "PoliStepの「ワンタップ日報画像生成」をフル活用して、毎日のX・Instagram投稿を5分で完了させるSNS継続術。"
+  },
+  {
     "slug": "supporter-list-management-and-privacy-security",
     "title": "【脱・後援会組織】無所属新人に形式的な後援会は不要！手続きゼロで始める有志サポーター・公式LINEでの身軽な支援者管理術",
     "category": "選挙",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/morning-station-speech-tips-for-beginners.html",
     "primary_product": "PoliStep",
     "digest": "駅頭や街頭でのビラ配り・辻立ち実績をPoliStepで記録し、チームへ日報共有しながら継続する実践術。"
-  },
-  {
-    "slug": "small-team-election-operation-with-digital-tools",
-    "title": "スタッフ3〜5人の少人数陣営でも勝てる！デジタルツールを活用した省力化・高密度な選挙運営モデル",
-    "category": "選挙",
-    "published_at": "2026-11-13",
-    "date_jp": "2026年11月13日",
-    "url": "https://poliside.net/insight/posts/small-team-election-operation-with-digital-tools.html",
-    "primary_product": "PoliDash",
-    "digest": "少人数チームでも情報共有の抜け漏れをなくし、登録不要URLと日報自動生成（PoliStep）で一体感を高める方法。"
   }
 ]
