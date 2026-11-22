@@ -1,5 +1,15 @@
 [
   {
+    "slug": "campaign-week-7days-schedule-and-team-coordination",
+    "title": "地方選挙「選挙戦7日間（または5日間）」のタイムスケジュール完全設計｜候補者と陣営スタッフの動き方",
+    "category": "選挙",
+    "published_at": "2026-11-22",
+    "date_jp": "2026年11月22日",
+    "url": "https://poliside.net/insight/posts/campaign-week-7days-schedule-and-team-coordination.html",
+    "primary_product": "PoliDash",
+    "digest": "選挙期間中の7日間（町村議は5日間）で選挙区内を漏れなく回り切るためのタイムスケジュールとPoliStep活用法。"
+  },
+  {
     "slug": "balancing-day-job-and-election-preparation",
     "title": "会社員・子育て世代が働きながら地方選挙の準備を進めるタイムマネジメント術｜限られた時間で成果を出す優先順位",
     "category": "考え方",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/election-filing-documents-pre-examination-checklist.html",
     "primary_product": "PoliStep",
     "digest": "初めての立候補でも書類不備で慌てないための「立候補予定者説明会〜事前審査〜告示日届出」完全チェックリスト。"
-  },
-  {
-    "slug": "overcoming-loneliness-and-mental-burnout-in-politics",
-    "title": "政治活動・選挙準備で「孤独と不安」に押し潰されそうなときに実践したいメンタルマネジメントと壁打ちの効用",
-    "category": "考え方",
-    "published_at": "2026-11-16",
-    "date_jp": "2026年11月16日",
-    "url": "https://poliside.net/insight/posts/overcoming-loneliness-and-mental-burnout-in-politics.html",
-    "primary_product": "PoliSide",
-    "digest": "「本当にこの活動で届いているのか…」という孤独なドブ板の不安を、PoliStepの可視化とPoliSideの壁打ちで乗り越える方法。"
   }
 ]
