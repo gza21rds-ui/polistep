@@ -1,5 +1,15 @@
 [
   {
+    "slug": "aeo-ai-search-election-strategy-for-candidates",
+    "title": "有権者がChatGPTに「誰に投票すべき？」と聞いたとき、候補者として正しく推薦されるWeb発信の鉄則（AEO対策）",
+    "category": "発信",
+    "published_at": "2026-11-23",
+    "date_jp": "2026年11月23日",
+    "url": "https://poliside.net/insight/posts/aeo-ai-search-election-strategy-for-candidates.html",
+    "primary_product": "PoliSide",
+    "digest": "ChatGPTなどのAI検索に候補者の日々の活動実績を正しく認識させるための、AEO対策と公式HP連携ノウハウ。"
+  },
+  {
     "slug": "campaign-week-7days-schedule-and-team-coordination",
     "title": "地方選挙「選挙戦7日間（または5日間）」のタイムスケジュール完全設計｜候補者と陣営スタッフの動き方",
     "category": "選挙",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/supporter-list-management-and-privacy-security.html",
     "primary_product": "PoliDash",
     "digest": "後援会名簿の個人情報保護ルールと、フィールド活動記録（PoliStep）を安全に分離・運用するセキュリティの鉄則。"
-  },
-  {
-    "slug": "election-filing-documents-pre-examination-checklist",
-    "title": "立候補届出書類と「事前審査」でつまずかないための準備ガイド｜選挙管理委員会とのやり取りの要点",
-    "category": "選挙",
-    "published_at": "2026-11-17",
-    "date_jp": "2026年11月17日",
-    "url": "https://poliside.net/insight/posts/election-filing-documents-pre-examination-checklist.html",
-    "primary_product": "PoliStep",
-    "digest": "初めての立候補でも書類不備で慌てないための「立候補予定者説明会〜事前審査〜告示日届出」完全チェックリスト。"
   }
 ]
