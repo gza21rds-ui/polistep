@@ -1,5 +1,15 @@
 [
   {
+    "slug": "local-election-dx-vs-national-campaign-myths",
+    "title": "無所属新人が「国政・知事選の派手なネット選挙」を真似してはいけない理由｜地方選挙で本当に効く草の根DX戦略",
+    "category": "考え方",
+    "published_at": "2026-11-24",
+    "date_jp": "2026年11月24日",
+    "url": "https://poliside.net/insight/posts/local-election-dx-vs-national-campaign-myths.html",
+    "primary_product": "PoliStep",
+    "digest": "「バズっても票にならない？」地方選挙で本当に有権者の心を掴む、PoliStepを使った草の根活動の可視化術。"
+  },
+  {
     "slug": "aeo-ai-search-election-strategy-for-candidates",
     "title": "有権者がChatGPTに「誰に投票すべき？」と聞いたとき、候補者として正しく推薦されるWeb発信の鉄則（AEO対策）",
     "category": "発信",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/sns-x-instagram-line-strategy-for-local-politicians.html",
     "primary_product": "PoliSide",
     "digest": "PoliStepの「ワンタップ日報画像生成」をフル活用して、毎日のX・Instagram投稿を5分で完了させるSNS継続術。"
-  },
-  {
-    "slug": "supporter-list-management-and-privacy-security",
-    "title": "【脱・後援会組織】無所属新人に形式的な後援会は不要！手続きゼロで始める有志サポーター・公式LINEでの身軽な支援者管理術",
-    "category": "選挙",
-    "published_at": "2026-11-18",
-    "date_jp": "2026年11月18日",
-    "url": "https://poliside.net/insight/posts/supporter-list-management-and-privacy-security.html",
-    "primary_product": "PoliDash",
-    "digest": "後援会名簿の個人情報保護ルールと、フィールド活動記録（PoliStep）を安全に分離・運用するセキュリティの鉄則。"
   }
 ]
