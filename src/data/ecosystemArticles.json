@@ -1,5 +1,15 @@
 [
   {
+    "slug": "politician-profile-writing-guide-first-sentence",
+    "title": "経歴を並べるだけでは読まれない！有権者に信頼される「政治家プロフィール」の書き方と先頭の1文",
+    "category": "発信",
+    "published_at": "2026-11-26",
+    "date_jp": "2026年11月26日",
+    "url": "https://poliside.net/insight/posts/politician-profile-writing-guide-first-sentence.html",
+    "primary_product": "PoliSide",
+    "digest": "日々の地域回りで名刺を渡した後に読まれる、「共感を生む候補者プロフィール」の書き方。"
+  },
+  {
     "slug": "consistent-policy-pillars-across-flyers-and-website",
     "title": "チラシと公式HPで主張がバラバラになっていませんか？有権者の心に残る「政策3本柱」の絞り込み方",
     "category": "発信",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/balancing-day-job-and-election-preparation.html",
     "primary_product": "PoliStep",
     "digest": "平日朝晩と週末の限られた時間でも着実に地域活動を積み上げる、PoliStepの逆算ノルマ管理を使ったタイムマネジメント術。"
-  },
-  {
-    "slug": "how-to-read-local-government-budget-and-settlement",
-    "title": "新人議員・候補者が知っておきたい「自治体予算書・決算書」の読み解き方｜数字から地域課題と財源を見つける技術",
-    "category": "政策",
-    "published_at": "2026-11-20",
-    "date_jp": "2026年11月20日",
-    "url": "https://poliside.net/insight/posts/how-to-read-local-government-budget-and-settlement.html",
-    "primary_product": "PoliSide",
-    "digest": "地域回りで聞いた住民の課題（PoliStep記録）を、自治体の予算・決算データと照らし合わせて具体的な政策提案へ磨く方法。"
   }
 ]
