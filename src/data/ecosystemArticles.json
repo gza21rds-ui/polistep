@@ -1,5 +1,15 @@
 [
   {
+    "slug": "integrating-senkyo-dot-com-line-and-official-website",
+    "title": "選挙ドットコム・公式LINE・自前HPの3大ツール連携術｜作っただけで放置しない運用ルーティン",
+    "category": "発信",
+    "published_at": "2026-11-27",
+    "date_jp": "2026年11月27日",
+    "url": "https://poliside.net/insight/posts/integrating-senkyo-dot-com-line-and-official-website.html",
+    "primary_product": "PoliSide",
+    "digest": "PoliStepの日報記録をフックにして、選挙ドットコム・公式LINE・HPの3媒体を短時間で同時更新する実践術。"
+  },
+  {
     "slug": "politician-profile-writing-guide-first-sentence",
     "title": "経歴を並べるだけでは読まれない！有権者に信頼される「政治家プロフィール」の書き方と先頭の1文",
     "category": "発信",
@@ -48,15 +58,5 @@
     "url": "https://poliside.net/insight/posts/campaign-week-7days-schedule-and-team-coordination.html",
     "primary_product": "PoliDash",
     "digest": "選挙期間中の7日間（町村議は5日間）で選挙区内を漏れなく回り切るためのタイムスケジュールとPoliStep活用法。"
-  },
-  {
-    "slug": "balancing-day-job-and-election-preparation",
-    "title": "会社員・子育て世代が働きながら地方選挙の準備を進めるタイムマネジメント術｜限られた時間で成果を出す優先順位",
-    "category": "考え方",
-    "published_at": "2026-11-21",
-    "date_jp": "2026年11月21日",
-    "url": "https://poliside.net/insight/posts/balancing-day-job-and-election-preparation.html",
-    "primary_product": "PoliStep",
-    "digest": "平日朝晩と週末の限られた時間でも着実に地域活動を積み上げる、PoliStepの逆算ノルマ管理を使ったタイムマネジメント術。"
   }
 ]
