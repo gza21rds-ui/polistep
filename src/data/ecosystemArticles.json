@@ -1,11 +1,21 @@
 [
   {
+    "slug": "social-media-buzz-vs-actual-votes-in-local-elections",
+    "title": "「SNSでバズったのに落選？」ネットの数字と現場の票の決定的な違い｜地方議会選で本当に追うべき指標",
+    "category": "考え方",
+    "published_at": "2026-11-28",
+    "date_jp": "2026年11月28日",
+    "url": "https://poliside.net/insight/posts/social-media-buzz-vs-actual-votes-in-local-elections.html?utm_source=polistep&utm_medium=ecosystem_feed&utm_campaign=homepage&utm_content=feed_social-media-buzz-vs-actual-votes-in-local-elections",
+    "primary_product": "PoliStep",
+    "digest": "「バズ＝当選」ではない。PoliStepを使って選挙区内の確実な行動量を指標化し、着実に勝つための活動管理術。"
+  },
+  {
     "slug": "integrating-senkyo-dot-com-line-and-official-website",
     "title": "選挙ドットコム・公式LINE・自前HPの3大ツール連携術｜作っただけで放置しない運用ルーティン",
     "category": "発信",
     "published_at": "2026-11-27",
     "date_jp": "2026年11月27日",
-    "url": "https://poliside.net/insight/posts/integrating-senkyo-dot-com-line-and-official-website.html",
+    "url": "https://poliside.net/insight/posts/integrating-senkyo-dot-com-line-and-official-website.html?utm_source=polistep&utm_medium=ecosystem_feed&utm_campaign=homepage&utm_content=feed_integrating-senkyo-dot-com-line-and-official-website",
     "primary_product": "PoliSide",
     "digest": "PoliStepの日報記録をフックにして、選挙ドットコム・公式LINE・HPの3媒体を短時間で同時更新する実践術。"
   },
@@ -15,7 +25,7 @@
     "category": "発信",
     "published_at": "2026-11-26",
     "date_jp": "2026年11月26日",
-    "url": "https://poliside.net/insight/posts/politician-profile-writing-guide-first-sentence.html",
+    "url": "https://poliside.net/insight/posts/politician-profile-writing-guide-first-sentence.html?utm_source=polistep&utm_medium=ecosystem_feed&utm_campaign=homepage&utm_content=feed_politician-profile-writing-guide-first-sentence",
     "primary_product": "PoliSide",
     "digest": "日々の地域回りで名刺を渡した後に読まれる、「共感を生む候補者プロフィール」の書き方。"
   },
@@ -25,7 +35,7 @@
     "category": "発信",
     "published_at": "2026-11-25",
     "date_jp": "2026年11月25日",
-    "url": "https://poliside.net/insight/posts/consistent-policy-pillars-across-flyers-and-website.html",
+    "url": "https://poliside.net/insight/posts/consistent-policy-pillars-across-flyers-and-website.html?utm_source=polistep&utm_medium=ecosystem_feed&utm_campaign=homepage&utm_content=feed_consistent-policy-pillars-across-flyers-and-website",
     "primary_product": "PoliSide",
     "digest": "日々の地域回りで拾った住民の声から、チラシとHPに共通する「政策3本柱」を磨き上げる実践ステップ。"
   },
@@ -35,7 +45,7 @@
     "category": "考え方",
     "published_at": "2026-11-24",
     "date_jp": "2026年11月24日",
-    "url": "https://poliside.net/insight/posts/local-election-dx-vs-national-campaign-myths.html",
+    "url": "https://poliside.net/insight/posts/local-election-dx-vs-national-campaign-myths.html?utm_source=polistep&utm_medium=ecosystem_feed&utm_campaign=homepage&utm_content=feed_local-election-dx-vs-national-campaign-myths",
     "primary_product": "PoliStep",
     "digest": "「バズっても票にならない？」地方選挙で本当に有権者の心を掴む、PoliStepを使った草の根活動の可視化術。"
   },
@@ -45,18 +55,8 @@
     "category": "発信",
     "published_at": "2026-11-23",
     "date_jp": "2026年11月23日",
-    "url": "https://poliside.net/insight/posts/aeo-ai-search-election-strategy-for-candidates.html",
+    "url": "https://poliside.net/insight/posts/aeo-ai-search-election-strategy-for-candidates.html?utm_source=polistep&utm_medium=ecosystem_feed&utm_campaign=homepage&utm_content=feed_aeo-ai-search-election-strategy-for-candidates",
     "primary_product": "PoliSide",
     "digest": "ChatGPTなどのAI検索に候補者の日々の活動実績を正しく認識させるための、AEO対策と公式HP連携ノウハウ。"
-  },
-  {
-    "slug": "campaign-week-7days-schedule-and-team-coordination",
-    "title": "地方選挙「選挙戦7日間（または5日間）」のタイムスケジュール完全設計｜候補者と陣営スタッフの動き方",
-    "category": "選挙",
-    "published_at": "2026-11-22",
-    "date_jp": "2026年11月22日",
-    "url": "https://poliside.net/insight/posts/campaign-week-7days-schedule-and-team-coordination.html",
-    "primary_product": "PoliDash",
-    "digest": "選挙期間中の7日間（町村議は5日間）で選挙区内を漏れなく回り切るためのタイムスケジュールとPoliStep活用法。"
   }
 ]
