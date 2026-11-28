@@ -513,7 +513,7 @@ def render_guide_html(guide, all_guides):
     pub = guide["published_at"]
     mins = guide["read_minutes"]
     keywords = ", ".join(guide["keywords"])
-    page_url = f"https://polistep.jp/guides/{slug}.html"
+    page_url = f"https://polistep.jp/guides/{slug}"
     signup_mid = f"/auth?mode=register&utm_source=polistep&utm_medium=guide&utm_campaign={slug}&utm_content=guide_mid_signup"
     signup_bottom = f"/auth?mode=register&utm_source=polistep&utm_medium=guide&utm_campaign={slug}&utm_content=guide_bottom_signup"
     polidash_url = build_utm("https://polidash.jp/", slug, "guide_bottom_polidash")
@@ -574,7 +574,7 @@ def render_guide_html(guide, all_guides):
     other_guides = [r for r in all_guides if r["slug"] != slug]
     for r in other_guides[:4]:
         related_cards.append(f"""
-        <a href="{r['slug']}.html" class="related-card" data-cta-location="guide_related_card">
+        <a href="/guides/{r['slug']}" class="related-card" data-cta-location="guide_related_card">
           <span class="badge">{html_lib.escape(r['category'])}</span>
           <div class="related-card__title">{html_lib.escape(r['title'])}</div>
           <span class="related-card__more">ガイドを読む →</span>
@@ -802,7 +802,7 @@ def render_index_html(all_guides):
     cards = []
     for g in all_guides:
         cards.append(f"""
-        <a href="{g['slug']}.html" class="card" data-cta-location="guides_index_card">
+        <a href="/guides/{g['slug']}" class="card" data-cta-location="guides_index_card">
           <div class="card__meta">
             <span class="badge">{html_lib.escape(g['category'])}</span>
             <span>約{g['read_minutes']}分</span>
@@ -931,7 +931,7 @@ def update_sitemap_and_llms():
     ]
     for g in GUIDES:
         guide_urls_xml.append(f"""  <url>
-    <loc>https://polistep.jp/guides/{g['slug']}.html</loc>
+    <loc>https://polistep.jp/guides/{g['slug']}</loc>
     <lastmod>{g['published_at']}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
@@ -971,7 +971,7 @@ def update_sitemap_and_llms():
         with open(LLMS_PATH, "r", encoding="utf-8") as f:
             llms = f.read()
         guide_lines = "\n".join(
-            f"- [{g['title']}](https://polistep.jp/guides/{g['slug']}.html): {g['description']}"
+            f"- [{g['title']}](https://polistep.jp/guides/{g['slug']}): {g['description']}"
             for g in GUIDES
         )
         block = f"""<!-- POLISTEP_GUIDES_START -->
@@ -1015,7 +1015,7 @@ def main():
             "description": g["description"],
             "published_at": g["published_at"],
             "read_minutes": g["read_minutes"],
-            "url": f"/guides/{g['slug']}.html",
+            "url": f"/guides/{g['slug']}",
         }
         for g in GUIDES
     ]
