@@ -76,6 +76,12 @@ export default function AuthScreen() {
         }
       } else {
         // --- 新規登録処理（管理者のみ） ---
+        trackEvent('sign_up_attempt', {
+          event_category: 'conversion',
+          method: 'email',
+          cta_location: 'auth_register_submit',
+        });
+
         let referralSourceText = '';
         if (referralCategory) {
           const matched = REFERRAL_OPTIONS.find((o) => o.value === referralCategory);
@@ -177,6 +183,12 @@ export default function AuthScreen() {
         errorMsg = 'パスワードは6文字以上で入力してください。';
       }
       setError(errorMsg);
+      if (!isLogin) {
+        trackEvent('sign_up_error', {
+          event_category: 'conversion',
+          error_reason: String(err?.code || err?.message || 'unknown').slice(0, 80),
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -381,6 +393,12 @@ export default function AuthScreen() {
               </>
             )}
             
+            {!isLogin && (
+              <div style={{ fontSize: '0.78rem', color: '#1D4ED8', background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: '10px', padding: '0.55rem 0.75rem', marginBottom: '0.75rem', textAlign: 'center', fontWeight: 700 }}>
+                クレジットカード不要・登録後30秒で活動マップを作成できます（完全0円）
+              </div>
+            )}
+
             <button 
               type="submit" 
               className="btn-premium tap-scale" 

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=3" />
+  <title>朝の駅立ち（辻立ち）の活動記録と効果測定ガイド｜場所別・時間帯別の反応をデータ化する方法 | PoliStep</title>
+  <meta name="description" content="「毎日駅に立っているのに手応えが分からない」を解消。駅・出口・時間帯ごとのチラシ受取数や対話件数を記録し、反応の良いスポットへ活動時間を集中させるデータ活用メソッドを解説します。" />
+  <meta name="keywords" content="駅立ち 記録 方法, 辻立ち 効果 測定, 朝立ち 政治活動 コツ, 駅頭 ビラ配り 反応率, PoliStep" />
+  <link rel="canonical" href="https://polistep.jp/guides/station-speech-log-and-effect-tracking.html" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6WMVBF786R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6WMVBF786R');
+  </script>
+
+  <meta property="og:title" content="朝の駅立ち（辻立ち）の活動記録と効果測定ガイド｜場所別・時間帯別の反応をデータ化する方法 | PoliStep" />
+  <meta property="og:description" content="「毎日駅に立っているのに手応えが分からない」を解消。駅・出口・時間帯ごとのチラシ受取数や対話件数を記録し、反応の良いスポットへ活動時間を集中させるデータ活用メソッドを解説します。" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://polistep.jp/guides/station-speech-log-and-effect-tracking.html" />
+  <meta property="og:image" content="https://polistep.jp/polistep_ogp_banner.jpg" />
+  <meta property="og:site_name" content="PoliStep" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="朝の駅立ち（辻立ち）の活動記録と効果測定ガイド｜場所別・時間帯別の反応をデータ化する方法" />
+  <meta name="twitter:description" content="「毎日駅に立っているのに手応えが分からない」を解消。駅・出口・時間帯ごとのチラシ受取数や対話件数を記録し、反応の良いスポットへ活動時間を集中させるデータ活用メソッドを解説します。" />
+  <meta name="twitter:image" content="https://polistep.jp/polistep_ogp_banner.jpg" />
+
+  <style>
+    :root { --primary: #2563EB; --primary-dark: #1D4ED8; --bg: #F8FAFC; --text: #0F172A; --muted: #475569; --border: #E2E8F0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif; background: #fff; color: var(--text); line-height: 1.8; }
+    a { color: var(--primary); }
+    .header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .header__inner { max-width: 960px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); font-weight: 900; font-size: 1.2rem; }
+    .logo img { width: 28px; height: 28px; border-radius: 50%; }
+    .nav { display: flex; align-items: center; gap: 14px; font-size: 0.9rem; font-weight: 700; }
+    .nav a { text-decoration: none; color: var(--muted); }
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--primary); color: #fff !important; text-decoration: none; font-weight: 800; padding: 10px 20px; border-radius: 999px; font-size: 0.9rem; white-space: nowrap; transition: background 0.15s; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .main { max-width: 780px; margin: 0 auto; padding: 36px 20px 80px; }
+    .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .breadcrumb a { text-decoration: none; color: var(--muted); }
+    .badge { display: inline-block; background: #DBEAFE; color: #1D4ED8; font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+    .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 0.85rem; color: var(--muted); }
+    h1 { font-size: clamp(1.5rem, 3.5vw, 2.05rem); line-height: 1.4; margin: 0 0 24px; font-weight: 900; }
+    .tldr { background: #EFF6FF; border-left: 4px solid var(--primary); border-radius: 0 14px 14px 0; padding: 20px 24px; margin-bottom: 36px; }
+    .tldr__label { font-size: 0.78rem; font-weight: 900; color: var(--primary-dark); margin-bottom: 6px; letter-spacing: 0.04em; }
+    .tldr p { margin: 0; font-size: 0.96rem; font-weight: 600; color: var(--text); }
+    .guide-section { margin-bottom: 42px; }
+    .guide-section h2 { font-size: 1.38rem; font-weight: 900; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); }
+    .guide-section p { margin: 0 0 18px; color: #334155; }
+    .guide-list { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px 18px 36px; margin: 16px 0 20px; }
+    .guide-list li { margin-bottom: 8px; color: #1E293B; font-weight: 600; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; margin: 20px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { background: #F1F5F9; font-weight: 800; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    .mid-cta { margin: 32px 0; padding: 22px 24px; border-radius: 18px; background: linear-gradient(135deg, #EFF6FF, #F0F9FF); border: 1.5px solid #93C5FD; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+    .mid-cta__badge { font-size: 0.75rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 4px; }
+    .mid-cta__title { font-size: 1.05rem; font-weight: 900; color: var(--text); margin-bottom: 4px; }
+    .mid-cta__desc { margin: 0; font-size: 0.86rem; color: var(--muted); }
+    .faq-section { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
+    .faq-section h2 { font-size: 1.35rem; font-weight: 900; margin: 0 0 20px; }
+    .faq-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; }
+    .faq-card h3 { margin: 0 0 8px; font-size: 1rem; font-weight: 800; display: flex; gap: 10px; align-items: flex-start; }
+    .faq-q { background: var(--primary); color: #fff; font-size: 0.78rem; padding: 2px 8px; border-radius: 6px; flex-shrink: 0; }
+    .faq-card p { margin: 0; padding-left: 34px; font-size: 0.94rem; color: var(--muted); }
+    .legal-note { margin-top: 32px; padding: 16px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; font-size: 0.82rem; color: var(--muted); }
+    .bottom-cta { margin-top: 44px; padding: 36px 24px; border-radius: 22px; background: #0F172A; color: #fff; text-align: center; }
+    .bottom-cta h2 { margin: 0 0 10px; font-size: 1.45rem; font-weight: 900; color: #fff; border: none; }
+    .bottom-cta p { margin: 0 0 22px; color: #CBD5E1; font-size: 0.94rem; }
+    .bottom-cta__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); color: #fff !important; text-decoration: none; font-weight: 700; padding: 10px 18px; border-radius: 999px; font-size: 0.88rem; }
+    .related { margin-top: 52px; }
+    .related h2 { font-size: 1.25rem; font-weight: 900; margin: 0 0 16px; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .related-card { display: block; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-decoration: none; color: var(--text); transition: border-color 0.15s; }
+    .related-card:hover { border-color: var(--primary); }
+    .related-card__title { font-size: 0.94rem; font-weight: 800; line-height: 1.45; margin: 8px 0; }
+    .related-card__more { font-size: 0.8rem; font-weight: 800; color: var(--primary); }
+    .footer { background: #0F172A; color: #94A3B8; padding: 36px 20px; font-size: 0.85rem; }
+    .footer__inner { max-width: 960px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+    .footer a { color: #CBD5E1; text-decoration: none; margin-right: 16px; }
+  </style>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "朝の駅立ち（辻立ち）の活動記録と効果測定ガイド｜場所別・時間帯別の反応をデータ化する方法", "description": "「毎日駅に立っているのに手応えが分からない」を解消。駅・出口・時間帯ごとのチラシ受取数や対話件数を記録し、反応の良いスポットへ活動時間を集中させるデータ活用メソッドを解説します。", "datePublished": "2026-11-28T09:00:00+09:00", "dateModified": "2026-11-28T09:00:00+09:00", "author": {"@type": "Organization", "name": "PoliStep運営事務局", "url": "https://polistep.jp/"}, "publisher": {"@type": "Organization", "name": "PoliStep", "url": "https://polistep.jp/", "logo": {"@type": "ImageObject", "url": "https://polistep.jp/polistep_ogp_banner.jpg"}}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://polistep.jp/guides/station-speech-log-and-effect-tracking.html"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "朝の駅立ちは何時から何時まで行うのが一般的ですか？", "acceptedAnswer": {"@type": "Answer", "text": "多くの自治体では通勤・通学客が集中する朝6:30〜8:30（または7:00〜8:30）が中心です。マイクを使用する場合は近隣住民への配慮から原則8:00以降にするなど、地域の慣習と騒音配慮を徹底してください。"}}, {"@type": "Question", "name": "チラシが全く受け取ってもらえないときはどう改善すればいいですか？", "acceptedAnswer": {"@type": "Answer", "text": "まずは「立ち位置（改札に向かう側ではなく信号待ちや動線が緩む場所）」「表紙の文字サイズ（3秒で読める大きな見出し）」「渡すときのひと言（おはようございます＋地域名）」の3点を変え、配布枚数の推移をPoliStepで比較検証するのが効果的です。"}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "TOP", "item": "https://polistep.jp/"}, {"@type": "ListItem", "position": 2, "name": "政治活動DX実践ガイド", "item": "https://polistep.jp/guides/"}, {"@type": "ListItem", "position": 3, "name": "朝の駅立ち（辻立ち）の活動記録と効果測定ガイド｜場所別・時間帯別の反応をデータ化する方法", "item": "https://polistep.jp/guides/station-speech-log-and-effect-tracking.html"}]}</script>
+</head>
+<body>
+  <header class="header">
+    <div class="header__inner">
+      <a href="/" class="logo"><img src="/polistep_logo_new.jpg" alt="PoliStep" />PoliStep</a>
+      <nav class="nav">
+        <a href="/guides/">実践ガイド一覧</a>
+        <a href="/auth?mode=register&utm_source=polistep&utm_medium=guide&utm_campaign=station-speech-log-and-effect-tracking&utm_content=guide_mid_signup" data-cta-location="guide_header_signup" class="btn-primary">無料で始める</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <nav class="breadcrumb" aria-label="パンくずリスト">
+      <a href="/">TOP</a><span>/</span>
+      <a href="/guides/">政治活動DX実践ガイド</a><span>/</span>
+      <span>駅頭・辻立ちデータ化</span>
+    </nav>
+
+    <div class="meta">
+      <span class="badge">駅頭・辻立ちデータ化</span>
+      <time datetime="2026-11-28">公開：2026-11-28</time>
+      <span>読了目安：約5分</span>
+    </div>
+    <h1>朝の駅立ち（辻立ち）の活動記録と効果測定ガイド｜場所別・時間帯別の反応をデータ化する方法</h1>
+
+    <div class="tldr">
+      <div class="tldr__label">この記事の結論・要点（30秒要約）</div>
+      <p>朝の駅立ち（辻立ち）は「気合で立ち続ける」だけでは成果が頭打ちになります。駅・改札出口・時間帯・天候ごとにチラシ受取数と声掛け反応をPoliStepで記録し、2週間ごとに振り返ることで、同じ1時間でも有権者との接点効率を2倍以上に引き上げられます。</p>
+    </div>
+
+    
+        <section class="guide-section">
+          <h2>1. 同じ駅前でも「立ち位置が10メートル違うだけ」で受取率は3倍変わる</h2>
+          <p>初めて駅頭（朝立ち）に取り組む若手候補者の多くが、同じ駅の同じ場所に漫然と立ち続けてしまいます。しかし実際には、改札の北口と南口、7:00台と8:00台、雨の日と晴れの日では、通勤客の歩くスピードもチラシの受取率も劇的に異なります。</p><p>「なんとなく今日は少なかった」という感覚ではなく、1回ごとに簡単な数字とメモを残すだけで、最も効果の高いゴールデンタイムと立ち位置が明確になります。</p>
+          
+          <div class="table-wrap"><table><thead><tr><th>記録すべき項目</th><th>PoliStepでの残し方（所要10秒）</th><th>データから分かる改善アクション</th></tr></thead><tbody><tr><td>駅名・出口・立ち位置</td><td>駅頭ピンをGPSで打って出口名をメモ</td><td>北口・南口・バスロータリー別の受取効率を比較</td></tr><tr><td>時間帯（開始〜終了）</td><td>タイムスタンプ＋「7:00-8:30」メモ</td><td>最も受け取りが多い30分帯を特定して集中投下</td></tr><tr><td>配布枚数・声掛け数</td><td>終了後に「配布38枚／対話3件」と入力</td><td>キャッチコピーやチラシ表紙変更後の反応差を検証</td></tr><tr><td>住民からの質問・反応</td><td>「駐輪場不足の声を聴いた」など1行メモ</td><td>翌日の演説トークやSNS日報の一次ネタに即転用</td></tr></tbody></table></div>
+          
+            <aside class="mid-cta">
+              <div>
+                <div class="mid-cta__badge">2027年統一地方選挙応援キャンペーン：完全0円</div>
+                <div class="mid-cta__title">スマホ地図で地域活動・目標逆算・SNS日報を一元化「PoliStep」</div>
+                <p class="mid-cta__desc">スタッフは登録不要。LINEで専用URLを送るだけでチーム全員の活動がリアルタイムに可視化されます。</p>
+              </div>
+              <a href="/auth?mode=register&utm_source=polistep&utm_medium=guide&utm_campaign=station-speech-log-and-effect-tracking&utm_content=guide_mid_signup" data-cta-location="guide_mid_signup" class="btn-primary">無料でアカウント作成 →</a>
+            </aside>
+        </section>
+        <section class="guide-section">
+          <h2>2. 駅立ちの事前準備と場所取りマナーの基本</h2>
+          <p>駅頭活動は継続が命です。他陣営や駅利用者とのトラブルを避け、気持ちよく続けるための基本ルールを押さえておきましょう。</p>
+          <ul class="guide-list"><li>駅敷地内（改札付近・コンコース等）は駅管理者の許可が必要なため、公道側の通行を妨げない位置を選ぶ</li><li>道路使用許可の要否は所轄警察署の判断基準が異なるため、のぼり旗・マイク使用前に事前確認する</li><li>先着している他陣営がいる場合は挨拶を交わし、別の出口へ回るか終了時間を聞いて譲り合う</li><li>終了後は周囲に落ちているゴミやチラシがないか必ず確認して撤収する</li></ul>
+          
+          
+        </section>
+        <section class="guide-section">
+          <h2>3. 「駅立ちログ → SNS日報」の連続ルーティンで認知を2倍に広げる</h2>
+          <p>駅頭は現場を通りかかった数百人にしか届きませんが、終了直後にPoliStepから活動実績入りのSNS日報画像を出力し、その朝に聞いた地域の声を3行添えてX・Instagramへ投稿すれば、駅を使わない数千人の住民にも「毎日活動している候補者」として認知が広がります。</p>
+          
+          
+          
+        </section>
+
+    <section class="faq-section">
+      <h2>よくある質問（FAQ）</h2>
+      
+        <div class="faq-card">
+          <h3><span class="faq-q">Q</span><span>朝の駅立ちは何時から何時まで行うのが一般的ですか？</span></h3>
+          <p>多くの自治体では通勤・通学客が集中する朝6:30〜8:30（または7:00〜8:30）が中心です。マイクを使用する場合は近隣住民への配慮から原則8:00以降にするなど、地域の慣習と騒音配慮を徹底してください。</p>
+        </div>
+        <div class="faq-card">
+          <h3><span class="faq-q">Q</span><span>チラシが全く受け取ってもらえないときはどう改善すればいいですか？</span></h3>
+          <p>まずは「立ち位置（改札に向かう側ではなく信号待ちや動線が緩む場所）」「表紙の文字サイズ（3秒で読める大きな見出し）」「渡すときのひと言（おはようございます＋地域名）」の3点を変え、配布枚数の推移をPoliStepで比較検証するのが効果的です。</p>
+        </div>
+    </section>
+
+    <div class="legal-note">
+      <strong>法令遵守に関するご注意：</strong>本ガイドは平時の政治活動（地域対話・後援会活動・情報発信）の業務効率化を目的とした解説です。告示前の事前運動や戸別訪問等の禁止事項については、必ず事前に管轄の選挙管理委員会へご確認ください。
+    </div>
+
+    <section class="bottom-cta">
+      <h2>孤独なドブ板は、可視化で終わる。</h2>
+      <p>2027年統一地方選挙応援キャンペーンにつき、マップ共有・目標逆算・SNS日報生成まで全機能を完全0円で開放中です。</p>
+      <div class="bottom-cta__actions">
+        <a href="/auth?mode=register&utm_source=polistep&utm_medium=guide&utm_campaign=station-speech-log-and-effect-tracking&utm_content=guide_bottom_signup" data-cta-location="guide_bottom_signup" class="btn-primary">PoliStepを無料で始める →</a>
+        <a href="https://polidash.jp/?utm_source=polistep&utm_medium=guide&utm_campaign=station-speech-log-and-effect-tracking&utm_content=guide_bottom_polidash" data-cta-location="guide_bottom_polidash" target="_blank" rel="noopener noreferrer" class="btn-ghost">選挙ポスター管理なら PoliDash ↗</a>
+        <a href="https://poliside.net/?utm_source=polistep&utm_medium=guide&utm_campaign=station-speech-log-and-effect-tracking&utm_content=guide_bottom_poliside" data-cta-location="guide_bottom_poliside" target="_blank" rel="noopener noreferrer" class="btn-ghost">HP作成・伴走相談なら PoliSide ↗</a>
+      </div>
+    </section>
+
+    <section class="related">
+      <h2>あわせて読みたい PoliStep 実践ガイド</h2>
+      <div class="related-grid">
+        <a href="door-to-door-activity-map-dx.html" class="related-card" data-cta-location="guide_related_card">
+          <span class="badge">地域活動マッピング</span>
+          <div class="related-card__title">紙の住宅地図は卒業！スマホ地図で重複訪問ゼロを実現する地域活動マッピング実践ガイド</div>
+          <span class="related-card__more">ガイドを読む →</span>
+        </a>
+        <a href="daily-activity-goal-reverse-calculation.html" class="related-card" data-cta-location="guide_related_card">
+          <span class="badge">目標逆算・モチベーション管理</span>
+          <div class="related-card__title">選挙日から逆算する1日の訪問・駅頭ノルマ設計法｜モチベーションが続く数値可視化のコツ</div>
+          <span class="related-card__more">ガイドを読む →</span>
+        </a>
+        <a href="sns-daily-report-activity-workflow.html" class="related-card" data-cta-location="guide_related_card">
+          <span class="badge">SNS発信・日報自動化</span>
+          <div class="related-card__title">毎日の駅頭・地域回りを30秒でSNS日報画像にする発信ルーティン｜発信ネタ切れをゼロにする仕組み</div>
+          <span class="related-card__more">ガイドを読む →</span>
+        </a>
+        <a href="volunteer-team-activity-log-sharing.html" class="related-card" data-cta-location="guide_related_card">
+          <span class="badge">チーム共有・対話ログ管理</span>
+          <div class="related-card__title">アプリ登録不要でボランティアと活動マップをリアルタイム共有する方法｜少人数陣営の対話ログ管理</div>
+          <span class="related-card__more">ガイドを読む →</span>
+        </a></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div>
+        <a href="/">PoliStep TOP</a>
+        <a href="/guides/">実践ガイド</a>
+        <a href="https://polidash.jp/?utm_source=polistep&utm_medium=guide&utm_campaign=station-speech-log-and-effect-tracking&utm_content=guide_bottom_polidash" target="_blank" rel="noopener noreferrer">PoliDash</a>
+        <a href="https://poliside.net/?utm_source=polistep&utm_medium=guide&utm_campaign=station-speech-log-and-effect-tracking&utm_content=guide_bottom_poliside" target="_blank" rel="noopener noreferrer">PoliSide</a>
+        <a href="/terms">利用規約</a>
+        <a href="/privacy">プライバシーポリシー</a>
+      </div>
+      <div>&copy; 2026 PoliStep. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a');
+      if (!link || typeof gtag !== 'function') return;
+      var href = link.getAttribute('href') || '';
+      var loc = link.dataset.ctaLocation || 'guide_body';
+      if (href.indexOf('/auth') !== -1) {
+        gtag('event', 'cta_signup_click', { event_category: 'CTA', cta_location: loc, page_path: location.pathname });
+      } else if (href.indexOf('poliside.net') !== -1 || href.indexOf('polidash.jp') !== -1) {
+        gtag('event', 'ecosystem_outbound_click', {
+          event_category: 'ecosystem',
+          target_product: href.indexOf('polidash.jp') !== -1 ? 'polidash' : 'poliside',
+          cta_location: loc,
+          page_path: location.pathname,
+          link_url: href
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -37,6 +37,36 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://polistep.jp/guides/pre-election-activity-legal-checklist.html</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://polistep.jp/guides/station-speech-log-and-effect-tracking.html</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://polistep.jp/guides/supporter-contact-history-excel-migration.html</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://polistep.jp/guides/independent-newcomer-6month-activity-budget.html</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://polistep.jp/guides/activity-report-data-visualization-guide.html</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://polistep.jp/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
