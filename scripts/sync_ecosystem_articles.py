@@ -67,7 +67,7 @@ def main():
             "category": category,
             "published_at": pub_at[:10],
             "date_jp": format_jp_date(pub_at),
-            "url": f"https://poliside.net/insight/posts/{slug}.html",
+            "url": f"https://poliside.net/insight/posts/{slug}.html?utm_source=polistep&utm_medium=ecosystem_feed&utm_campaign=homepage&utm_content=feed_{slug}",
             "primary_product": art.get("primary_product", "PoliSide"),
             "digest": digest,
         })

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, MessageSquare, BarChart2, Share2, CheckCircle2, Sparkles, MapPin, X } from 'lucide-react';
 import ecosystemArticles from '../data/ecosystemArticles.json';
+import polistepGuides from '../data/polistepGuides.json';
+import { buildPoliStepUtmUrl } from '../lib/analytics';
 
 const STORY_PAGES = [
   {
@@ -107,10 +109,13 @@ export default function LandingPage() {
           PoliStep
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <a href="/guides/" data-cta-location="header_guides" className="desktop-only" style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem', fontWeight: 700, color: '#334155', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            実践ガイド
+          </a>
           <Link to="/auth?mode=login" className="btn-outline tap-scale" style={{ padding: '0.5rem 0.75rem', fontSize: '0.85rem', borderRadius: '9999px', whiteSpace: 'nowrap' }}>
             ログイン
           </Link>
-          <Link to="/auth?mode=register" className="btn-primary tap-scale" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', whiteSpace: 'nowrap' }}>
+          <Link to="/auth?mode=register" data-cta-location="header_signup" className="btn-primary tap-scale" style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', whiteSpace: 'nowrap' }}>
             無料で始める <ArrowRight size={14} className="desktop-only" />
           </Link>
         </div>
@@ -134,7 +139,7 @@ export default function LandingPage() {
               自身のモチベーション維持と、チームへの日報共有を圧倒的に簡単にします。
             </p>
             <div className="hero-cta-group">
-              <Link to="/auth?mode=register" className="btn-primary hero-btn-glow tap-scale">
+              <Link to="/auth?mode=register" data-cta-location="home_hero_signup" className="btn-primary hero-btn-glow tap-scale">
                 無料でアカウント作成 <ArrowRight size={18} />
               </Link>
             </div>
@@ -497,7 +502,7 @@ export default function LandingPage() {
                   公営掲示場へのポスター貼りを最速で完了。掲示場の自動マッピングと巡回ルート最適化により、掲示初日の混乱をゼロにします。
                 </p>
               </div>
-              <a href="https://polidash.jp" target="_blank" rel="noopener noreferrer" className="btn-outline tap-scale" style={{ textAlign: 'center', textDecoration: 'none', fontWeight: 700, padding: '0.75rem' }}>
+              <a href={buildPoliStepUtmUrl('https://polidash.jp/', 'home_ecosystem_polidash', 'homepage')} data-cta-location="home_ecosystem_polidash" target="_blank" rel="noopener noreferrer" className="btn-outline tap-scale" style={{ textAlign: 'center', textDecoration: 'none', fontWeight: 700, padding: '0.75rem' }}>
                 PoliDash を詳しく見る →
               </a>
             </div>
@@ -515,29 +520,70 @@ export default function LandingPage() {
                   候補者ホームページ作成（初期5万円）から、月1回60分のオンライン個別相談・広報戦略や議会質問の壁打ち（月額5,000円）まで。立候補経験者があなたの隣で伴走します。
                 </p>
                 <div style={{ marginBottom: '1.5rem' }}>
-                  <a href="https://poliside.net/insight/" target="_blank" rel="noopener noreferrer" style={{ color: '#38BDF8', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'underline' }}>
+                  <a href={buildPoliStepUtmUrl('https://poliside.net/insight/', 'home_ecosystem_insight', 'homepage')} data-cta-location="home_ecosystem_insight" target="_blank" rel="noopener noreferrer" style={{ color: '#38BDF8', fontSize: '0.85rem', fontWeight: 700, textDecoration: 'underline' }}>
                     📚 政治活動ノウハウ記事（公式メディア）を読む →
                   </a>
                 </div>
               </div>
-              <a href="https://poliside.net" target="_blank" rel="noopener noreferrer" className="btn-primary tap-scale" style={{ textAlign: 'center', textDecoration: 'none', fontWeight: 700, padding: '0.75rem', background: '#2563EB' }}>
+              <a href={buildPoliStepUtmUrl('https://poliside.net/', 'home_ecosystem_poliside', 'homepage')} data-cta-location="home_ecosystem_poliside" target="_blank" rel="noopener noreferrer" className="btn-primary tap-scale" style={{ textAlign: 'center', textDecoration: 'none', fontWeight: 700, padding: '0.75rem', background: '#2563EB' }}>
                 PoliSide 公式サイトを見る →
               </a>
             </div>
           </div>
 
-          {/* 姉妹メディア連携：政治活動・選挙準備の最新ノウハウ記事 */}
-          <div style={{ marginTop: '2.5rem', background: 'var(--bg-main)', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+          {/* PoliStep独自コンテンツ：政治活動DX実践ガイド */}
+          <div style={{ marginTop: '2.5rem', background: '#FFFFFF', border: '1.5px solid #BFDBFE', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-light)' }}>
               <div>
                 <span style={{ display: 'inline-block', background: '#DBEAFE', color: '#1D4ED8', padding: '0.2rem 0.65rem', borderRadius: '9999px', fontSize: '0.7rem', fontWeight: 800, marginBottom: '0.4rem' }}>
+                  POLISTEP OFFICIAL GUIDES
+                </span>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-main)', margin: 0 }}>
+                  政治活動DX実践ガイド（PoliStep公式）
+                </h3>
+              </div>
+              <a href="/guides/" data-cta-location="home_guides_all" style={{ color: '#2563EB', fontSize: '0.85rem', fontWeight: 800, textDecoration: 'none' }}>
+                ガイド一覧を見る →
+              </a>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '0.85rem' }}>
+              {polistepGuides.map((guide) => (
+                <a
+                  key={guide.slug}
+                  href={guide.url}
+                  data-cta-location="home_guide_card"
+                  style={{ display: 'block', background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '14px', padding: '1.1rem 1.25rem', textDecoration: 'none' }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', fontSize: '0.75rem' }}>
+                    <span style={{ background: '#DBEAFE', color: '#1D4ED8', fontWeight: 800, padding: '0.15rem 0.55rem', borderRadius: '6px' }}>
+                      {guide.category}
+                    </span>
+                    <span style={{ color: '#64748B', fontWeight: 600 }}>約{guide.read_minutes}分</span>
+                  </div>
+                  <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0F172A', margin: '0 0 0.35rem 0', lineHeight: 1.45 }}>
+                    {guide.title}
+                  </h4>
+                  <p style={{ fontSize: '0.82rem', color: '#475569', margin: 0, lineHeight: 1.55 }}>
+                    {guide.description}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* 姉妹メディア連携：政治活動・選挙準備の最新ノウハウ記事 */}
+          <div style={{ marginTop: '2rem', background: 'var(--bg-main)', border: '1px solid var(--border-light)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border-light)' }}>
+              <div>
+                <span style={{ display: 'inline-block', background: '#E2E8F0', color: '#334155', padding: '0.2rem 0.65rem', borderRadius: '9999px', fontSize: '0.7rem', fontWeight: 800, marginBottom: '0.4rem' }}>
                   DAILY KNOWLEDGE
                 </span>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-main)', margin: 0 }}>
-                  政治活動・地域回りの実践ノウハウ（新着記事）
+                  選挙準備・政治活動の総合ノウハウ（PoliSide新着）
                 </h3>
               </div>
-              <a href="https://poliside.net/insight/" target="_blank" rel="noopener noreferrer" style={{ color: '#2563EB', fontSize: '0.85rem', fontWeight: 800, textDecoration: 'none' }}>
+              <a href={buildPoliStepUtmUrl('https://poliside.net/insight/', 'home_ecosystem_feed_all', 'homepage')} data-cta-location="home_ecosystem_feed_all" target="_blank" rel="noopener noreferrer" style={{ color: '#2563EB', fontSize: '0.85rem', fontWeight: 800, textDecoration: 'none' }}>
                 すべての記事を見る（PoliSide） ↗
               </a>
             </div>
@@ -546,7 +592,8 @@ export default function LandingPage() {
               {ecosystemArticles.slice(0, 3).map((article) => (
                 <a
                   key={article.slug}
-                  href={article.url}
+                  href={buildPoliStepUtmUrl(article.url, `home_feed_${article.slug}`, 'homepage')}
+                  data-cta-location="home_ecosystem_article"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ display: 'block', background: '#FFFFFF', border: '1px solid var(--border-light)', borderRadius: '14px', padding: '1.1rem 1.25rem', textDecoration: 'none', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
@@ -633,9 +680,10 @@ export default function LandingPage() {
             </div>
             
             <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', fontSize: '0.875rem' }}>
-              <a href="https://poliside.net" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>PoliSide（伴走支援・HP制作）</a>
-              <a href="https://polidash.jp" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>PoliDash（ポスター管理）</a>
-              <a href="https://poliside.net/insight/" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>政治活動ノウハウ記事</a>
+              <a href="/guides/" data-cta-location="footer_guides" style={{ color: '#94A3B8', textDecoration: 'none' }}>政治活動DX実践ガイド</a>
+              <a href={buildPoliStepUtmUrl('https://poliside.net/', 'footer_poliside', 'footer')} data-cta-location="footer_poliside" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>PoliSide（伴走支援・HP制作）</a>
+              <a href={buildPoliStepUtmUrl('https://polidash.jp/', 'footer_polidash', 'footer')} data-cta-location="footer_polidash" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>PoliDash（ポスター管理）</a>
+              <a href={buildPoliStepUtmUrl('https://poliside.net/insight/', 'footer_insight', 'footer')} data-cta-location="footer_insight" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }}>政治活動ノウハウ記事</a>
               <Link to="/terms" style={{ color: '#94A3B8', textDecoration: 'none' }}>利用規約</Link>
               <Link to="/privacy" style={{ color: '#94A3B8', textDecoration: 'none' }}>プライバシーポリシー</Link>
               <Link to="/legal" style={{ color: '#94A3B8', textDecoration: 'none' }}>特定商取引法に基づく表記</Link>
@@ -656,7 +704,7 @@ export default function LandingPage() {
             <span style={{ fontSize: '0.75rem', color: '#1E3A8A', fontWeight: 800 }}>統一地方選 応援</span>
             <span style={{ fontSize: '0.9rem', color: '#EF4444', fontWeight: 900 }}>完全0円で全機能開放！</span>
           </div>
-          <Link to="/auth?mode=register" className="btn-primary tap-scale" style={{ padding: '0.6rem 1rem', fontSize: '0.9rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', boxShadow: '0 4px 12px rgba(37,99,235,0.3)', whiteSpace: 'nowrap' }}>
+          <Link to="/auth?mode=register" data-cta-location="mobile_floating_signup" className="btn-primary tap-scale" style={{ padding: '0.6rem 1rem', fontSize: '0.9rem', borderRadius: '9999px', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', boxShadow: '0 4px 12px rgba(37,99,235,0.3)', whiteSpace: 'nowrap' }}>
             無料で始める <ArrowRight size={16} />
           </Link>
         </div>

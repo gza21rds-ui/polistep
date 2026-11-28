@@ -23,7 +23,7 @@
     </script>
     
     <!-- Security (Content Security Policy) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.tile.openstreetmap.org https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com https://*.google-analytics.com https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' data: https://fonts.gstatic.com; frame-src 'self' https://www.youtube.com;" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.tile.openstreetmap.org https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://stats.g.doubleclick.net; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com https://*.google-analytics.com https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' data: https://fonts.gstatic.com; frame-src 'self' https://www.youtube.com;" />
     
     <!-- OGP (Open Graph Protocol) -->
     <meta property="og:title" content="PoliStep | 孤独なドブ板は、可視化で終わる。" />
@@ -136,6 +136,20 @@
       });
     </script>
     <div id="root"></div>
+    <noscript>
+      <main style="max-width:860px;margin:40px auto;padding:0 20px;font-family:sans-serif;line-height:1.8;color:#0F172A;">
+        <h1>PoliStep（ポリステップ）｜孤独なドブ板は、可視化で終わる。</h1>
+        <p>PoliStepは、日々の政治活動（地域訪問・対話記録・ポスター貼付・街頭演説・ビラ配り等）をスマホ地図上でワンタップ記録・リアルタイム共有できる政治活動DXアプリです。2027年統一地方選挙応援キャンペーンにつき全機能完全0円でご利用いただけます。</p>
+        <h2>政治活動DX実践ガイド（PoliStep公式）</h2>
+        <ul>
+          <li><a href="/guides/">政治活動DX実践ガイド一覧</a></li>
+          <li><a href="/guides/door-to-door-activity-map-dx.html">紙の住宅地図は卒業！スマホ地図で重複訪問ゼロを実現する地域活動マッピング実践ガイド</a></li>
+          <li><a href="/guides/daily-activity-goal-reverse-calculation.html">選挙日から逆算する1日の訪問・駅頭ノルマ設計法｜モチベーションが続く数値可視化のコツ</a></li>
+          <li><a href="/guides/sns-daily-report-activity-workflow.html">毎日の駅頭・地域回りを30秒でSNS日報画像にする発信ルーティン</a></li>
+          <li><a href="/guides/volunteer-team-activity-log-sharing.html">アプリ登録不要でボランティアと活動マップをリアルタイム共有する方法</a></li>
+        </ul>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

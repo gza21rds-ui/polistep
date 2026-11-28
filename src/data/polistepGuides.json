@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "door-to-door-activity-map-dx",
+    "category": "地域活動マッピング",
+    "title": "紙の住宅地図は卒業！スマホ地図で重複訪問ゼロを実現する地域活動マッピング実践ガイド",
+    "description": "政治活動の地域回り・ポスティング・2連ポスター交渉で紙の住宅地図を使う非効率を解消。スマホ地図アプリ「PoliStep」で留守・対話・ポスター許可をリアルタイム管理する実践手順を解説します。",
+    "published_at": "2026-11-28",
+    "read_minutes": 5,
+    "url": "/guides/door-to-door-activity-map-dx.html"
+  },
+  {
+    "slug": "daily-activity-goal-reverse-calculation",
+    "category": "目標逆算・モチベーション管理",
+    "title": "選挙日から逆算する1日の訪問・駅頭ノルマ設計法｜モチベーションが続く数値可視化のコツ",
+    "description": "「今のペースで本当に間に合うのか？」という政治活動特有の不安を解消。目標日から1日あたりの必要活動件数を自動逆算し、進捗グラフで継続力を高める実践メソッドを解説します。",
+    "published_at": "2026-11-28",
+    "read_minutes": 5,
+    "url": "/guides/daily-activity-goal-reverse-calculation.html"
+  },
+  {
+    "slug": "sns-daily-report-activity-workflow",
+    "category": "SNS発信・日報自動化",
+    "title": "毎日の駅頭・地域回りを30秒でSNS日報画像にする発信ルーティン｜発信ネタ切れをゼロにする仕組み",
+    "description": "「政治活動は毎日しているのにSNS更新が続かない」悩みを解決。PoliStepの活動ログからワンタップで縦型日報画像を生成し、X・Instagram・公式LINEへ即発信する時短ルーティンを紹介します。",
+    "published_at": "2026-11-28",
+    "read_minutes": 4,
+    "url": "/guides/sns-daily-report-activity-workflow.html"
+  },
+  {
+    "slug": "volunteer-team-activity-log-sharing",
+    "category": "チーム共有・対話ログ管理",
+    "title": "アプリ登録不要でボランティアと活動マップをリアルタイム共有する方法｜少人数陣営の対話ログ管理",
+    "description": "3〜5人の少人数陣営やスポット参加のボランティアと、会員登録・アプリインストール不要で活動マップと対話ログを安全に共有する運用手順を解説します。",
+    "published_at": "2026-11-28",
+    "read_minutes": 5,
+    "url": "/guides/volunteer-team-activity-log-sharing.html"
+  }
+]

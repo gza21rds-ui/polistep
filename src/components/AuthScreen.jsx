@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { ArrowLeft, Mail, Lock, User, Eye, EyeOff, Loader2, Sparkles, CheckCircle2, Users, LogIn, UserPlus, Compass, MessageSquare, ChevronDown } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import useNoIndex from '../hooks/useNoIndex';
+import { captureUtmParams, getStoredUtmParams, trackEvent } from '../lib/analytics';
 
 const REFERRAL_OPTIONS = [
   { value: '', label: 'どこでPoliStepを知りましたか？（任意）' },
@@ -28,6 +29,13 @@ export default function AuthScreen() {
   const [displayName, setDisplayName] = useState('');
   const [referralCategory, setReferralCategory] = useState('');
   const [referralDetail, setReferralDetail] = useState('');
+
+  useEffect(() => {
+    const utm = captureUtmParams();
+    if (!referralCategory && (utm.utm_source === 'poliside' || utm.utm_source === 'polidash')) {
+      setReferralCategory('poliside');
+    }
+  }, [referralCategory]);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -115,14 +123,16 @@ export default function AuthScreen() {
 
           if (insertError) throw insertError;
 
-          // GA Event Trigger (Conversion)
-          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-            window.gtag('event', 'sign_up', {
-              event_category: 'conversion',
-              method: 'email',
-              referral_source: referralSourceText || 'unspecified',
-            });
-          }
+          // GA Event Trigger (Conversion + Attribution)
+          const utm = getStoredUtmParams();
+          trackEvent('sign_up', {
+            event_category: 'conversion',
+            method: 'email',
+            referral_source: referralSourceText || 'unspecified',
+            utm_source: utm.utm_source || '(direct)',
+            utm_medium: utm.utm_medium || '(none)',
+            utm_campaign: utm.utm_campaign || '(none)',
+          });
 
           // Slack通知の送信
           const notifySlack = async () => {

@@ -56,8 +56,18 @@ PoliStepは、若手候補者・地方議員支援エコシステムの1つと�
 - [【完全版】地方選挙（市議・区議）立候補準備の6ヶ月ロードマップ｜新人が最初にやるべきステップ](https://poliside.net/insight/posts/local-election-preparation-roadmap-6months.html): 地方選挙（市議会議員・区議会議員など）に新人で立候補する方向けに、告示6ヶ月前からの準備ロードマップを完全解説。政策づくり、後援会設立、HP作成、立候補届出書類の準備まで、PoliStep・PoliDash・PoliSideを活用した実践手順をまとめました。
 <!-- ARTICLES_END -->
 
+<!-- POLISTEP_GUIDES_START -->
+## PoliStep 公式 政治活動DX実践ガイド（独自ナレッジ）
+- [政治活動DX実践ガイド一覧](https://polistep.jp/guides/): 地域活動マッピング・目標逆算・SNS日報・チーム共有の専門ガイド集
+- [紙の住宅地図は卒業！スマホ地図で重複訪問ゼロを実現する地域活動マッピング実践ガイド](https://polistep.jp/guides/door-to-door-activity-map-dx.html): 政治活動の地域回り・ポスティング・2連ポスター交渉で紙の住宅地図を使う非効率を解消。スマホ地図アプリ「PoliStep」で留守・対話・ポスター許可をリアルタイム管理する実践手順を解説します。
+- [選挙日から逆算する1日の訪問・駅頭ノルマ設計法｜モチベーションが続く数値可視化のコツ](https://polistep.jp/guides/daily-activity-goal-reverse-calculation.html): 「今のペースで本当に間に合うのか？」という政治活動特有の不安を解消。目標日から1日あたりの必要活動件数を自動逆算し、進捗グラフで継続力を高める実践メソッドを解説します。
+- [毎日の駅頭・地域回りを30秒でSNS日報画像にする発信ルーティン｜発信ネタ切れをゼロにする仕組み](https://polistep.jp/guides/sns-daily-report-activity-workflow.html): 「政治活動は毎日しているのにSNS更新が続かない」悩みを解決。PoliStepの活動ログからワンタップで縦型日報画像を生成し、X・Instagram・公式LINEへ即発信する時短ルーティンを紹介します。
+- [アプリ登録不要でボランティアと活動マップをリアルタイム共有する方法｜少人数陣営の対話ログ管理](https://polistep.jp/guides/volunteer-team-activity-log-sharing.html): 3〜5人の少人数陣営やスポット参加のボランティアと、会員登録・アプリインストール不要で活動マップと対話ログを安全に共有する運用手順を解説します。
+<!-- POLISTEP_GUIDES_END -->
+
 ## 主要リンク
 - [ホーム（サービス概要・料金）](https://polistep.jp/)
+- [政治活動DX実践ガイド](https://polistep.jp/guides/)
 - [ログイン / 無料アカウント登録](https://polistep.jp/auth)
 - [利用規約](https://polistep.jp/terms)
 - [プライバシーポリシー](https://polistep.jp/privacy)

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { buildPoliStepUtmUrl, trackEvent } from '../lib/analytics';
 
 export default function PoliDashCrossSellBanner({ onClose }) {
   const [show, setShow] = useState(false);
@@ -52,7 +53,14 @@ export default function PoliDashCrossSellBanner({ onClose }) {
           cursor: 'pointer'
         }}
         onClick={() => {
-          window.open('https://polidash.jp', '_blank');
+          const url = buildPoliStepUtmUrl('https://polidash.jp/', 'in_app_cross_sell_banner', 'poster_cross_sell');
+          trackEvent('ecosystem_outbound_click', {
+            event_category: 'ecosystem',
+            target_product: 'polidash',
+            cta_location: 'in_app_cross_sell_banner',
+            link_url: url,
+          });
+          window.open(url, '_blank', 'noopener,noreferrer');
           setShow(false);
           onClose();
         }}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { buildPoliStepUtmUrl, trackEvent } from '../lib/analytics';
 
 export default function PoliSideUpsellPopup({ visible, onClose }) {
   if (!visible) return null;
@@ -14,7 +15,14 @@ export default function PoliSideUpsellPopup({ visible, onClose }) {
         <button 
           className="primary-btn" 
           onClick={() => {
-            window.open('https://poliside.net', '_blank');
+            const url = buildPoliStepUtmUrl('https://poliside.net/', 'in_app_upsell_popup', 'milestone_1000');
+            trackEvent('ecosystem_outbound_click', {
+              event_category: 'ecosystem',
+              target_product: 'poliside',
+              cta_location: 'in_app_upsell_popup',
+              link_url: url,
+            });
+            window.open(url, '_blank', 'noopener,noreferrer');
             onClose();
           }}
         >

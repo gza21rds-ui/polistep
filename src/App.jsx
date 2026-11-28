@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import MapScreen from './components/MapScreen';
 import ActionBottomSheet from './components/ActionBottomSheet';
 import UndoSnackbar from './components/UndoSnackbar';
@@ -20,6 +20,12 @@ import StaffDashboard from './components/StaffDashboard';
 
 import { supabase } from './lib/supabase';
 import useNoIndex from './hooks/useNoIndex';
+import {
+  captureUtmParams,
+  syncRouteSeoAndPageView,
+  trackEvent,
+  buildPoliStepUtmUrl,
+} from './lib/analytics';
 
 // 画像圧縮ヘルパー関数（長辺800px、JPEG quality 0.7で約50-80KBに圧縮）
 const compressImage = (file) => {
@@ -980,10 +986,79 @@ function AuthenticatedMapRedirect() {
   return <div style={{ padding: '2rem', textAlign: 'center' }}>読み込み中...</div>;
 }
 
+function RouteAnalyticsSync() {
+  const location = useLocation();
+
+  useEffect(() => {
+    captureUtmParams();
+    syncRouteSeoAndPageView(location.pathname, location.search);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      const link = e.target?.closest?.('a');
+      if (!link) return;
+      const href = link.getAttribute('href') || '';
+      const text = (link.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 60);
+      const ctaLocation =
+        link.dataset?.ctaLocation ||
+        (link.closest('header')
+          ? 'header'
+          : link.closest('footer')
+            ? 'footer'
+            : 'body');
+      const currentPath = window.location.pathname;
+
+      if (href.includes('/auth?mode=register')) {
+        trackEvent('cta_signup_click', {
+          event_category: 'CTA',
+          cta_location: ctaLocation,
+          page_path: currentPath,
+          event_label: text || href,
+        });
+        return;
+      }
+
+      if (href.includes('poliside.net') || href.includes('polidash.jp')) {
+        const targetProduct = href.includes('polidash.jp') ? 'polidash' : 'poliside';
+        const finalUrl = buildPoliStepUtmUrl(href, ctaLocation, currentPath === '/' ? 'homepage' : currentPath.replace(/^\//, ''));
+        if (finalUrl !== href) {
+          link.setAttribute('href', finalUrl);
+        }
+        trackEvent('ecosystem_outbound_click', {
+          event_category: 'ecosystem',
+          target_product: targetProduct,
+          cta_location: ctaLocation,
+          page_path: currentPath,
+          event_label: text || finalUrl,
+          link_url: finalUrl,
+        });
+        return;
+      }
+
+      if (href.startsWith('/guides')) {
+        trackEvent('guide_navigation_click', {
+          event_category: 'Navigation',
+          target_path: href,
+          page_path: currentPath,
+          cta_location: ctaLocation,
+          event_label: text || href,
+        });
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
+
+  return null;
+}
+
 // App コンポーネントはルーティングを担当
 export default function App() {
   return (
     <BrowserRouter>
+      <RouteAnalyticsSync />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/auth" element={<AuthScreen />} />
